@@ -1,0 +1,22 @@
+/give Dev copycats_block_template:template_block
+/data get block 1 -60 7
+/give Dev copycats_extended:test_copycat_block
+/data get block 7 -60 7
+/data get block 13 -60 2
+/data get block 13 -60 3
+/data get block 11 -60 3
+/data get block 11 -60 2
+/time set day
+/data get block -30 -60 58
+/time set day
+/fill -14 -53 49
+/fill -14 -53 49 20 -53 67 create:andesite_casing
+/time set day
+/data get block -29 -60 102
+/kill @e[type=!minecraft:player]
+/data get block -29 -60 102
+/gamerule randomTickSpeed 500
+/gamerule randomTickSpeed 5000
+/gamerule randomTickSpeed 3
+/data get block -29 -60 102
+/give Dev copycats_extended:copycat_stacked_half_layer_slope
