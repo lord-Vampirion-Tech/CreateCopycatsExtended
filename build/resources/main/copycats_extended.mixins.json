@@ -1,0 +1,13 @@
+
+{
+  "required": true,
+  "minVersion": "0.8",
+  "package": "net.ziftech.copycats_extended.mixin",
+  "compatibilityLevel": "JAVA_21",
+  "mixins": [
+    "MultiStateCopycatBlockEntityTypeMixin"
+  ],
+  "injectors": {
+    "defaultRequire": 1
+  }
+}
