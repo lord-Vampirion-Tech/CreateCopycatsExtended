@@ -1,0 +1,14 @@
+{
+  "type": "minecraft:block",
+  "pools": [
+    {
+      "rolls": 1,
+      "entries": [
+        {
+          "type": "minecraft:item",
+          "name": "copycats_extended:copycat_adv_double_slope"
+        }
+      ]
+    }
+  ]
+}
