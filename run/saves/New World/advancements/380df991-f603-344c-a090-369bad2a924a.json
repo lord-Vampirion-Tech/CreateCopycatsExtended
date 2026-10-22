@@ -953,5 +953,17 @@
     },
     "done": true
   },
+  "framedblocks:recipes/building_blocks/framed_double_prism_corner": {
+    "criteria": {
+      "hasFramedPrismCorner": "2026-10-22 09:15:34 +0300"
+    },
+    "done": true
+  },
+  "framedblocks:recipes/building_blocks/framed_double_threeway_corner": {
+    "criteria": {
+      "hasFramedThreewayCorner": "2026-10-22 09:15:09 +0300"
+    },
+    "done": true
+  },
   "DataVersion": 3955
 }

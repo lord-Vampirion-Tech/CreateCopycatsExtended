@@ -1,0 +1,161 @@
+{
+  "meta": {
+    "format_version": "5.0",
+    "model_format": "free",
+    "box_uv": false
+  },
+  "name": "",
+  "model_identifier": "",
+  "visible_box": [
+    1,
+    1,
+    0
+  ],
+  "variable_placeholders": "",
+  "multi_file_ruleset": "",
+  "variable_placeholder_buttons": [],
+  "timeline_setups": [],
+  "unhandled_root_fields": {},
+  "resolution": {
+    "width": 16,
+    "height": 16
+  },
+  "elements": [
+    {
+      "name": "mesh",
+      "color": 3,
+      "origin": [
+        0,
+        0,
+        0
+      ],
+      "rotation": [
+        0,
+        0,
+        0
+      ],
+      "shading": "flat",
+      "export": true,
+      "visibility": true,
+      "locked": false,
+      "render_order": "default",
+      "scope": 0,
+      "allow_mirror_modeling": true,
+      "vertices": {
+        "v29C": [
+          8,
+          16,
+          8
+        ],
+        "7qxk": [
+          8,
+          0,
+          8
+        ],
+        "cXf7": [
+          8,
+          0,
+          -8
+        ],
+        "9Sjj": [
+          -8,
+          0,
+          8
+        ]
+      },
+      "faces": {
+        "Lns5fJ2E": {
+          "uv": {
+            "cXf7": [
+              16,
+              16
+            ],
+            "7qxk": [
+              0,
+              16
+            ],
+            "v29C": [
+              0,
+              0
+            ]
+          },
+          "vertices": [
+            "v29C",
+            "7qxk",
+            "cXf7"
+          ]
+        },
+        "hPNkG7Tu": {
+          "uv": {
+            "cXf7": [
+              16,
+              16
+            ],
+            "9Sjj": [
+              0,
+              0
+            ],
+            "7qxk": [
+              16,
+              0
+            ]
+          },
+          "vertices": [
+            "7qxk",
+            "9Sjj",
+            "cXf7"
+          ]
+        },
+        "iRndyYIq": {
+          "uv": {
+            "9Sjj": [
+              0,
+              16
+            ],
+            "7qxk": [
+              16,
+              16
+            ],
+            "v29C": [
+              16,
+              0
+            ]
+          },
+          "vertices": [
+            "7qxk",
+            "v29C",
+            "9Sjj"
+          ]
+        },
+        "N9QJhsGz": {
+          "uv": {
+            "9Sjj": [
+              16,
+              16
+            ],
+            "v29C": [
+              8,
+              0
+            ],
+            "cXf7": [
+              0,
+              16
+            ]
+          },
+          "vertices": [
+            "v29C",
+            "cXf7",
+            "9Sjj"
+          ]
+        }
+      },
+      "type": "mesh",
+      "uuid": "1b39ac8e-2ca4-191e-29cc-abeae62cf72a"
+    }
+  ],
+  "groups": [],
+  "outliner": [
+    "1b39ac8e-2ca4-191e-29cc-abeae62cf72a"
+  ],
+  "textures": []
+}

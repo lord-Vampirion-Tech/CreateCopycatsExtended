@@ -20,3 +20,6 @@
 /gamerule randomTickSpeed 3
 /data get block -29 -60 102
 /give Dev copycats_extended:copycat_stacked_half_layer_slope
+/data get block -31 -60 104
+/data get block -24 -60 103
+/time set day

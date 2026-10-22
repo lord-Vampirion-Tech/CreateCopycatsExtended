@@ -51,24 +51,6 @@ public final class ModItems {
       }
     );
 
-  public static final DeferredItem<BlockItem>
-    COPYCAT_STACKED_HALF_LAYER_SLOPE =
-    ITEMS.register("copycat_stacked_half_layer_slope", () -> {
-      BlockItem item = new BlockItem(
-        ModBlocks.COPYCAT_STACKED_HALF_LAYER_SLOPE.get(),
-        new Item.Properties()
-      );
-
-      CopycatDescription.register(
-        item,
-        CopycatCharacteristics.COPYCAT,
-        CopycatCharacteristics.CT_TOGGLE,
-        CopycatCharacteristics.STACKABLE
-      );
-
-      return item;
-    });
-
   private ModItems() {
   }
 }
