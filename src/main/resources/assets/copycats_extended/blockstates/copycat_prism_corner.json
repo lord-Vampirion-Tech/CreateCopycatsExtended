@@ -1,0 +1,34 @@
+{
+  "variants": {
+    "facing=north,wall_mounted=false": {
+      "model": "copycats_extended:block/copycat_prism_corner"
+    },
+    "facing=east,wall_mounted=false": {
+      "model": "copycats_extended:block/copycat_prism_corner",
+      "y": 90
+    },
+    "facing=south,wall_mounted=false": {
+      "model": "copycats_extended:block/copycat_prism_corner",
+      "y": 180
+    },
+    "facing=west,wall_mounted=false": {
+      "model": "copycats_extended:block/copycat_prism_corner",
+      "y": 270
+    },
+    "facing=north,wall_mounted=true": {
+      "model": "copycats_extended:block/copycat_prism_corner"
+    },
+    "facing=east,wall_mounted=true": {
+      "model": "copycats_extended:block/copycat_prism_corner",
+      "y": 90
+    },
+    "facing=south,wall_mounted=true": {
+      "model": "copycats_extended:block/copycat_prism_corner",
+      "y": 180
+    },
+    "facing=west,wall_mounted=true": {
+      "model": "copycats_extended:block/copycat_prism_corner",
+      "y": 270
+    }
+  }
+}

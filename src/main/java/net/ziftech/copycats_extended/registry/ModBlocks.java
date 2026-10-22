@@ -7,6 +7,7 @@ import net.neoforged.neoforge.registries.DeferredRegister;
 import net.ziftech.copycats_extended.CopycatsExtended;
 import net.ziftech.copycats_extended.block.CopycatAdvSlopeBlock;
 import net.ziftech.copycats_extended.block.CopycatAdvSlopeLayerBlock;
+import net.ziftech.copycats_extended.block.CopycatPrismCornerBlock;
 
 public class ModBlocks {
 
@@ -23,6 +24,16 @@ public class ModBlocks {
       "copycat_adv_slope_layer",
       () -> new CopycatAdvSlopeLayerBlock(BlockBehaviour.Properties.of()
         .strength(1.5F, 6.0F))
+    );
+
+  public static final DeferredBlock<CopycatPrismCornerBlock>
+    COPYCAT_PRISM_CORNER =
+    BLOCKS.register(
+      "copycat_prism_corner",
+      () -> new CopycatPrismCornerBlock(
+        BlockBehaviour.Properties.of()
+          .strength(1.5F, 6.0F)
+      )
     );
 
   private ModBlocks() {

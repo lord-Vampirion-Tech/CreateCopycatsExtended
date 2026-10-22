@@ -63,7 +63,8 @@ public class CopycatsExtendedClientEvents {
     event.register(
       ICopycatBlock.wrappedColor(),
       ModBlocks.COPYCAT_ADV_SLOPE.get(),
-      ModBlocks.COPYCAT_ADV_SLOPE_LAYER.get()
+      ModBlocks.COPYCAT_ADV_SLOPE_LAYER.get(),
+      ModBlocks.COPYCAT_PRISM_CORNER.get()
     );
   }
 }
