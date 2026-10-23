@@ -24,3 +24,9 @@
 /data get block -24 -60 103
 /time set day
 /give Dev copycats_extended:copycat_prism_corner
+/tp ~ ~ ~
+/tp Dev ~ ~ ~ 0 0
+/tp Dev -16 ~ ~ 0 0
+/tp Dev -17 ~ ~ 0 0
+/tp Dev -17 ~ 130 0 0
+/time set day

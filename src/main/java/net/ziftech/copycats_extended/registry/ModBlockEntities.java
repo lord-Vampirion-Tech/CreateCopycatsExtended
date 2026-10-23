@@ -7,7 +7,6 @@ import net.neoforged.neoforge.registries.DeferredRegister;
 import net.ziftech.copycats_extended.CopycatsExtended;
 import net.ziftech.copycats_extended.block.CopycatAdvSlopeBlockEntity;
 import net.ziftech.copycats_extended.block.CopycatAdvSlopeLayerBlockEntity;
-import net.ziftech.copycats_extended.block.CopycatPrismCornerBlockEntity;
 
 public class ModBlockEntities {
 
@@ -17,7 +16,9 @@ public class ModBlockEntities {
       CopycatsExtended.MOD_ID
     );
 
-  public static final DeferredHolder<BlockEntityType<?>,BlockEntityType<CopycatAdvSlopeBlockEntity>> COPYCAT_ADV_SLOPE = BLOCK_ENTITIES.register(
+  public static final DeferredHolder<BlockEntityType<?>,
+    BlockEntityType<CopycatAdvSlopeBlockEntity>> COPYCAT_ADV_SLOPE =
+    BLOCK_ENTITIES.register(
     "copycat_adv_slope",
     () -> BlockEntityType.Builder.of(
       CopycatAdvSlopeBlockEntity::new,
@@ -25,25 +26,13 @@ public class ModBlockEntities {
     ).build(null)
   );
 
-  public static final DeferredHolder<BlockEntityType<?>,BlockEntityType<CopycatAdvSlopeLayerBlockEntity>> COPYCAT_ADV_SLOPE_LAYER = BLOCK_ENTITIES.register(
+  public static final DeferredHolder<BlockEntityType<?>,
+    BlockEntityType<CopycatAdvSlopeLayerBlockEntity>> COPYCAT_ADV_SLOPE_LAYER =
+    BLOCK_ENTITIES.register(
     "copycat_adv_slope_layer",
     () -> BlockEntityType.Builder.of(
       CopycatAdvSlopeLayerBlockEntity::new,
       ModBlocks.COPYCAT_ADV_SLOPE_LAYER.get()
     ).build(null)
   );
-
-  public static final DeferredHolder<
-    BlockEntityType<?>,
-    BlockEntityType<CopycatPrismCornerBlockEntity>
-    > COPYCAT_PRISM_CORNER = BLOCK_ENTITIES.register(
-    "copycat_prism_corner",
-    () -> BlockEntityType.Builder.of(
-      CopycatPrismCornerBlockEntity::new,
-      ModBlocks.COPYCAT_PRISM_CORNER.get()
-    ).build(null)
-  );
-
-  private ModBlockEntities() {
-  }
 }

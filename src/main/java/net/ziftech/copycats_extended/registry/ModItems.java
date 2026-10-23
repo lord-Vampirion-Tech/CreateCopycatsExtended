@@ -51,22 +51,4 @@ public final class ModItems {
       }
     );
 
-  public static final DeferredItem<BlockItem> COPYCAT_PRISM_CORNER =
-    ITEMS.register("copycat_prism_corner", () -> {
-      BlockItem item = new BlockItem(
-        ModBlocks.COPYCAT_PRISM_CORNER.get(),
-        new Item.Properties()
-      );
-
-      CopycatDescription.register(
-        item,
-        CopycatCharacteristics.COPYCAT,
-        CopycatCharacteristics.CT_TOGGLE
-      );
-
-      return item;
-    });
-
-  private ModItems() {
-  }
 }

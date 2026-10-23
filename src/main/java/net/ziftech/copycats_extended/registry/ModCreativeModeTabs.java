@@ -21,12 +21,8 @@ public class ModCreativeModeTabs {
     TABS.register(
       "main",
       () -> CreativeModeTab.builder()
-        .title(Component.translatable(
-          "itemGroup.copycats_extended.main"
-        ))
-        .icon(() -> new ItemStack(
-          ModItems.COPYCAT_ADV_SLOPE.get()
-        ))
+        .title(Component.translatable("itemGroup.copycats_extended.main"))
+        .icon(() -> new ItemStack(ModItems.COPYCAT_ADV_SLOPE.get()))
         .displayItems((parameters, output) -> {
           output.accept(ModItems.COPYCAT_ADV_SLOPE.get());
           output.accept(ModItems.COPYCAT_ADV_SLOPE_LAYER.get());
@@ -34,6 +30,4 @@ public class ModCreativeModeTabs {
         .build()
     );
 
-  private ModCreativeModeTabs() {
-  }
 }

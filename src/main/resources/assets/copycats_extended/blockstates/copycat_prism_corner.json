@@ -1,34 +1,22 @@
+
 {
   "variants": {
-    "facing=north,wall_mounted=false": {
-      "model": "copycats_extended:block/copycat_prism_corner"
-    },
-    "facing=east,wall_mounted=false": {
-      "model": "copycats_extended:block/copycat_prism_corner",
-      "y": 90
-    },
-    "facing=south,wall_mounted=false": {
-      "model": "copycats_extended:block/copycat_prism_corner",
-      "y": 180
-    },
-    "facing=west,wall_mounted=false": {
-      "model": "copycats_extended:block/copycat_prism_corner",
-      "y": 270
-    },
-    "facing=north,wall_mounted=true": {
-      "model": "copycats_extended:block/copycat_prism_corner"
-    },
-    "facing=east,wall_mounted=true": {
-      "model": "copycats_extended:block/copycat_prism_corner",
-      "y": 90
-    },
-    "facing=south,wall_mounted=true": {
-      "model": "copycats_extended:block/copycat_prism_corner",
-      "y": 180
-    },
-    "facing=west,wall_mounted=true": {
-      "model": "copycats_extended:block/copycat_prism_corner",
-      "y": 270
-    }
+    "facing=north,wall_mounted=false,waterlogged=false":  {"model": "minecraft:block/air"},
+    "facing=north,wall_mounted=false,waterlogged=true":   {"model": "minecraft:block/air"},
+    "facing=east,wall_mounted=false,waterlogged=false":   {"model": "minecraft:block/air", "y": 90},
+    "facing=east,wall_mounted=false,waterlogged=true":    {"model": "minecraft:block/air", "y": 90},
+    "facing=south,wall_mounted=false,waterlogged=false":  {"model": "minecraft:block/air", "y": 180},
+    "facing=south,wall_mounted=false,waterlogged=true":   {"model": "minecraft:block/air", "y": 180},
+    "facing=west,wall_mounted=false,waterlogged=false":   {"model": "minecraft:block/air", "y": 270},
+    "facing=west,wall_mounted=false,waterlogged=true":    {"model": "minecraft:block/air", "y": 270},
+
+    "facing=north,wall_mounted=true,waterlogged=false": {"model": "minecraft:block/air"},
+    "facing=north,wall_mounted=true,waterlogged=true":  {"model": "minecraft:block/air"},
+    "facing=east,wall_mounted=true,waterlogged=false":  {"model": "minecraft:block/air", "y": 90},
+    "facing=east,wall_mounted=true,waterlogged=true":   {"model": "minecraft:block/air", "y": 90},
+    "facing=south,wall_mounted=true,waterlogged=false": {"model": "minecraft:block/air", "y": 180},
+    "facing=south,wall_mounted=true,waterlogged=true":  {"model": "minecraft:block/air", "y": 180},
+    "facing=west,wall_mounted=true,waterlogged=false":  {"model": "minecraft:block/air", "y": 270},
+    "facing=west,wall_mounted=true,waterlogged=true":   {"model": "minecraft:block/air", "y": 270}
   }
 }
