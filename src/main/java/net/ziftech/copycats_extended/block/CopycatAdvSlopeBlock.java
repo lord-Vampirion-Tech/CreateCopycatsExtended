@@ -5,6 +5,7 @@ import com.copycatsplus.copycats.CCShapes;
 import com.copycatsplus.copycats.foundation.copycat.CCCopycatBlockEntity;
 import com.copycatsplus.copycats.foundation.copycat.CCWaterloggedCopycatBlock;
 import com.copycatsplus.copycats.foundation.copycat.ICopycatBlock;
+import com.copycatsplus.copycats.foundation.copycat.ICustomCTBlocking;
 import com.copycatsplus.copycats.utility.BlockUtils;
 import com.copycatsplus.copycats.utility.InteractionUtils;
 import com.simibubi.create.content.contraptions.StructureTransform;
@@ -20,6 +21,7 @@ import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.BlockItem;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.context.BlockPlaceContext;
+import net.minecraft.world.level.BlockAndTintGetter;
 import net.minecraft.world.level.BlockGetter;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.Block;
@@ -39,6 +41,7 @@ import net.ziftech.copycats_extended.block.base.CopycatAdvBlockBase;
 import net.ziftech.copycats_extended.registry.ModBlockEntities;
 import net.ziftech.copycats_extended.registry.ModBlocks;
 
+import java.util.Optional;
 import java.util.function.Predicate;
 
 import java.util.List;
@@ -54,7 +57,7 @@ import net.minecraft.world.entity.ai.attributes.Attributes;
 
 import static net.minecraft.core.Direction.Axis;
 
-public class CopycatAdvSlopeBlock extends CCWaterloggedCopycatBlock {
+public class CopycatAdvSlopeBlock extends CCWaterloggedCopycatBlock implements ICustomCTBlocking {
 
   public static final DirectionProperty FACING = BlockStateProperties.HORIZONTAL_FACING;
   public static final EnumProperty<Half> HALF = BlockStateProperties.HALF;
@@ -193,6 +196,37 @@ public class CopycatAdvSlopeBlock extends CCWaterloggedCopycatBlock {
     );
   }
 
+  @Override
+  public Optional<Boolean> blockCTTowards(
+    BlockAndTintGetter reader,
+    BlockState state,
+    BlockPos pos,
+    BlockPos ctPos,
+    BlockPos connectingPos,
+    Direction face
+  ) {
+    if (reader.getBlockState(ctPos).is(this)) {
+      return Optional.of(false);
+    }
+
+    return Optional.empty();
+  }
+
+  @Override
+  public Optional<Boolean> isCTBlocked(
+    BlockAndTintGetter reader,
+    BlockState state,
+    BlockPos pos,
+    BlockPos connectingPos,
+    BlockPos blockingPos,
+    Direction face
+  ) {
+    if (reader.getBlockState(blockingPos).is(this)) {
+      return Optional.of(false);
+    }
+
+    return Optional.empty();
+  }
 
   private static class PlacementHelper extends PoleHelper<Direction> {
 
