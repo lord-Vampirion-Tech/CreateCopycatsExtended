@@ -57,7 +57,7 @@ import net.minecraft.world.entity.ai.attributes.Attributes;
 
 import static net.minecraft.core.Direction.Axis;
 
-public class CopycatAdvSlopeBlock extends CCWaterloggedCopycatBlock implements ICustomCTBlocking {
+public class CopycatAdvSlopeBlock extends CCWaterloggedCopycatBlock implements CopycatAdvSlopeCT {
 
   public static final DirectionProperty FACING = BlockStateProperties.HORIZONTAL_FACING;
   public static final EnumProperty<Half> HALF = BlockStateProperties.HALF;
