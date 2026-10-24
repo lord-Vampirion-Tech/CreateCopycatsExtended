@@ -27,6 +27,13 @@ public final class CopycatAdvSlopeRotation {
         CopycatAdvSlopeBlock.HALF,
         "Half"
       );
+
+      RadialWrenchMenu.registerRotationProperty(
+        CopycatAdvSlopeBlock.SLOPE_MODE,
+        "Slope Mode"
+      );
     });
+
   }
 }
+

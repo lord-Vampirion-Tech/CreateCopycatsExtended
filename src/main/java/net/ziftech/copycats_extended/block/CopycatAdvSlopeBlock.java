@@ -31,6 +31,7 @@ import net.minecraft.world.level.block.entity.BlockEntityType;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.block.state.StateDefinition;
 import net.minecraft.world.level.block.state.properties.BooleanProperty;
+import net.minecraft.world.level.block.state.properties.EnumProperty;
 import net.minecraft.world.level.block.state.properties.Half;
 import net.minecraft.world.phys.BlockHitResult;
 import net.minecraft.world.phys.shapes.CollisionContext;
@@ -51,6 +52,9 @@ public class CopycatAdvSlopeBlock extends CopycatSlopeBlock {
   private static final int PLACEMENT_HELPER_ID =
     PlacementHelpers.register(new PlacementHelper());
 
+  public static final EnumProperty<SlopeMode> SLOPE_MODE =
+    EnumProperty.create("slope_mode", SlopeMode.class);
+
   public CopycatAdvSlopeBlock(Properties properties) {
     super(properties);
 
@@ -59,6 +63,7 @@ public class CopycatAdvSlopeBlock extends CopycatSlopeBlock {
         .setValue(FACING, Direction.NORTH)
         .setValue(HALF, Half.BOTTOM)
         .setValue(WALL_ORIENTATION, false)
+        .setValue(SLOPE_MODE, SlopeMode.FIRST)
     );
   }
 
@@ -66,7 +71,7 @@ public class CopycatAdvSlopeBlock extends CopycatSlopeBlock {
   protected void createBlockStateDefinition(
     StateDefinition.Builder<Block, BlockState> builder
   ) {
-    super.createBlockStateDefinition(builder.add(WALL_ORIENTATION));
+    super.createBlockStateDefinition(builder.add(WALL_ORIENTATION, SLOPE_MODE));
   }
 
   @Override
@@ -215,10 +220,8 @@ public class CopycatAdvSlopeBlock extends CopycatSlopeBlock {
           .andThen(placementState -> placementState
             .setValue(FACING, state.getValue(FACING))
             .setValue(HALF, state.getValue(HALF))
-            .setValue(
-              WALL_ORIENTATION,
-              state.getValue(WALL_ORIENTATION)
-            )
+            .setValue(WALL_ORIENTATION, state.getValue(WALL_ORIENTATION))
+            .setValue(SLOPE_MODE, state.getValue(SLOPE_MODE))
           )
       );
 
@@ -233,17 +236,19 @@ public class CopycatAdvSlopeBlock extends CopycatSlopeBlock {
   ) {
     if (!state.getValue(WALL_ORIENTATION)) {
       return BlockUtils.transformStepLikeHorizontal(
-        state,
-        transform,
-        defaultBlockState()
-      ).setValue(WALL_ORIENTATION, false);
+          state,
+          transform,
+          defaultBlockState()
+        ).setValue(WALL_ORIENTATION, false)
+        .setValue(SLOPE_MODE, state.getValue(SLOPE_MODE));
     }
 
     return BlockUtils.transformStepLikeVertical(
-      state,
-      transform,
-      defaultBlockState()
-    ).setValue(WALL_ORIENTATION, true);
+        state,
+        transform,
+        defaultBlockState()
+      ).setValue(WALL_ORIENTATION, true)
+      .setValue(SLOPE_MODE, state.getValue(SLOPE_MODE));
   }
 
   @Override

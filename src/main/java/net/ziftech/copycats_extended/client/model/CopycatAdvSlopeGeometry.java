@@ -13,10 +13,9 @@ public final class CopycatAdvSlopeGeometry {
   }
 
   /**
-   * Возвращает угол поворота скоса для установки на боковую грань.
-   * HALF определяет, с какой стороны находится наклон.
+   * Основной угол поворота скоса у стены.
    */
-  private static int wallAngle(Direction facing, Half half) {
+  public static int wallAngle(Direction facing, Half half) {
     return switch (facing) {
       case NORTH -> half == Half.TOP ? 270 : 90;
       case SOUTH -> half == Half.TOP ? 90 : 270;
@@ -29,14 +28,38 @@ public final class CopycatAdvSlopeGeometry {
   }
 
   /**
-   * Поворот вокруг Z нужен для стен, нормаль которых направлена по X.
+   * Определяет ось основного поворота.
    */
-  private static boolean rotateAroundZ(Direction facing) {
+  public static boolean rotateAroundZ(Direction facing) {
     return facing.getAxis() == Direction.Axis.X;
   }
 
   /**
-   * Создаёт геометрию скоса, установленного на боковую грань блока.
+   * Дополнительный угол для разворота скоса вдоль стены.
+   */
+  public static int wallSidewaysAngle(Direction facing) {
+    return switch (facing) {
+      case NORTH, WEST -> 270;
+      case SOUTH, EAST -> 90;
+      default -> throw new IllegalArgumentException(
+        "Wall slope requires horizontal facing: " + facing
+      );
+    };
+  }
+
+  /**
+   * Определяет ось дополнительного поворота.
+   */
+  public static boolean wallSidewaysRotateAroundZ(Direction facing) {
+    return facing.getAxis() == Direction.Axis.Z;
+  }
+
+  /**
+   * Создаёт форму обычного скоса, установленного у стены.
+   *
+   * layers и WallOrientation больше не используются.
+   * Настенный режим определяется свойством WALL_ORIENTATION
+   * в CopycatAdvSlopeBlock.
    */
   public static VoxelShape createWallShape(
     Direction facing,
@@ -53,12 +76,22 @@ public final class CopycatAdvSlopeGeometry {
       .get(half)
       .copy();
 
+    // Первый поворот: устанавливаем скос на стену.
     int angle = wallAngle(facing, half);
 
     if (rotateAroundZ(facing)) {
       shape.rotateZ(angle);
     } else {
       shape.rotateX(angle);
+    }
+
+    // Второй поворот: разворачиваем скос вдоль стены.
+    int sidewaysAngle = wallSidewaysAngle(facing);
+
+    if (wallSidewaysRotateAroundZ(facing)) {
+      shape.rotateZ(sidewaysAngle);
+    } else {
+      shape.rotateX(sidewaysAngle);
     }
 
     return shape.toShape();
