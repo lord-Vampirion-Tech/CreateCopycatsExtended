@@ -2,7 +2,6 @@
 package net.ziftech.copycats_extended.client.model;
 
 import com.copycatsplus.copycats.content.copycat.slope.CopycatSlopeModelCore;
-import com.copycatsplus.copycats.foundation.copycat.model.CopycatModelCore;
 import com.copycatsplus.copycats.foundation.copycat.model.assembly.AssemblyTransform;
 import com.copycatsplus.copycats.foundation.copycat.model.assembly.CopycatRenderContext;
 
@@ -12,7 +11,7 @@ import net.minecraft.world.level.block.state.properties.Half;
 
 import net.ziftech.copycats_extended.block.CopycatAdvSlopeBlock;
 
-public class CopycatAdvSlopeModelCore extends CopycatModelCore {
+public class CopycatAdvSlopeModelCore extends CopycatSlopeModelCore {
 
   @Override
   public void emitCopycatQuads(
@@ -21,33 +20,33 @@ public class CopycatAdvSlopeModelCore extends CopycatModelCore {
     CopycatRenderContext context,
     BlockState material
   ) {
-    Direction facing = state.getValue(
-      CopycatAdvSlopeBlock.FACING
-    );
-
-    int rotation = (int) facing.toYRot();
-
+    // false — обычный скос пола/потолка.
+    // true  — скос, установленный на боковую грань.
     boolean wallMounted = state.getValue(
-      CopycatAdvSlopeBlock.WALL_MOUNTED
+      CopycatAdvSlopeBlock.WALL_ORIENTATION
     );
 
-    AssemblyTransform transform;
-
-    if (wallMounted) {
-      // Боковой скос: геометрия Copycat Vertical Slope.
-      transform = t -> t.rotateZ(-90).rotateY(rotation);
-    } else {
-      // Обычный скос: учитываем верхнюю или нижнюю половину.
-      Half half = state.getValue(
-        CopycatAdvSlopeBlock.HALF
-      );
-
-      boolean flipY = half == Half.TOP;
-
-      transform = t -> t.flipY(flipY).rotateY(rotation);
+    if (!wallMounted) {
+      super.emitCopycatQuads(key, state, context, material);
+      return;
     }
 
-    // Общая геометрия скоса Copycats+ для обоих вариантов.
+    Direction facing = state.getValue(CopycatAdvSlopeBlock.FACING);
+    Half half = state.getValue(CopycatAdvSlopeBlock.HALF);
+
+    int angle = CopycatAdvSlopeGeometry.wallAngle(facing, half);
+
+    AssemblyTransform transform = t -> {
+      t.rotateY((int) facing.toYRot())
+        .flipY(half == Half.TOP);
+
+      if (CopycatAdvSlopeGeometry.rotateAroundZ(facing)) {
+        t.rotateZ(angle);
+      } else {
+        t.rotateX(angle);
+      }
+    };
+
     CopycatSlopeModelCore.assembleSlope(
       context,
       transform,

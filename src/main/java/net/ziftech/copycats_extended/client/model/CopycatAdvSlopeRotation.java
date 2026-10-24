@@ -1,10 +1,13 @@
+
 package net.ziftech.copycats_extended.client.model;
 
 import com.simibubi.create.content.contraptions.wrench.RadialWrenchMenu;
+
 import net.neoforged.api.distmarker.Dist;
 import net.neoforged.bus.api.SubscribeEvent;
 import net.neoforged.fml.common.EventBusSubscriber;
 import net.neoforged.fml.event.lifecycle.FMLClientSetupEvent;
+
 import net.ziftech.copycats_extended.CopycatsExtended;
 import net.ziftech.copycats_extended.block.CopycatAdvSlopeBlock;
 
@@ -14,7 +17,8 @@ import net.ziftech.copycats_extended.block.CopycatAdvSlopeBlock;
 )
 public final class CopycatAdvSlopeRotation {
 
-  private CopycatAdvSlopeRotation() {}
+  private CopycatAdvSlopeRotation() {
+  }
 
   @SubscribeEvent
   public static void onClientSetup(FMLClientSetupEvent event) {
@@ -22,11 +26,6 @@ public final class CopycatAdvSlopeRotation {
       RadialWrenchMenu.registerRotationProperty(
         CopycatAdvSlopeBlock.HALF,
         "Half"
-      );
-
-      RadialWrenchMenu.registerRotationProperty(
-        CopycatAdvSlopeBlock.WALL_MOUNTED,
-        "Slope Type"
       );
     });
   }

@@ -8,13 +8,14 @@ import com.simibubi.create.content.contraptions.StructureTransform;
 
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
+import net.minecraft.util.StringRepresentable;
 import net.minecraft.world.item.context.BlockPlaceContext;
 import net.minecraft.world.level.BlockGetter;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.entity.BlockEntityType;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.block.state.StateDefinition;
-import net.minecraft.world.level.block.state.properties.BooleanProperty;
+import net.minecraft.world.level.block.state.properties.EnumProperty;
 import net.minecraft.world.level.block.state.properties.Half;
 import net.minecraft.world.phys.shapes.CollisionContext;
 import net.minecraft.world.phys.shapes.VoxelShape;
@@ -25,10 +26,35 @@ import net.ziftech.copycats_extended.registry.ModBlockEntities;
 
 public class CopycatAdvSlopeLayerBlock extends CopycatSlopeLayerBlock {
 
-  public static final BooleanProperty WALL_MOUNTED =
-    BooleanProperty.create("wall_mounted");
-  public static final BooleanProperty WALL_SIDEWAYS =
-    BooleanProperty.create("wall_sideways");
+  public static final EnumProperty<WallOrientation> WALL_ORIENTATION =
+    EnumProperty.create("wall_orientation", WallOrientation.class);
+
+  public enum WallOrientation implements StringRepresentable {
+    NORMAL("normal"),
+    UP("up"),
+    DOWN("down"),
+    LEFT("left"),
+    RIGHT("right");
+
+    private final String name;
+
+    WallOrientation(String name) {
+      this.name = name;
+    }
+
+    @Override
+    public String getSerializedName() {
+      return name;
+    }
+
+    public boolean isWallMounted() {
+      return this != NORMAL;
+    }
+
+    public boolean isSideways() {
+      return this == LEFT || this == RIGHT;
+    }
+  }
 
   public CopycatAdvSlopeLayerBlock(Properties properties) {
     super(properties);
@@ -38,8 +64,7 @@ public class CopycatAdvSlopeLayerBlock extends CopycatSlopeLayerBlock {
         .setValue(FACING, Direction.NORTH)
         .setValue(HALF, Half.BOTTOM)
         .setValue(LAYERS, 1)
-        .setValue(WALL_MOUNTED, false)
-        .setValue(WALL_SIDEWAYS, false)
+        .setValue(WALL_ORIENTATION, WallOrientation.NORMAL)
     );
   }
 
@@ -48,10 +73,9 @@ public class CopycatAdvSlopeLayerBlock extends CopycatSlopeLayerBlock {
     StateDefinition.Builder<Block, BlockState> builder
   ) {
     super.createBlockStateDefinition(
-      builder.add(WALL_MOUNTED, WALL_SIDEWAYS)
+      builder.add(WALL_ORIENTATION)
     );
   }
-
 
   @Override
   public BlockState getStateForPlacement(BlockPlaceContext context) {
@@ -61,7 +85,14 @@ public class CopycatAdvSlopeLayerBlock extends CopycatSlopeLayerBlock {
       return null;
     }
 
-    return CopycatAdvBlockBase.getLayerPlacement(context, placement, this, FACING, HALF, WALL_MOUNTED, WALL_SIDEWAYS);
+    return CopycatAdvBlockBase.getLayerPlacement(
+      context,
+      placement,
+      this,
+      FACING,
+      HALF,
+      WALL_ORIENTATION
+    );
   }
 
   @SuppressWarnings("deprecation")
@@ -88,7 +119,9 @@ public class CopycatAdvSlopeLayerBlock extends CopycatSlopeLayerBlock {
     BlockPos pos,
     CollisionContext context
   ) {
-    if (!state.getValue(WALL_MOUNTED)) {
+    WallOrientation orientation = state.getValue(WALL_ORIENTATION);
+
+    if (!orientation.isWallMounted()) {
       return super.getShape(state, level, pos, context);
     }
 
@@ -96,7 +129,7 @@ public class CopycatAdvSlopeLayerBlock extends CopycatSlopeLayerBlock {
       state.getValue(FACING),
       state.getValue(HALF),
       state.getValue(LAYERS),
-      state.getValue(WALL_SIDEWAYS)
+      orientation
     );
   }
 
@@ -112,7 +145,7 @@ public class CopycatAdvSlopeLayerBlock extends CopycatSlopeLayerBlock {
 
   @Override
   public boolean supportsExternalFaceHiding(BlockState state) {
-    return !state.getValue(WALL_MOUNTED);
+    return !state.getValue(WALL_ORIENTATION).isWallMounted();
   }
 
   @Override
@@ -123,7 +156,7 @@ public class CopycatAdvSlopeLayerBlock extends CopycatSlopeLayerBlock {
     BlockState neighborState,
     Direction direction
   ) {
-    if (state.getValue(WALL_MOUNTED)) {
+    if (state.getValue(WALL_ORIENTATION).isWallMounted()) {
       return false;
     }
 
@@ -155,7 +188,9 @@ public class CopycatAdvSlopeLayerBlock extends CopycatSlopeLayerBlock {
     BlockState state,
     StructureTransform transform
   ) {
-    if (!state.getValue(WALL_MOUNTED)) {
+    WallOrientation orientation = state.getValue(WALL_ORIENTATION);
+
+    if (!orientation.isWallMounted()) {
       return BlockUtils.transformStepLikeHorizontal(
         state,
         transform,
@@ -163,8 +198,6 @@ public class CopycatAdvSlopeLayerBlock extends CopycatSlopeLayerBlock {
       );
     }
 
-    // Вертикальный вариант: поворачиваем направление стены
-    // вместе с конструкцией, сохраняя число слоёв и HALF.
     BlockState transformed = BlockUtils.transformStepLikeVertical(
       state,
       transform,
@@ -172,7 +205,7 @@ public class CopycatAdvSlopeLayerBlock extends CopycatSlopeLayerBlock {
     );
 
     return transformed
-      .setValue(WALL_MOUNTED, true)
+      .setValue(WALL_ORIENTATION, orientation)
       .setValue(LAYERS, state.getValue(LAYERS))
       .setValue(HALF, state.getValue(HALF));
   }

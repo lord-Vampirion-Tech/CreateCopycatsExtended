@@ -10,6 +10,7 @@ import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.block.state.properties.Half;
 
 import net.ziftech.copycats_extended.block.CopycatAdvSlopeLayerBlock;
+import net.ziftech.copycats_extended.block.CopycatAdvSlopeLayerBlock.WallOrientation;
 
 public class CopycatAdvSlopeLayerModelCore extends CopycatSlopeLayerModelCore {
 
@@ -20,31 +21,24 @@ public class CopycatAdvSlopeLayerModelCore extends CopycatSlopeLayerModelCore {
     CopycatRenderContext context,
     BlockState material
   ) {
-    if (!state.getValue(CopycatAdvSlopeLayerBlock.WALL_MOUNTED)) {
+    WallOrientation orientation =
+      state.getValue(CopycatAdvSlopeLayerBlock.WALL_ORIENTATION);
+
+    if (!orientation.isWallMounted()) {
       super.emitCopycatQuads(key, state, context, material);
       return;
     }
 
-    Direction facing = state.getValue(
-      CopycatAdvSlopeLayerBlock.FACING
-    );
+    Direction facing =
+      state.getValue(CopycatAdvSlopeLayerBlock.FACING);
 
-    Half half = state.getValue(
-      CopycatAdvSlopeLayerBlock.HALF
-    );
+    Half half =
+      state.getValue(CopycatAdvSlopeLayerBlock.HALF);
 
-    int layers = state.getValue(
-      CopycatAdvSlopeLayerBlock.LAYERS
-    );
+    int layers =
+      state.getValue(CopycatAdvSlopeLayerBlock.LAYERS);
 
-    int angle = CopycatAdvSlopeLayerGeometry.wallAngle(
-      facing,
-      half
-    );
-
-    boolean sideways = state.getValue(
-      CopycatAdvSlopeLayerBlock.WALL_SIDEWAYS
-    );
+    int angle = CopycatAdvSlopeLayerGeometry.wallAngle(facing, half);
 
     boolean rotateAroundZ =
       CopycatAdvSlopeLayerGeometry.rotateAroundZ(facing);
@@ -59,7 +53,7 @@ public class CopycatAdvSlopeLayerModelCore extends CopycatSlopeLayerModelCore {
         t.rotateX(angle);
       }
 
-      if (sideways) {
+      if (orientation.isSideways()) {
         int sidewaysAngle =
           CopycatAdvSlopeLayerGeometry.wallSidewaysAngle(facing);
 

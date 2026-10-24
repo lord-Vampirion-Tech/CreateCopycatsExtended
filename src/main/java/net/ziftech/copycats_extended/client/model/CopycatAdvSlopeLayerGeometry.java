@@ -6,6 +6,8 @@ import net.minecraft.core.Direction;
 import net.minecraft.world.level.block.state.properties.Half;
 import net.minecraft.world.phys.shapes.VoxelShape;
 
+import net.ziftech.copycats_extended.block.CopycatAdvSlopeLayerBlock.WallOrientation;
+
 public final class CopycatAdvSlopeLayerGeometry {
 
   private CopycatAdvSlopeLayerGeometry() {
@@ -31,7 +33,7 @@ public final class CopycatAdvSlopeLayerGeometry {
     Direction facing,
     Half half,
     int layers,
-    boolean sideways
+    WallOrientation orientation
   ) {
     CCShapes.MutableShape shape = CCShapes.SLOPE_LAYER
       .get(facing)
@@ -47,7 +49,7 @@ public final class CopycatAdvSlopeLayerGeometry {
       shape.rotateX(angle);
     }
 
-    if (sideways) {
+    if (orientation.isSideways()) {
       int sidewaysAngle = wallSidewaysAngle(facing);
 
       if (wallSidewaysRotateAroundZ(facing)) {

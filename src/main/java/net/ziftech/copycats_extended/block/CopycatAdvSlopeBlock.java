@@ -1,69 +1,55 @@
 
 package net.ziftech.copycats_extended.block;
 
-import com.copycatsplus.copycats.CCShapes;
+import com.copycatsplus.copycats.content.copycat.slope.CopycatSlopeBlock;
 import com.copycatsplus.copycats.foundation.copycat.CCCopycatBlockEntity;
-import com.copycatsplus.copycats.foundation.copycat.CCWaterloggedCopycatBlock;
 import com.copycatsplus.copycats.foundation.copycat.ICopycatBlock;
-import com.copycatsplus.copycats.foundation.copycat.ICustomCTBlocking;
 import com.copycatsplus.copycats.utility.BlockUtils;
 import com.copycatsplus.copycats.utility.InteractionUtils;
 import com.simibubi.create.content.contraptions.StructureTransform;
+import com.simibubi.create.content.equipment.extendoGrip.ExtendoGripItem;
 import com.simibubi.create.foundation.placement.PoleHelper;
+import com.simibubi.create.infrastructure.config.AllConfigs;
 
+import net.createmod.catnip.placement.IPlacementHelper;
 import net.createmod.catnip.placement.PlacementHelpers;
+import net.createmod.catnip.placement.PlacementOffset;
 
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
+import net.minecraft.core.Direction.Axis;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.ItemInteractionResult;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.BlockItem;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.context.BlockPlaceContext;
-import net.minecraft.world.level.BlockAndTintGetter;
 import net.minecraft.world.level.BlockGetter;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.entity.BlockEntityType;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.block.state.StateDefinition;
-import net.minecraft.world.level.block.state.properties.BlockStateProperties;
 import net.minecraft.world.level.block.state.properties.BooleanProperty;
-import net.minecraft.world.level.block.state.properties.DirectionProperty;
-import net.minecraft.world.level.block.state.properties.EnumProperty;
 import net.minecraft.world.level.block.state.properties.Half;
 import net.minecraft.world.phys.BlockHitResult;
 import net.minecraft.world.phys.shapes.CollisionContext;
 import net.minecraft.world.phys.shapes.VoxelShape;
 
 import net.ziftech.copycats_extended.block.base.CopycatAdvBlockBase;
+import net.ziftech.copycats_extended.client.model.CopycatAdvSlopeGeometry;
 import net.ziftech.copycats_extended.registry.ModBlockEntities;
 import net.ziftech.copycats_extended.registry.ModBlocks;
 
-import java.util.Optional;
 import java.util.function.Predicate;
 
-import java.util.List;
+public class CopycatAdvSlopeBlock extends CopycatSlopeBlock {
 
-import com.simibubi.create.content.equipment.extendoGrip.ExtendoGripItem;
-import com.simibubi.create.infrastructure.config.AllConfigs;
+  public static final BooleanProperty WALL_ORIENTATION =
+    BooleanProperty.create("wall_orientation");
 
-import net.createmod.catnip.placement.IPlacementHelper;
-import net.createmod.catnip.placement.PlacementOffset;
-
-import net.minecraft.world.entity.ai.attributes.AttributeInstance;
-import net.minecraft.world.entity.ai.attributes.Attributes;
-
-import static net.minecraft.core.Direction.Axis;
-
-public class CopycatAdvSlopeBlock extends CCWaterloggedCopycatBlock implements CopycatAdvSlopeCT {
-
-  public static final DirectionProperty FACING = BlockStateProperties.HORIZONTAL_FACING;
-  public static final EnumProperty<Half> HALF = BlockStateProperties.HALF;
-  public static final BooleanProperty WALL_MOUNTED = BooleanProperty.create("wall_mounted");
-
-  private static final int PLACEMENT_HELPER_ID = PlacementHelpers.register(new PlacementHelper());
+  private static final int PLACEMENT_HELPER_ID =
+    PlacementHelpers.register(new PlacementHelper());
 
   public CopycatAdvSlopeBlock(Properties properties) {
     super(properties);
@@ -72,7 +58,32 @@ public class CopycatAdvSlopeBlock extends CCWaterloggedCopycatBlock implements C
       defaultBlockState()
         .setValue(FACING, Direction.NORTH)
         .setValue(HALF, Half.BOTTOM)
-        .setValue(WALL_MOUNTED, false)
+        .setValue(WALL_ORIENTATION, false)
+    );
+  }
+
+  @Override
+  protected void createBlockStateDefinition(
+    StateDefinition.Builder<Block, BlockState> builder
+  ) {
+    super.createBlockStateDefinition(builder.add(WALL_ORIENTATION));
+  }
+
+  @Override
+  public BlockState getStateForPlacement(BlockPlaceContext context) {
+    BlockState placement = super.getStateForPlacement(context);
+
+    if (placement == null) {
+      return null;
+    }
+
+    return CopycatAdvBlockBase.getSlopePlacement(
+      context,
+      placement,
+      this,
+      FACING,
+      HALF,
+      WALL_ORIENTATION
     );
   }
 
@@ -83,41 +94,29 @@ public class CopycatAdvSlopeBlock extends CCWaterloggedCopycatBlock implements C
     BlockPos pos,
     CollisionContext context
   ) {
-    if (state.getValue(WALL_MOUNTED)) {
-      return CCShapes.VERTICAL_SLOPE
-        .get(state.getValue(FACING))
-        .toShape();
+    if (!state.getValue(WALL_ORIENTATION)) {
+      return super.getShape(state, level, pos, context);
     }
 
-    return CCShapes.SLOPE
-      .get(state.getValue(FACING))
-      .get(state.getValue(HALF))
-      .toShape();
-  }
-
-  @Override
-  protected void createBlockStateDefinition(
-    StateDefinition.Builder<Block, BlockState> builder
-  ) {
-    super.createBlockStateDefinition(
-      builder.add(FACING, HALF, WALL_MOUNTED)
+    return CopycatAdvSlopeGeometry.createWallShape(
+      state.getValue(FACING),
+      state.getValue(HALF)
     );
   }
 
-
   @Override
-  public BlockState getStateForPlacement(BlockPlaceContext context) {
-    BlockState state = super.getStateForPlacement(context);
-
-    if (state == null) return null;
-
-    return CopycatAdvBlockBase.getSlopePlacement(context, state, this, FACING, HALF, WALL_MOUNTED);
+  public VoxelShape getCollisionShape(
+    BlockState state,
+    BlockGetter level,
+    BlockPos pos,
+    CollisionContext context
+  ) {
+    return getShape(state, level, pos, context);
   }
-
 
   @Override
   public boolean supportsExternalFaceHiding(BlockState state) {
-    return true;
+    return !state.getValue(WALL_ORIENTATION);
   }
 
   @Override
@@ -128,6 +127,10 @@ public class CopycatAdvSlopeBlock extends CCWaterloggedCopycatBlock implements C
     BlockState neighborState,
     Direction direction
   ) {
+    if (state.getValue(WALL_ORIENTATION)) {
+      return false;
+    }
+
     return ICopycatBlock.hidesNeighborFace(
       level,
       pos,
@@ -138,29 +141,8 @@ public class CopycatAdvSlopeBlock extends CCWaterloggedCopycatBlock implements C
   }
 
   @Override
-  public BlockState transform(
-    BlockState state,
-    StructureTransform transform
-  ) {
-    if (state.getValue(WALL_MOUNTED)) {
-      return BlockUtils.transformStepLikeVertical(
-        state,
-        transform,
-        defaultBlockState()
-      );
-    }
-
-    return BlockUtils.transformStepLikeHorizontal(
-      state,
-      transform,
-      defaultBlockState()
-    );
-  }
-
-  @Override
-  public BlockEntityType<? extends CCCopycatBlockEntity>
-  getBlockEntityType() {
-    return ModBlockEntities.COPYCAT_ADV_SLOPE.get();
+  public boolean useShapeForLightOcclusion(BlockState state) {
+    return true;
   }
 
   @Override
@@ -196,44 +178,12 @@ public class CopycatAdvSlopeBlock extends CCWaterloggedCopycatBlock implements C
     );
   }
 
-  @Override
-  public Optional<Boolean> blockCTTowards(
-    BlockAndTintGetter reader,
-    BlockState state,
-    BlockPos pos,
-    BlockPos ctPos,
-    BlockPos connectingPos,
-    Direction face
-  ) {
-    if (reader.getBlockState(ctPos).is(this)) {
-      return Optional.of(false);
-    }
-
-    return Optional.empty();
-  }
-
-  @Override
-  public Optional<Boolean> isCTBlocked(
-    BlockAndTintGetter reader,
-    BlockState state,
-    BlockPos pos,
-    BlockPos connectingPos,
-    BlockPos blockingPos,
-    Direction face
-  ) {
-    if (reader.getBlockState(blockingPos).is(this)) {
-      return Optional.of(false);
-    }
-
-    return Optional.empty();
-  }
-
   private static class PlacementHelper extends PoleHelper<Direction> {
 
     private PlacementHelper() {
       super(
         state -> state.is(ModBlocks.COPYCAT_ADV_SLOPE.get()),
-        state -> state.getValue(WALL_MOUNTED)
+        state -> state.getValue(WALL_ORIENTATION)
           ? Axis.Y
           : state.getValue(FACING)
           .getClockWise()
@@ -246,7 +196,7 @@ public class CopycatAdvSlopeBlock extends CCWaterloggedCopycatBlock implements C
     public Predicate<ItemStack> getItemPredicate() {
       return stack ->
         stack.getItem() instanceof BlockItem item
-          && item.getBlock().getClass() == CopycatAdvSlopeBlock.class;
+          && item.getBlock() == ModBlocks.COPYCAT_ADV_SLOPE.get();
     }
 
     @Override
@@ -257,47 +207,53 @@ public class CopycatAdvSlopeBlock extends CCWaterloggedCopycatBlock implements C
       BlockPos pos,
       BlockHitResult ray
     ) {
-      List<Direction> directions = IPlacementHelper.orderedByDistance(
-        pos,
-        ray.getLocation(),
-        dir -> dir.getAxis() == axisFunction.apply(state)
+      PlacementOffset offset =
+        super.getOffset(player, world, state, pos, ray);
+
+      offset.withTransform(
+        offset.getTransform()
+          .andThen(placementState -> placementState
+            .setValue(FACING, state.getValue(FACING))
+            .setValue(HALF, state.getValue(HALF))
+            .setValue(
+              WALL_ORIENTATION,
+              state.getValue(WALL_ORIENTATION)
+            )
+          )
       );
 
-      for (Direction dir : directions) {
-        int range = AllConfigs.server().equipment.placementAssistRange.get();
-
-        if (player != null) {
-          AttributeInstance reach = player.getAttribute(Attributes.BLOCK_INTERACTION_RANGE);
-
-          if (reach != null && reach.hasModifier(
-            ExtendoGripItem.singleRangeAttributeModifier.id()
-          )) {
-            range += 4;
-          }
-        }
-
-        int poles = attachedPoles(world, pos, dir);
-
-        if (poles >= range) continue;
-
-        BlockPos newPos = pos.relative(dir, poles + 1);
-        BlockState newState = world.getBlockState(newPos);
-
-        if (newState.canBeReplaced()) {
-          return PlacementOffset.success(
-            newPos,
-            newStateForPlacement -> newStateForPlacement
-              .setValue(FACING, state.getValue(FACING))
-              .setValue(HALF, state.getValue(HALF))
-              .setValue(
-                WALL_MOUNTED,
-                state.getValue(WALL_MOUNTED)
-              )
-          );
-        }
-      }
-
-      return PlacementOffset.fail();
+      return offset;
     }
+  }
+
+  @Override
+  public BlockState transform(
+    BlockState state,
+    StructureTransform transform
+  ) {
+    if (!state.getValue(WALL_ORIENTATION)) {
+      return BlockUtils.transformStepLikeHorizontal(
+        state,
+        transform,
+        defaultBlockState()
+      ).setValue(WALL_ORIENTATION, false);
+    }
+
+    return BlockUtils.transformStepLikeVertical(
+      state,
+      transform,
+      defaultBlockState()
+    ).setValue(WALL_ORIENTATION, true);
+  }
+
+  @Override
+  public Class<CCCopycatBlockEntity> getBlockEntityClass() {
+    return CCCopycatBlockEntity.class;
+  }
+
+  @Override
+  public BlockEntityType<? extends CCCopycatBlockEntity>
+  getBlockEntityType() {
+    return ModBlockEntities.COPYCAT_ADV_SLOPE.get();
   }
 }
