@@ -16,6 +16,15 @@ public final class ModItems {
   public static final DeferredRegister.Items ITEMS =
     DeferredRegister.createItems(CopycatsExtended.MOD_ID);
 
+  public static final DeferredItem<BlockItem> BASE_BLOCK =
+    ITEMS.register(
+      "base_block",
+      () -> new BlockItem(
+        ModBlocks.BASE_BLOCK.get(),
+        new Item.Properties()
+      )
+    );
+
   public static final DeferredItem<BlockItem> COPYCAT_ADV_SLOPE =
     ITEMS.register("copycat_adv_slope", () -> {
         BlockItem item = new BlockItem(

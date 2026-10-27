@@ -26,6 +26,7 @@ public class ModCreativeModeTabs {
         .displayItems((parameters, output) -> {
           output.accept(ModItems.COPYCAT_ADV_SLOPE.get());
           output.accept(ModItems.COPYCAT_ADV_SLOPE_LAYER.get());
+          output.accept(ModItems.BASE_BLOCK.get());
         })
         .build()
     );

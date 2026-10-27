@@ -1355,5 +1355,23 @@
     },
     "done": true
   },
+  "minecraft:recipes/decorations/smoker": {
+    "criteria": {
+      "has_furnace": "2026-10-24 20:58:57 +0300"
+    },
+    "done": true
+  },
+  "create:recipes/building_blocks/spruce_window_pane": {
+    "criteria": {
+      "has_ingredient": "2026-10-24 20:59:57 +0300"
+    },
+    "done": true
+  },
+  "create:recipes/building_blocks/dark_oak_window_pane": {
+    "criteria": {
+      "has_ingredient": "2026-10-25 22:42:14 +0300"
+    },
+    "done": true
+  },
   "DataVersion": 3955
 }

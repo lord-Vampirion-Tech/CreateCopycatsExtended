@@ -1,0 +1,7 @@
+{
+  "variants": {
+    "": {
+      "model": "copycats_extended:block/base_block"
+    }
+  }
+}
