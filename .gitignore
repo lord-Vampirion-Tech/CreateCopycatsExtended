@@ -2,4 +2,4 @@
 build/
 run/
 out/
-logs/
+run/logs/
