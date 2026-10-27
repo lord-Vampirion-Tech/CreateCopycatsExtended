@@ -7,11 +7,8 @@ import com.copycatsplus.copycats.foundation.copycat.ICopycatBlock;
 import com.copycatsplus.copycats.utility.BlockUtils;
 import com.copycatsplus.copycats.utility.InteractionUtils;
 import com.simibubi.create.content.contraptions.StructureTransform;
-import com.simibubi.create.content.equipment.extendoGrip.ExtendoGripItem;
 import com.simibubi.create.foundation.placement.PoleHelper;
-import com.simibubi.create.infrastructure.config.AllConfigs;
 
-import net.createmod.catnip.placement.IPlacementHelper;
 import net.createmod.catnip.placement.PlacementHelpers;
 import net.createmod.catnip.placement.PlacementOffset;
 
@@ -73,6 +70,7 @@ public class CopycatAdvSlopeBlock extends CopycatSlopeBlock {
   ) {
     super.createBlockStateDefinition(builder.add(WALL_ORIENTATION, SLOPE_MODE));
   }
+
 
   @Override
   public BlockState getStateForPlacement(BlockPlaceContext context) {

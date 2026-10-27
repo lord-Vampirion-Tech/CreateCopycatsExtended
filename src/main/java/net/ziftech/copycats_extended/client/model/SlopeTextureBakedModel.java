@@ -55,7 +55,7 @@ public class SlopeTextureBakedModel extends BakedModelWrapperWithData {
     @NotNull RandomSource random
   ) {
     List<BakedQuad> quads = sourceModel.getQuads(state, side, random);
-    debugQuads(state, side, quads);
+    debugQuadDetails(state, side, quads);
 
     if (state == null || (side != null && side != getSurfaceFace())) {
       return quads;
@@ -75,7 +75,7 @@ public class SlopeTextureBakedModel extends BakedModelWrapperWithData {
     List<BakedQuad> quads =
       sourceModel.getQuads(state, side, random, data, renderType);
 
-    debugQuads(state, side, quads);
+    debugQuadDetails(state, side, quads);
 
     if (side != null && side != getSurfaceFace()) {
       return quads;
@@ -190,6 +190,73 @@ public class SlopeTextureBakedModel extends BakedModelWrapperWithData {
       .toList();
   }
 
+  private void debugQuadDetails(
+    BlockState state,
+    Direction requestedSide,
+    List<BakedQuad> quads
+  ) {
+
+    System.out.println("\n========== SLOPE QUAD DEBUG ==========");
+
+    System.out.println(
+      "[SlopeTexture] REQUEST side=" + requestedSide
+        + ", state=" + state
+        + ", quads=" + quads.size()
+    );
+
+    System.out.println("Requested side: " + requestedSide);
+    System.out.println("HALF: " + slopeState.getValue(CopycatAdvSlopeBlock.HALF));
+    System.out.println("FACING: " + slopeState.getValue(CopycatAdvSlopeBlock.FACING));
+    System.out.println("Render state: " + state);
+    System.out.println("Quad count: " + quads.size());
+
+    for (int q = 0; q < quads.size(); q++) {
+      BakedQuad quad = quads.get(q);
+
+      debugLocalUv(quad);
+
+      int[] vertices = quad.getVertices();
+
+      System.out.println("\n--- QUAD " + q + " ---");
+      System.out.println("Direction: " + quad.getDirection());
+      System.out.println("Sprite: " + quad.getSprite().contents().name());
+      System.out.println("Tint index: " + quad.getTintIndex());
+
+      float minU = Float.POSITIVE_INFINITY;
+      float maxU = Float.NEGATIVE_INFINITY;
+      float minV = Float.POSITIVE_INFINITY;
+      float maxV = Float.NEGATIVE_INFINITY;
+
+      for (int i = 0; i < 4; i++) {
+        int offset = i * 8;
+
+        float x = Float.intBitsToFloat(vertices[offset]);
+        float y = Float.intBitsToFloat(vertices[offset + 1]);
+        float z = Float.intBitsToFloat(vertices[offset + 2]);
+
+        float u = Float.intBitsToFloat(vertices[offset + 4]);
+        float v = Float.intBitsToFloat(vertices[offset + 5]);
+
+        minU = Math.min(minU, u);
+        maxU = Math.max(maxU, u);
+        minV = Math.min(minV, v);
+        maxV = Math.max(maxV, v);
+
+        System.out.printf(
+          "Vertex %d: pos=(%.4f, %.4f, %.4f), UV=(%.4f, %.4f)%n",
+          i, x, y, z, u, v
+        );
+      }
+
+      System.out.printf(
+        "UV bounds: U=[%.4f, %.4f], V=[%.4f, %.4f]%n",
+        minU, maxU, minV, maxV
+      );
+    }
+
+    System.out.println("========== END QUAD DEBUG ==========\n");
+  }
+
   private List<BakedQuad> transformSurfaceQuads(
     List<BakedQuad> quads,
     List<BakedQuad> sideQuads
@@ -282,6 +349,33 @@ public class SlopeTextureBakedModel extends BakedModelWrapperWithData {
       sideQuad.getSprite(),
       sideQuad.isShade()
     );
+  }
+
+
+  private static void debugLocalUv(BakedQuad quad) {
+    var sprite = quad.getSprite();
+    int[] vertices = quad.getVertices();
+
+    System.out.println("Sprite: " + sprite.contents().name());
+
+    for (int i = 0; i < 4; i++) {
+      int offset = i * 8;
+
+      float x = Float.intBitsToFloat(vertices[offset]);
+      float y = Float.intBitsToFloat(vertices[offset + 1]);
+      float z = Float.intBitsToFloat(vertices[offset + 2]);
+
+      float atlasU = Float.intBitsToFloat(vertices[offset + 4]);
+      float atlasV = Float.intBitsToFloat(vertices[offset + 5]);
+
+      float localU = sprite.getU(atlasU);
+      float localV = sprite.getV(atlasV);
+
+      System.out.printf(
+        "[][][] V%d pos=(%.4f, %.4f, %.4f), atlasUV=(%.4f, %.4f), localUV=(%.4f, %.4f)%n [][][]",
+        i, x, y, z, atlasU, atlasV, localU, localV
+      );
+    }
   }
 
   /**
