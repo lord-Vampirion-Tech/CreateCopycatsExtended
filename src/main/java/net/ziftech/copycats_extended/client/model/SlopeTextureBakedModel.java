@@ -54,10 +54,9 @@ public class SlopeTextureBakedModel extends BakedModelWrapperWithData {
    * Оборачивает контекст сборки геометрии скоса.
    */
   public static CopycatRenderContext wrapAssemblyContext(
-    CopycatRenderContext delegate,
-    Direction facing
+    CopycatRenderContext delegate
   ) {
-    return new TriangleSideUvContext(delegate, facing.getAxis());
+    return new TriangleSideUvContext(delegate);
   }
 
   /**
@@ -73,16 +72,16 @@ public class SlopeTextureBakedModel extends BakedModelWrapperWithData {
   }
 
   /**
-   * Целевые боковые грани лежат на плоскостях x = 0 и x = 1.
+   * Возвращает ось целевой боковой плоскости (X=0/1 или Z=0/1).
+   * Используется нормаль и проверка положения всех четырёх вершин,
+   * чтобы не затронуть торцы и широкую наклонную поверхность.
    */
-  private static boolean isTargetTriangleSide(
-    MutableQuad quad,
-    Direction.Axis sideAxis
-  ) {
+  @Nullable
+  private static Direction.Axis getTargetSideAxis(MutableQuad quad) {
     MutableVec3 normal = quad.computeFaceNormal();
 
-    if (sideAxis == Direction.Axis.X) {
-      return Math.abs(normal.x) > 0.99
+    boolean xPlane =
+      Math.abs(normal.x) > 0.99
         && quad.vertices.stream()
         .allMatch(vertex ->
           Math.min(
@@ -90,10 +89,13 @@ public class SlopeTextureBakedModel extends BakedModelWrapperWithData {
             Math.abs(vertex.xyz.x - 1.0)
           ) < 1.0E-5
         );
+
+    if (xPlane) {
+      return Direction.Axis.X;
     }
 
-    if (sideAxis == Direction.Axis.Z) {
-      return Math.abs(normal.z) > 0.99
+    boolean zPlane =
+      Math.abs(normal.z) > 0.99
         && quad.vertices.stream()
         .allMatch(vertex ->
           Math.min(
@@ -101,9 +103,8 @@ public class SlopeTextureBakedModel extends BakedModelWrapperWithData {
             Math.abs(vertex.xyz.z - 1.0)
           ) < 1.0E-5
         );
-    }
 
-    return false;
+    return zPlane ? Direction.Axis.Z : null;
   }
 
   /**
@@ -114,8 +115,7 @@ public class SlopeTextureBakedModel extends BakedModelWrapperWithData {
    * Для остальных граней сохраняется стандартный алгоритм QuadUVUpdate.
    */
   private static QuadTransform remapSideUv(
-    QuadUVUpdate original,
-    Direction.Axis sideAxis
+    QuadUVUpdate original
   ) {
     return (quad, sprite) -> {
       List<MutableVec3> originalPositions = new ArrayList<>(4);
@@ -127,7 +127,8 @@ public class SlopeTextureBakedModel extends BakedModelWrapperWithData {
         transform.transformQuad(quad, sprite);
       }
 
-      if (isTargetTriangleSide(quad, sideAxis)) {
+      Direction.Axis sideAxis = getTargetSideAxis(quad);
+      if (sideAxis != null) {
         SideUvPlane plane = SideUvPlane.from(
           originalPositions,
           quad,
@@ -158,15 +159,12 @@ public class SlopeTextureBakedModel extends BakedModelWrapperWithData {
   }
 
   private static QuadTransform[] adjustTransforms(
-    QuadTransform[] transforms,
-    Direction.Axis sideAxis
+    QuadTransform[] transforms
   ) {
     if (transforms.length == 1
       && transforms[0] instanceof QuadUVUpdate uvUpdate
       && hasUpperSlopeTransform(uvUpdate)) {
-      return new QuadTransform[] {
-        remapSideUv(uvUpdate, sideAxis)
-      };
+      return new QuadTransform[] { remapSideUv(uvUpdate) };
     }
 
     return transforms;
@@ -176,14 +174,9 @@ public class SlopeTextureBakedModel extends BakedModelWrapperWithData {
     implements CopycatRenderContext {
 
     private final CopycatRenderContext delegate;
-    private final Direction.Axis sideAxis;
 
-    private TriangleSideUvContext(
-      CopycatRenderContext delegate,
-      Direction.Axis sideAxis
-    ) {
+    private TriangleSideUvContext(CopycatRenderContext delegate) {
       this.delegate = delegate;
-      this.sideAxis = sideAxis;
     }
 
     @Override
@@ -209,7 +202,7 @@ public class SlopeTextureBakedModel extends BakedModelWrapperWithData {
         offset,
         select,
         cull,
-        adjustTransforms(transforms, sideAxis)
+        adjustTransforms(transforms)
       );
     }
 
@@ -393,11 +386,13 @@ public class SlopeTextureBakedModel extends BakedModelWrapperWithData {
   private boolean shouldTransformSideSourceQuads(
     @Nullable Direction side
   ) {
-    return mode == SlopeMode.SECOND
-      && (side == null
-        || side.getAxis() == slopeState
-          .getValue(CopycatAdvSlopeBlock.FACING)
-          .getAxis());
+    if (mode != SlopeMode.SECOND || side == null) {
+      return mode == SlopeMode.SECOND;
+    }
+
+    Direction facing = slopeState.getValue(CopycatAdvSlopeBlock.FACING);
+    return side == facing.getClockWise()
+      || side == facing.getCounterClockWise();
   }
 
   /**
@@ -439,9 +434,12 @@ public class SlopeTextureBakedModel extends BakedModelWrapperWithData {
 
         for (int i = 0; i < 4; i++) {
           Vec3 pos = BakedQuadHelper.getXYZ(vertices, i);
+          // При источнике по X сохраняем старую рабочую проекцию.
+          // При источнике по Z продольная координата целевой боковой
+          // грани идёт по Z, поэтому используем (Z, Y), а не (X, Y).
           double p = materialSide.getAxis() == Direction.Axis.X
             ? pos.y
-            : pos.x;
+            : pos.z;
           double q = materialSide.getAxis() == Direction.Axis.X
             ? pos.z
             : pos.y;
