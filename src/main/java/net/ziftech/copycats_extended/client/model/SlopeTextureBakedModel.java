@@ -10,7 +10,6 @@ import com.simibubi.create.foundation.model.BakedModelWrapperWithData;
 import com.simibubi.create.foundation.model.BakedQuadHelper;
 import net.minecraft.client.renderer.RenderType;
 import net.minecraft.client.renderer.block.model.BakedQuad;
-import net.minecraft.client.renderer.texture.TextureAtlasSprite;
 import net.minecraft.client.resources.model.BakedModel;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
@@ -108,6 +107,37 @@ public class SlopeTextureBakedModel extends BakedModelWrapperWithData {
   }
 
   /**
+   * Определяет локальную плоскость исходного квада до AssemblyTransform.
+   * У боковых трапеций это плоскость X или Z; горизонтальные грани
+   * здесь намеренно не обрабатываются.
+   */
+  @Nullable
+  private static Direction.Axis getSourceSideAxis(
+    List<MutableVec3> positions
+  ) {
+    double minX = Double.POSITIVE_INFINITY;
+    double maxX = Double.NEGATIVE_INFINITY;
+    double minZ = Double.POSITIVE_INFINITY;
+    double maxZ = Double.NEGATIVE_INFINITY;
+
+    for (MutableVec3 position : positions) {
+      minX = Math.min(minX, position.x);
+      maxX = Math.max(maxX, position.x);
+      minZ = Math.min(minZ, position.z);
+      maxZ = Math.max(maxZ, position.z);
+    }
+
+    boolean xPlane = maxX - minX < 1.0E-5;
+    boolean zPlane = maxZ - minZ < 1.0E-5;
+
+    if (xPlane == zPlane) {
+      return null;
+    }
+
+    return xPlane ? Direction.Axis.X : Direction.Axis.Z;
+  }
+
+  /**
    * Применяет геометрические трансформации один раз.
    *
    * Для боковых граней UV пересчитываются по аффинной UV-плоскости,
@@ -127,21 +157,23 @@ public class SlopeTextureBakedModel extends BakedModelWrapperWithData {
         transform.transformQuad(quad, sprite);
       }
 
-      Direction.Axis sideAxis = getTargetSideAxis(quad);
-      if (sideAxis != null) {
+      Direction.Axis targetAxis = getTargetSideAxis(quad);
+      Direction.Axis sourceAxis = getSourceSideAxis(originalPositions);
+
+      if (targetAxis != null && sourceAxis != null) {
         SideUvPlane plane = SideUvPlane.from(
           originalPositions,
           quad,
-          sideAxis
+          sourceAxis
         );
 
         if (plane != null) {
           for (var vertex : quad.vertices) {
             MutableVec3 position = vertex.xyz;
-            double p = sideAxis == Direction.Axis.X
+            double p = targetAxis == Direction.Axis.X
               ? position.y
               : position.x;
-            double q = sideAxis == Direction.Axis.X
+            double q = targetAxis == Direction.Axis.X
               ? position.z
               : position.y;
 
@@ -227,8 +259,8 @@ public class SlopeTextureBakedModel extends BakedModelWrapperWithData {
   }
 
   /**
-   * Аффинное соответствие UV координатам Y/Z боковой плоскости.
-   * UV берутся из исходных вершин до изменения геометрии.
+   * Аффинное соответствие исходных UV координатам исходной боковой плоскости.
+   * Результат затем применяется к координатам целевой боковой плоскости.
    */
   private record SideUvPlane(
     double y0,
@@ -252,9 +284,10 @@ public class SlopeTextureBakedModel extends BakedModelWrapperWithData {
     static SideUvPlane from(
       List<MutableVec3> originalPositions,
       MutableQuad quad,
-      Direction.Axis sideAxis
+      Direction.Axis sourceAxis
     ) {
-      // Решаем линейную систему по любой тройке неколлинеарных вершин.
+      // Решаем линейную систему в координатах исходной плоскости.
+      // После поворота sourceAxis и targetAxis могут различаться.
       for (int i = 0; i < 4; i++) {
         for (int j = i + 1; j < 4; j++) {
           for (int k = j + 1; k < 4; k++) {
@@ -262,12 +295,12 @@ public class SlopeTextureBakedModel extends BakedModelWrapperWithData {
             MutableVec3 b = originalPositions.get(j);
             MutableVec3 c = originalPositions.get(k);
 
-            double p1a = sideAxis == Direction.Axis.X ? a.y : a.x;
-            double q1a = sideAxis == Direction.Axis.X ? a.z : a.y;
-            double p1b = sideAxis == Direction.Axis.X ? b.y : b.x;
-            double q1b = sideAxis == Direction.Axis.X ? b.z : b.y;
-            double p1c = sideAxis == Direction.Axis.X ? c.y : c.x;
-            double q1c = sideAxis == Direction.Axis.X ? c.z : c.y;
+            double p1a = sourceAxis == Direction.Axis.X ? a.y : a.x;
+            double q1a = sourceAxis == Direction.Axis.X ? a.z : a.y;
+            double p1b = sourceAxis == Direction.Axis.X ? b.y : b.x;
+            double q1b = sourceAxis == Direction.Axis.X ? b.z : b.y;
+            double p1c = sourceAxis == Direction.Axis.X ? c.y : c.x;
+            double q1c = sourceAxis == Direction.Axis.X ? c.z : c.y;
 
             double dp1 = p1b - p1a;
             double dq1 = q1b - q1a;
@@ -319,13 +352,6 @@ public class SlopeTextureBakedModel extends BakedModelWrapperWithData {
       return quads;
     }
 
-    if (shouldTransformSideSourceQuads(side)) {
-      quads = transformSideSourceQuads(
-        quads,
-        getMaterialSideQuads(state)
-      );
-    }
-
     if (!shouldTransform(side)) {
       return quads;
     }
@@ -353,17 +379,6 @@ public class SlopeTextureBakedModel extends BakedModelWrapperWithData {
         renderType
       );
 
-    if (shouldTransformSideSourceQuads(side)) {
-      quads = transformSideSourceQuads(
-        quads,
-        getMaterialSideQuads(
-          state,
-          data,
-          renderType
-        )
-      );
-    }
-
     if (!shouldTransform(side)) {
       return quads;
     }
@@ -376,88 +391,6 @@ public class SlopeTextureBakedModel extends BakedModelWrapperWithData {
         renderType
       )
     );
-  }
-
-  /**
-   * В исходной геометрии assembleSlope боковые плоскости находятся
-   * на WEST/EAST (X = 0 и X = 1). AssemblyTransform поворачивает
-   * их вместе с остальной геометрией, поэтому FACING здесь не нужен.
-   */
-  private boolean shouldTransformSideSourceQuads(
-    @Nullable Direction side
-  ) {
-    if (mode != SlopeMode.SECOND || side == null) {
-      return mode == SlopeMode.SECOND;
-    }
-
-    Direction facing = slopeState.getValue(CopycatAdvSlopeBlock.FACING);
-    return side == facing.getClockWise()
-      || side == facing.getCounterClockWise();
-  }
-
-  /**
-   * Переносит UV и спрайт с исходной грани материала на шаблонные
-   * боковые квады. Геометрическая обёртка затем применяет этот UV-map
-   * только к секциям, содержащим QuadSlope(UP).
-   */
-  private List<BakedQuad> transformSideSourceQuads(
-    List<BakedQuad> quads,
-    List<BakedQuad> materialSideQuads
-  ) {
-    if (materialSideQuads.isEmpty()) {
-      return quads;
-    }
-
-    Direction facing = slopeState.getValue(CopycatAdvSlopeBlock.FACING);
-    Direction clockwise = facing.getClockWise();
-    Direction counterClockwise = facing.getCounterClockWise();
-    boolean ceiling =
-      slopeState.getValue(CopycatAdvSlopeBlock.HALF) == Half.TOP;
-    Direction materialSide = getMaterialSide();
-
-    List<BakedQuad> result = new ArrayList<>(quads.size());
-
-    for (BakedQuad quad : quads) {
-      if (quad.getDirection() != clockwise
-        && quad.getDirection() != counterClockwise) {
-        result.add(quad);
-        continue;
-      }
-
-      for (BakedQuad materialQuad : materialSideQuads) {
-        int[] vertices = quad.getVertices().clone();
-        UvPlane uvPlane = UvPlane.from(
-          materialQuad,
-          materialSide,
-          ceiling
-        );
-
-        for (int i = 0; i < 4; i++) {
-          Vec3 pos = BakedQuadHelper.getXYZ(vertices, i);
-          // При источнике по X сохраняем старую рабочую проекцию.
-          // При источнике по Z продольная координата целевой боковой
-          // грани идёт по Z, поэтому используем (Z, Y), а не (X, Y).
-          double p = materialSide.getAxis() == Direction.Axis.X
-            ? pos.y
-            : pos.z;
-          double q = materialSide.getAxis() == Direction.Axis.X
-            ? pos.z
-            : pos.y;
-          BakedQuadHelper.setU(vertices, i, uvPlane.u(p, q));
-          BakedQuadHelper.setV(vertices, i, uvPlane.v(p, q));
-        }
-
-        result.add(new BakedQuad(
-          vertices,
-          materialQuad.getTintIndex(),
-          quad.getDirection(),
-          materialQuad.getSprite(),
-          quad.isShade()
-        ));
-      }
-    }
-
-    return result;
   }
 
   /**
