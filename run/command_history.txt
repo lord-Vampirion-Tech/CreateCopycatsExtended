@@ -32,3 +32,5 @@
 /time set day
 /weather clear
 /time set day
+/kill @e[type=!minecraft:player]
+/time set day

@@ -1,33 +1,27 @@
+
 package net.ziftech.copycats_extended.client.model;
 
 import com.copycatsplus.copycats.content.copycat.slope.CopycatSlopeModelCore;
-import com.copycatsplus.copycats.foundation.copycat.model.CopycatModelCore;
 import com.copycatsplus.copycats.foundation.copycat.model.CopycatModelCore.EntryType;
 import com.copycatsplus.copycats.foundation.copycat.model.CopycatModelCore.ModelEntry;
 import com.copycatsplus.copycats.foundation.copycat.model.assembly.AssemblyTransform;
+import com.copycatsplus.copycats.foundation.copycat.model.assembly.CopycatRenderContext;
 
 import net.minecraft.client.resources.model.BakedModel;
 import net.minecraft.core.Direction;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.block.state.properties.Half;
 
-import java.util.List;
-
 import net.ziftech.copycats_extended.block.CopycatAdvSlopeBlock;
 import net.ziftech.copycats_extended.block.SlopeMode;
+
+import java.util.List;
 
 import static com.copycatsplus.copycats.foundation.copycat.model.CopycatModelCore.MATERIAL_KEY;
 import static com.copycatsplus.copycats.foundation.copycat.model.CopycatModelCore.getModelOf;
 
 public class CopycatAdvSlopeModelCore extends CopycatSlopeModelCore {
 
-  /**
-   * Регистрируем исходную модель материала с учётом режима текстуры.
-   *
-   * FIRST  — стандартная модель Copycats+.
-   * SECOND — боковая текстура на наклонной поверхности.
-   * THIRD  — половина боковой текстуры, половина исходной.
-   */
   @Override
   public void registerModels(List<ModelEntry> entries) {
     entries.add(new ModelEntry(
@@ -35,13 +29,13 @@ public class CopycatAdvSlopeModelCore extends CopycatSlopeModelCore {
       (state, material) -> {
         BakedModel model = getModelOf(material);
 
-        // Настенные скосы не затрагиваем.
+        // Для настенного скоса и первого режима используется
+        // исходная модель материала без дополнительной обёртки.
         if (state.getValue(CopycatAdvSlopeBlock.WALL_ORIENTATION)) {
           return model;
         }
 
-        SlopeMode mode =
-          state.getValue(CopycatAdvSlopeBlock.SLOPE_MODE);
+        SlopeMode mode = state.getValue(CopycatAdvSlopeBlock.SLOPE_MODE);
 
         if (mode == SlopeMode.FIRST) {
           return model;
@@ -58,26 +52,37 @@ public class CopycatAdvSlopeModelCore extends CopycatSlopeModelCore {
   public void emitCopycatQuads(
     String key,
     BlockState state,
-    com.copycatsplus.copycats.foundation.copycat.model.assembly.CopycatRenderContext context,
+    CopycatRenderContext context,
     BlockState material
   ) {
-    // Обычные горизонтальные скосы собираются стандартным кодом.
-    // Их источник текстуры уже подготовлен SlopeTextureBakedModel.
-    if (!state.getValue(CopycatAdvSlopeBlock.WALL_ORIENTATION)) {
-      super.emitCopycatQuads(key, state, context, material);
+    boolean wallMounted =
+      state.getValue(CopycatAdvSlopeBlock.WALL_ORIENTATION);
+
+    if (!wallMounted) {
+      SlopeMode mode = state.getValue(CopycatAdvSlopeBlock.SLOPE_MODE);
+
+      // Дополнительная обработка UV применяется только ко второму
+      // режиму обычного скоса. Геометрия собирается базовым классом.
+      if (mode == SlopeMode.SECOND) {
+        super.emitCopycatQuads(
+          key,
+          state,
+          SlopeTextureBakedModel.wrapAssemblyContext(context),
+          material
+        );
+      } else {
+        super.emitCopycatQuads(key, state, context, material);
+      }
+
       return;
     }
 
-    // Настенный скос: исходная логика без изменений.
-    Direction facing =
-      state.getValue(CopycatAdvSlopeBlock.FACING);
-
-    Half half =
-      state.getValue(CopycatAdvSlopeBlock.HALF);
+    // Настенный вариант использует отдельное преобразование геометрии.
+    Direction facing = state.getValue(CopycatAdvSlopeBlock.FACING);
+    Half half = state.getValue(CopycatAdvSlopeBlock.HALF);
 
     int angle = CopycatAdvSlopeGeometry.wallAngle(facing, half);
-    int sidewaysAngle =
-      CopycatAdvSlopeGeometry.wallSidewaysAngle(facing);
+    int sidewaysAngle = CopycatAdvSlopeGeometry.wallSidewaysAngle(facing);
 
     AssemblyTransform transform = t -> {
       t.rotateY((int) facing.toYRot())

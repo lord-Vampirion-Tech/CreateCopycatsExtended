@@ -1,1375 +1,973 @@
 {
   "minecraft:recipes/decorations/crafting_table": {
     "criteria": {
-      "unlock_right_away": "2026-10-18 15:57:03 +0300"
+      "unlock_right_away": "2026-10-27 23:27:07 +0300"
     },
     "done": true
   },
   "minecraft:adventure/adventuring_time": {
     "criteria": {
-      "minecraft:plains": "2026-10-18 15:57:03 +0300"
+      "minecraft:plains": "2026-10-27 23:27:08 +0300"
     },
     "done": false
   },
   "create:root": {
     "criteria": {
-      "0": "2026-10-18 15:58:01 +0300"
+      "0": "2026-10-27 23:27:34 +0300"
     },
     "done": true
   },
   "create:wrench_goggles": {
     "criteria": {
-      "0": "2026-10-18 16:12:05 +0300"
+      "0": "2026-10-27 23:27:36 +0300"
     },
     "done": false
   },
   "create:recipes/building_blocks/vertical_framed_glass_from_glass_blocks_colorless_stonecutting": {
     "criteria": {
-      "has_glass_blocks_colorless": "2026-10-18 16:12:34 +0300"
+      "has_glass_blocks_colorless": "2026-10-27 23:45:45 +0300"
     },
     "done": true
   },
   "minecraft:recipes/building_blocks/light_blue_stained_glass": {
     "criteria": {
-      "has_glass": "2026-10-18 16:12:34 +0300"
+      "has_glass": "2026-10-27 23:45:45 +0300"
     },
     "done": true
   },
   "minecraft:recipes/building_blocks/green_stained_glass": {
     "criteria": {
-      "has_glass": "2026-10-18 16:12:34 +0300"
+      "has_glass": "2026-10-27 23:45:45 +0300"
     },
     "done": true
   },
   "minecraft:recipes/building_blocks/brown_stained_glass": {
     "criteria": {
-      "has_glass": "2026-10-18 16:12:34 +0300"
+      "has_glass": "2026-10-27 23:45:45 +0300"
     },
     "done": true
   },
   "minecraft:recipes/building_blocks/blue_stained_glass": {
     "criteria": {
-      "has_glass": "2026-10-18 16:12:34 +0300"
+      "has_glass": "2026-10-27 23:45:45 +0300"
     },
     "done": true
   },
   "create:recipes/building_blocks/framed_glass_from_glass_blocks_colorless_stonecutting": {
     "criteria": {
-      "has_glass_blocks_colorless": "2026-10-18 16:12:34 +0300"
+      "has_glass_blocks_colorless": "2026-10-27 23:45:45 +0300"
     },
     "done": true
   },
   "minecraft:recipes/building_blocks/orange_stained_glass": {
     "criteria": {
-      "has_glass": "2026-10-18 16:12:34 +0300"
+      "has_glass": "2026-10-27 23:45:45 +0300"
     },
     "done": true
   },
   "minecraft:recipes/building_blocks/pink_stained_glass": {
     "criteria": {
-      "has_glass": "2026-10-18 16:12:34 +0300"
+      "has_glass": "2026-10-27 23:45:45 +0300"
     },
     "done": true
   },
   "minecraft:recipes/building_blocks/black_stained_glass": {
     "criteria": {
-      "has_glass": "2026-10-18 16:12:34 +0300"
+      "has_glass": "2026-10-27 23:45:45 +0300"
     },
     "done": true
   },
   "minecraft:recipes/building_blocks/gray_stained_glass": {
     "criteria": {
-      "has_glass": "2026-10-18 16:12:34 +0300"
+      "has_glass": "2026-10-27 23:45:45 +0300"
     },
     "done": true
   },
   "minecraft:recipes/building_blocks/lime_stained_glass": {
     "criteria": {
-      "has_glass": "2026-10-18 16:12:34 +0300"
+      "has_glass": "2026-10-27 23:45:45 +0300"
     },
     "done": true
   },
   "minecraft:recipes/decorations/glass_pane": {
     "criteria": {
-      "has_glass": "2026-10-18 16:12:34 +0300"
+      "has_glass": "2026-10-27 23:45:45 +0300"
     },
     "done": true
   },
   "minecraft:recipes/building_blocks/magenta_stained_glass": {
     "criteria": {
-      "has_glass": "2026-10-18 16:12:34 +0300"
+      "has_glass": "2026-10-27 23:45:45 +0300"
     },
     "done": true
   },
   "minecraft:recipes/building_blocks/white_stained_glass": {
     "criteria": {
-      "has_glass": "2026-10-18 16:12:34 +0300"
+      "has_glass": "2026-10-27 23:45:45 +0300"
     },
     "done": true
   },
   "minecraft:recipes/building_blocks/red_stained_glass": {
     "criteria": {
-      "has_glass": "2026-10-18 16:12:34 +0300"
+      "has_glass": "2026-10-27 23:45:45 +0300"
     },
     "done": true
   },
   "minecraft:recipes/brewing/glass_bottle": {
     "criteria": {
-      "has_glass": "2026-10-18 16:12:34 +0300"
+      "has_glass": "2026-10-27 23:45:45 +0300"
     },
     "done": true
   },
   "minecraft:recipes/building_blocks/light_gray_stained_glass": {
     "criteria": {
-      "has_glass": "2026-10-18 16:12:34 +0300"
+      "has_glass": "2026-10-27 23:45:45 +0300"
     },
     "done": true
   },
   "create:recipes/building_blocks/horizontal_framed_glass_from_glass_blocks_colorless_stonecutting": {
     "criteria": {
-      "has_glass_blocks_colorless": "2026-10-18 16:12:34 +0300"
+      "has_glass_blocks_colorless": "2026-10-27 23:45:45 +0300"
     },
     "done": true
   },
   "create:recipes/building_blocks/tiled_glass_from_glass_blocks_colorless_stonecutting": {
     "criteria": {
-      "has_glass_blocks_colorless": "2026-10-18 16:12:34 +0300"
+      "has_glass_blocks_colorless": "2026-10-27 23:45:45 +0300"
     },
     "done": true
   },
   "minecraft:recipes/building_blocks/cyan_stained_glass": {
     "criteria": {
-      "has_glass": "2026-10-18 16:12:34 +0300"
+      "has_glass": "2026-10-27 23:45:45 +0300"
     },
     "done": true
   },
   "minecraft:recipes/building_blocks/purple_stained_glass": {
     "criteria": {
-      "has_glass": "2026-10-18 16:12:34 +0300"
+      "has_glass": "2026-10-27 23:45:45 +0300"
     },
     "done": true
   },
   "minecraft:recipes/building_blocks/yellow_stained_glass": {
     "criteria": {
-      "has_glass": "2026-10-18 16:12:34 +0300"
-    },
-    "done": true
-  },
-  "copycats:recipes/misc/crafting/copycat_vertical_stairs_from_conversion": {
-    "criteria": {
-      "has_item": "2026-10-18 16:49:43 +0300"
-    },
-    "done": true
-  },
-  "minecraft:recipes/decorations/prismarine_wall_from_prismarine_stonecutting": {
-    "criteria": {
-      "has_prismarine": "2026-10-18 18:23:04 +0300"
-    },
-    "done": true
-  },
-  "minecraft:recipes/decorations/prismarine_wall": {
-    "criteria": {
-      "has_prismarine": "2026-10-18 18:23:04 +0300"
-    },
-    "done": true
-  },
-  "minecraft:recipes/building_blocks/prismarine_slab_from_prismarine_stonecutting": {
-    "criteria": {
-      "has_prismarine": "2026-10-18 18:23:04 +0300"
-    },
-    "done": true
-  },
-  "minecraft:recipes/building_blocks/prismarine_stairs_from_prismarine_stonecutting": {
-    "criteria": {
-      "has_prismarine": "2026-10-18 18:23:04 +0300"
-    },
-    "done": true
-  },
-  "minecraft:recipes/building_blocks/prismarine_stairs": {
-    "criteria": {
-      "has_prismarine": "2026-10-18 18:23:04 +0300"
-    },
-    "done": true
-  },
-  "minecraft:recipes/building_blocks/prismarine_slab": {
-    "criteria": {
-      "has_prismarine": "2026-10-18 18:23:04 +0300"
-    },
-    "done": true
-  },
-  "minecraft:recipes/building_blocks/dripstone_block": {
-    "criteria": {
-      "has_pointed_dripstone": "2026-10-18 18:23:30 +0300"
-    },
-    "done": true
-  },
-  "minecraft:recipes/building_blocks/mossy_cobblestone_from_moss_block": {
-    "criteria": {
-      "has_moss_block": "2026-10-18 18:23:44 +0300"
-    },
-    "done": true
-  },
-  "minecraft:recipes/decorations/moss_carpet": {
-    "criteria": {
-      "has_moss_block": "2026-10-18 18:23:44 +0300"
-    },
-    "done": true
-  },
-  "minecraft:recipes/building_blocks/mossy_stone_bricks_from_moss_block": {
-    "criteria": {
-      "has_moss_block": "2026-10-18 18:23:44 +0300"
-    },
-    "done": true
-  },
-  "create:recipes/misc/smelting/glass_from_framed_glass": {
-    "criteria": {
-      "has_item": "2026-10-18 18:24:10 +0300"
-    },
-    "done": true
-  },
-  "create:recipes/misc/crafting/kinetics/framed_glass_trapdoor": {
-    "criteria": {
-      "has_item": "2026-10-18 18:24:10 +0300"
-    },
-    "done": true
-  },
-  "create:recipes/misc/crafting/kinetics/framed_glass_door": {
-    "criteria": {
-      "has_item": "2026-10-18 18:24:10 +0300"
-    },
-    "done": true
-  },
-  "create:recipes/building_blocks/framed_glass_pane": {
-    "criteria": {
-      "has_ingredient": "2026-10-18 18:24:10 +0300"
-    },
-    "done": true
-  },
-  "create:recipes/misc/crafting/kinetics/mechanical_saw": {
-    "criteria": {
-      "has_item": "2026-10-18 18:28:01 +0300"
-    },
-    "done": true
-  },
-  "create:recipes/misc/crafting/logistics/redstone_link": {
-    "criteria": {
-      "has_item": "2026-10-18 18:28:01 +0300"
-    },
-    "done": true
-  },
-  "create:recipes/misc/crafting/logistics/desk_bell": {
-    "criteria": {
-      "has_item": "2026-10-18 18:28:01 +0300"
-    },
-    "done": true
-  },
-  "create:recipes/misc/crafting/kinetics/mechanical_press": {
-    "criteria": {
-      "has_item": "2026-10-18 18:28:01 +0300"
-    },
-    "done": true
-  },
-  "create:recipes/misc/crafting/kinetics/mechanical_roller": {
-    "criteria": {
-      "has_item": "2026-10-18 18:28:01 +0300"
-    },
-    "done": true
-  },
-  "create:recipes/misc/crafting/kinetics/andesite_door": {
-    "criteria": {
-      "has_item": "2026-10-18 18:28:01 +0300"
-    },
-    "done": true
-  },
-  "create:recipes/misc/crafting/kinetics/portable_storage_interface": {
-    "criteria": {
-      "has_item": "2026-10-18 18:28:01 +0300"
-    },
-    "done": true
-  },
-  "create:recipes/misc/crafting/kinetics/mechanical_bearing": {
-    "criteria": {
-      "has_item": "2026-10-18 18:28:01 +0300"
-    },
-    "done": true
-  },
-  "create:recipes/misc/crafting/kinetics/gantry_carriage": {
-    "criteria": {
-      "has_item": "2026-10-18 18:28:01 +0300"
-    },
-    "done": true
-  },
-  "create:recipes/misc/crafting/kinetics/weighted_ejector": {
-    "criteria": {
-      "has_item": "2026-10-18 18:28:01 +0300"
-    },
-    "done": true
-  },
-  "create:recipes/misc/crafting/kinetics/millstone": {
-    "criteria": {
-      "has_item": "2026-10-18 18:28:01 +0300"
-    },
-    "done": true
-  },
-  "create:recipes/misc/crafting/kinetics/mechanical_plough": {
-    "criteria": {
-      "has_item": "2026-10-18 18:28:01 +0300"
-    },
-    "done": true
-  },
-  "create:recipes/misc/crafting/kinetics/chain_conveyor": {
-    "criteria": {
-      "has_item": "2026-10-18 18:28:01 +0300"
-    },
-    "done": true
-  },
-  "create:recipes/misc/crafting/kinetics/mechanical_harvester": {
-    "criteria": {
-      "has_item": "2026-10-18 18:28:01 +0300"
-    },
-    "done": true
-  },
-  "create:recipes/misc/crafting/kinetics/encased_chain_drive_from_zinc": {
-    "criteria": {
-      "has_item": "2026-10-18 18:28:01 +0300"
-    },
-    "done": true
-  },
-  "create:recipes/misc/crafting/kinetics/clutch": {
-    "criteria": {
-      "has_item": "2026-10-18 18:28:01 +0300"
-    },
-    "done": true
-  },
-  "create:recipes/misc/crafting/kinetics/depot": {
-    "criteria": {
-      "has_item": "2026-10-18 18:28:01 +0300"
-    },
-    "done": true
-  },
-  "create:recipes/misc/crafting/kinetics/encased_chain_drive": {
-    "criteria": {
-      "has_item": "2026-10-18 18:28:01 +0300"
-    },
-    "done": true
-  },
-  "create:recipes/misc/crafting/kinetics/mechanical_drill": {
-    "criteria": {
-      "has_item": "2026-10-18 18:28:01 +0300"
-    },
-    "done": true
-  },
-  "create:recipes/misc/crafting/kinetics/mechanical_piston": {
-    "criteria": {
-      "has_item": "2026-10-18 18:28:01 +0300"
-    },
-    "done": true
-  },
-  "create:recipes/misc/crafting/kinetics/gearshift": {
-    "criteria": {
-      "has_item": "2026-10-18 18:28:01 +0300"
+      "has_glass": "2026-10-27 23:45:45 +0300"
     },
     "done": true
   },
   "copycats:recipes/misc/crafting/copycat_vertical_slope_from_conversion": {
     "criteria": {
-      "has_item": "2026-10-20 22:21:32 +0300"
+      "has_item": "2026-10-27 23:46:26 +0300"
     },
     "done": true
   },
-  "minecraft:recipes/brewing/cauldron": {
+  "create:recipes/misc/smelting/glass_from_framed_glass": {
     "criteria": {
-      "has_water_bucket": "2026-10-20 22:28:42 +0300"
+      "has_item": "2026-10-27 23:59:57 +0300"
     },
     "done": true
   },
-  "minecraft:recipes/transportation/cherry_boat": {
+  "create:recipes/misc/crafting/kinetics/framed_glass_trapdoor": {
     "criteria": {
-      "in_water": "2026-10-20 22:28:43 +0300"
+      "has_item": "2026-10-27 23:59:57 +0300"
     },
     "done": true
   },
-  "minecraft:recipes/transportation/bamboo_raft": {
+  "create:recipes/misc/crafting/kinetics/framed_glass_door": {
     "criteria": {
-      "in_water": "2026-10-20 22:28:43 +0300"
+      "has_item": "2026-10-27 23:59:57 +0300"
     },
     "done": true
   },
-  "minecraft:recipes/transportation/spruce_boat": {
+  "create:recipes/building_blocks/framed_glass_pane": {
     "criteria": {
-      "in_water": "2026-10-20 22:28:43 +0300"
+      "has_ingredient": "2026-10-27 23:59:57 +0300"
     },
     "done": true
   },
-  "minecraft:recipes/transportation/birch_boat": {
+  "minecraft:recipes/decorations/oak_sign": {
     "criteria": {
-      "in_water": "2026-10-20 22:28:43 +0300"
+      "has_planks": "2026-10-28 00:00:34 +0300"
     },
     "done": true
   },
-  "minecraft:recipes/transportation/oak_boat": {
+  "minecraft:recipes/redstone/oak_trapdoor": {
     "criteria": {
-      "in_water": "2026-10-20 22:28:43 +0300"
+      "has_planks": "2026-10-28 00:00:34 +0300"
     },
     "done": true
   },
-  "minecraft:recipes/transportation/mangrove_boat": {
+  "minecraft:recipes/misc/stick": {
     "criteria": {
-      "in_water": "2026-10-20 22:28:43 +0300"
+      "has_planks": "2026-10-28 00:00:34 +0300"
     },
     "done": true
   },
-  "minecraft:recipes/transportation/acacia_boat": {
+  "minecraft:recipes/building_blocks/oak_stairs": {
     "criteria": {
-      "in_water": "2026-10-20 22:28:43 +0300"
+      "has_planks": "2026-10-28 00:00:34 +0300"
     },
     "done": true
   },
-  "minecraft:recipes/transportation/jungle_boat": {
+  "minecraft:recipes/decorations/oak_fence": {
     "criteria": {
-      "in_water": "2026-10-20 22:28:43 +0300"
+      "has_planks": "2026-10-28 00:00:34 +0300"
     },
     "done": true
   },
-  "minecraft:recipes/transportation/dark_oak_boat": {
+  "minecraft:recipes/redstone/oak_button": {
     "criteria": {
-      "in_water": "2026-10-20 22:28:43 +0300"
+      "has_planks": "2026-10-28 00:00:34 +0300"
     },
     "done": true
   },
-  "copycats:recipes/misc/crafting/copycat_slope_from_conversion": {
+  "framedblocks:recipes/building_blocks/framed_cube": {
     "criteria": {
-      "has_item": "2026-10-21 02:04:53 +0300"
+      "hasPlanks": "2026-10-28 00:00:34 +0300"
     },
     "done": true
   },
-  "minecraft:recipes/building_blocks/glowstone": {
+  "minecraft:recipes/building_blocks/oak_slab": {
     "criteria": {
-      "has_glowstone_dust": "2026-10-21 19:21:28 +0300"
+      "has_planks": "2026-10-28 00:00:34 +0300"
     },
     "done": true
   },
-  "minecraft:recipes/combat/spectral_arrow": {
+  "minecraft:recipes/redstone/oak_fence_gate": {
     "criteria": {
-      "has_glowstone_dust": "2026-10-21 19:21:28 +0300"
+      "has_planks": "2026-10-28 00:00:34 +0300"
     },
     "done": true
   },
-  "minecraft:recipes/decorations/chest": {
+  "minecraft:recipes/redstone/oak_pressure_plate": {
     "criteria": {
-      "has_lots_of_items": "2026-10-21 19:22:26 +0300"
+      "has_planks": "2026-10-28 00:00:34 +0300"
     },
     "done": true
   },
-  "minecraft:recipes/redstone/redstone": {
+  "minecraft:recipes/redstone/oak_door": {
     "criteria": {
-      "has_redstone_block": "2026-10-21 19:22:26 +0300"
+      "has_planks": "2026-10-28 00:00:34 +0300"
     },
     "done": true
   },
-  "copycats:recipes/misc/crafting/copycat_block_from_slabs": {
+  "create:recipes/building_blocks/oak_window": {
     "criteria": {
-      "has_item": "2026-10-21 19:23:33 +0300"
+      "has_ingredient": "2026-10-28 00:00:34 +0300"
     },
     "done": true
   },
-  "minecraft:recipes/decorations/blast_furnace": {
+  "minecraft:recipes/decorations/barrel": {
     "criteria": {
-      "has_smooth_stone": "2026-10-21 19:24:47 +0300"
-    },
-    "done": true
-  },
-  "minecraft:recipes/building_blocks/smooth_stone_slab": {
-    "criteria": {
-      "has_smooth_stone": "2026-10-21 19:24:47 +0300"
-    },
-    "done": true
-  },
-  "minecraft:recipes/building_blocks/smooth_stone_slab_from_smooth_stone_stonecutting": {
-    "criteria": {
-      "has_smooth_stone": "2026-10-21 19:24:47 +0300"
-    },
-    "done": true
-  },
-  "framedblocks:recipes/building_blocks/framed_panel": {
-    "criteria": {
-      "hasFramedCube": "2026-10-21 19:34:15 +0300"
-    },
-    "done": true
-  },
-  "framedblocks:recipes/building_blocks/framed_flower_pot": {
-    "criteria": {
-      "hasFramedCube": "2026-10-21 19:34:15 +0300"
-    },
-    "done": true
-  },
-  "framedblocks:recipes/building_blocks/framed_stone_pressure_plate": {
-    "criteria": {
-      "hasFramedCube": "2026-10-21 19:34:15 +0300"
-    },
-    "done": true
-  },
-  "framedblocks:recipes/building_blocks/framed_one_way_window": {
-    "criteria": {
-      "hasFramedCube": "2026-10-21 19:34:15 +0300"
-    },
-    "done": true
-  },
-  "framedblocks:recipes/building_blocks/framed_button": {
-    "criteria": {
-      "hasFramedCube": "2026-10-21 19:34:15 +0300"
-    },
-    "done": true
-  },
-  "framedblocks:recipes/building_blocks/framed_stairs": {
-    "criteria": {
-      "hasFramedCube": "2026-10-21 19:34:15 +0300"
-    },
-    "done": true
-  },
-  "framedblocks:recipes/building_blocks/framed_detector_rail_slope": {
-    "criteria": {
-      "hasFramedSlope": "2026-10-21 19:34:15 +0300"
-    },
-    "done": true
-  },
-  "framedblocks:recipes/building_blocks/framed_collapsible_block": {
-    "criteria": {
-      "hasFramedCube": "2026-10-21 19:34:15 +0300"
-    },
-    "done": true
-  },
-  "framedblocks:recipes/building_blocks/framed_activator_rail_slope": {
-    "criteria": {
-      "hasFramedSlope": "2026-10-21 19:34:15 +0300"
-    },
-    "done": true
-  },
-  "framedblocks:recipes/building_blocks/framed_lattice_block": {
-    "criteria": {
-      "hasFramedCube": "2026-10-21 19:34:15 +0300"
-    },
-    "done": true
-  },
-  "framedblocks:recipes/building_blocks/framed_chest": {
-    "criteria": {
-      "hasFramedCube": "2026-10-21 19:34:15 +0300"
-    },
-    "done": true
-  },
-  "framedblocks:recipes/building_blocks/framed_secret_storage": {
-    "criteria": {
-      "hasFramedCube": "2026-10-21 19:34:15 +0300"
-    },
-    "done": true
-  },
-  "framedblocks:recipes/building_blocks/framed_soul_torch": {
-    "criteria": {
-      "hasFramedCube": "2026-10-21 19:34:15 +0300"
-    },
-    "done": true
-  },
-  "framedblocks:recipes/building_blocks/framed_slope_panel": {
-    "criteria": {
-      "hasFramedSlope": "2026-10-21 19:34:15 +0300"
-    },
-    "done": true
-  },
-  "framedblocks:recipes/misc/framed_reinforcement": {
-    "criteria": {
-      "hasFramedCube": "2026-10-21 19:34:15 +0300"
-    },
-    "done": true
-  },
-  "framedblocks:recipes/tools/framed_hammer": {
-    "criteria": {
-      "hasFramedCube": "2026-10-21 19:34:15 +0300"
-    },
-    "done": true
-  },
-  "framedblocks:recipes/building_blocks/framed_fancy_rail_slope": {
-    "criteria": {
-      "hasFramedSlope": "2026-10-21 19:34:15 +0300"
-    },
-    "done": true
-  },
-  "framedblocks:recipes/building_blocks/framed_target": {
-    "criteria": {
-      "hasFramedCube": "2026-10-21 19:34:15 +0300"
-    },
-    "done": true
-  },
-  "framedblocks:recipes/building_blocks/framed_slope_slab": {
-    "criteria": {
-      "hasFramedSlope": "2026-10-21 19:34:15 +0300"
-    },
-    "done": true
-  },
-  "framedblocks:recipes/building_blocks/framed_ladder": {
-    "criteria": {
-      "hasFramedCube": "2026-10-21 19:34:15 +0300"
-    },
-    "done": true
-  },
-  "framedblocks:recipes/building_blocks/framed_rail_slope": {
-    "criteria": {
-      "hasFramedSlope": "2026-10-21 19:34:15 +0300"
-    },
-    "done": true
-  },
-  "framedblocks:recipes/building_blocks/framed_item_frame": {
-    "criteria": {
-      "hasFramedCube": "2026-10-21 19:34:15 +0300"
-    },
-    "done": true
-  },
-  "framedblocks:recipes/building_blocks/framed_stone_button": {
-    "criteria": {
-      "hasFramedCube": "2026-10-21 19:34:15 +0300"
-    },
-    "done": true
-  },
-  "framedblocks:recipes/building_blocks/framed_powered_rail_slope": {
-    "criteria": {
-      "hasFramedSlope": "2026-10-21 19:34:15 +0300"
-    },
-    "done": true
-  },
-  "framedblocks:recipes/building_blocks/framed_threeway_corner": {
-    "criteria": {
-      "hasFramedSlope": "2026-10-21 19:34:15 +0300"
-    },
-    "done": true
-  },
-  "framedblocks:recipes/tools/framed_screwdriver": {
-    "criteria": {
-      "hasFramedCube": "2026-10-21 19:34:15 +0300"
-    },
-    "done": true
-  },
-  "framedblocks:recipes/building_blocks/framed_pressure_plate": {
-    "criteria": {
-      "hasFramedCube": "2026-10-21 19:34:15 +0300"
-    },
-    "done": true
-  },
-  "framedblocks:recipes/building_blocks/framed_prism_corner": {
-    "criteria": {
-      "hasFramedSlope": "2026-10-21 19:34:15 +0300"
-    },
-    "done": true
-  },
-  "framedblocks:recipes/building_blocks/framed_inner_prism_corner": {
-    "criteria": {
-      "hasFramedSlope": "2026-10-21 19:34:15 +0300"
-    },
-    "done": true
-  },
-  "framedblocks:recipes/building_blocks/framed_tube": {
-    "criteria": {
-      "hasFramedCube": "2026-10-21 19:34:15 +0300"
-    },
-    "done": true
-  },
-  "framedblocks:recipes/building_blocks/framed_vertical_stairs": {
-    "criteria": {
-      "hasFramedCube": "2026-10-21 19:34:15 +0300"
-    },
-    "done": true
-  },
-  "framedblocks:recipes/building_blocks/framed_lever": {
-    "criteria": {
-      "hasFramedCube": "2026-10-21 19:34:15 +0300"
-    },
-    "done": true
-  },
-  "framedblocks:recipes/building_blocks/framed_collapsible_copycat_block": {
-    "criteria": {
-      "hasFramedCube": "2026-10-21 19:34:15 +0300"
-    },
-    "done": true
-  },
-  "framedblocks:recipes/building_blocks/framed_sign": {
-    "criteria": {
-      "hasFramedCube": "2026-10-21 19:34:15 +0300"
-    },
-    "done": true
-  },
-  "framedblocks:recipes/building_blocks/framed_fancy_rail": {
-    "criteria": {
-      "hasFramedCube": "2026-10-21 19:34:15 +0300"
-    },
-    "done": true
-  },
-  "framedblocks:recipes/building_blocks/framed_corner_pillar": {
-    "criteria": {
-      "hasFramedCube": "2026-10-21 19:34:15 +0300"
-    },
-    "done": true
-  },
-  "framedblocks:recipes/building_blocks/framed_double_slope": {
-    "criteria": {
-      "hasFramedSlope": "2026-10-21 19:34:15 +0300"
-    },
-    "done": true
-  },
-  "framedblocks:recipes/building_blocks/framed_fancy_detector_rail": {
-    "criteria": {
-      "hasFramedCube": "2026-10-21 19:34:15 +0300"
-    },
-    "done": true
-  },
-  "framedblocks:recipes/building_blocks/framed_glowing_cube": {
-    "criteria": {
-      "hasFramedCube": "2026-10-21 19:34:15 +0300"
-    },
-    "done": true
-  },
-  "framedblocks:recipes/building_blocks/framed_fence_gate": {
-    "criteria": {
-      "hasFramedCube": "2026-10-21 19:34:15 +0300"
-    },
-    "done": true
-  },
-  "framedblocks:recipes/tools/framed_axe": {
-    "criteria": {
-      "hasFramedCube": "2026-10-21 19:34:15 +0300"
-    },
-    "done": true
-  },
-  "framedblocks:recipes/building_blocks/framed_fancy_powered_rail": {
-    "criteria": {
-      "hasFramedCube": "2026-10-21 19:34:15 +0300"
-    },
-    "done": true
-  },
-  "framedblocks:recipes/building_blocks/framed_elevated_inner_prism": {
-    "criteria": {
-      "hasFramedSlope": "2026-10-21 19:34:15 +0300"
-    },
-    "done": true
-  },
-  "framedblocks:recipes/building_blocks/framed_chiseled_bookshelf": {
-    "criteria": {
-      "hasFramedCube": "2026-10-21 19:34:15 +0300"
-    },
-    "done": true
-  },
-  "framedblocks:recipes/building_blocks/framed_redstone_torch": {
-    "criteria": {
-      "hasFramedCube": "2026-10-21 19:34:15 +0300"
-    },
-    "done": true
-  },
-  "framedblocks:recipes/building_blocks/framed_door": {
-    "criteria": {
-      "hasFramedCube": "2026-10-21 19:34:15 +0300"
-    },
-    "done": true
-  },
-  "framedblocks:recipes/building_blocks/framed_iron_pressure_plate": {
-    "criteria": {
-      "hasFramedCube": "2026-10-21 19:34:15 +0300"
-    },
-    "done": true
-  },
-  "framedblocks:recipes/building_blocks/framed_pane": {
-    "criteria": {
-      "hasFramedCube": "2026-10-21 19:34:15 +0300"
-    },
-    "done": true
-  },
-  "framedblocks:recipes/building_blocks/framed_prism": {
-    "criteria": {
-      "hasFramedSlope": "2026-10-21 19:34:15 +0300"
-    },
-    "done": true
-  },
-  "framedblocks:recipes/building_blocks/framed_bookshelf": {
-    "criteria": {
-      "hasFramedCube": "2026-10-21 19:34:15 +0300"
-    },
-    "done": true
-  },
-  "framedblocks:recipes/building_blocks/framed_fence": {
-    "criteria": {
-      "hasFramedCube": "2026-10-21 19:34:15 +0300"
-    },
-    "done": true
-  },
-  "framedblocks:recipes/building_blocks/framed_redstone_block": {
-    "criteria": {
-      "hasFramedCube": "2026-10-21 19:34:15 +0300"
-    },
-    "done": true
-  },
-  "framedblocks:recipes/building_blocks/framed_inner_threeway_corner": {
-    "criteria": {
-      "hasFramedSlope": "2026-10-21 19:34:15 +0300"
-    },
-    "done": true
-  },
-  "framedblocks:recipes/building_blocks/framed_inner_corner_slope": {
-    "criteria": {
-      "hasFramedSlope": "2026-10-21 19:34:15 +0300"
-    },
-    "done": true
-  },
-  "framedblocks:recipes/building_blocks/framed_bouncy_cube": {
-    "criteria": {
-      "hasFramedCube": "2026-10-21 19:34:15 +0300"
-    },
-    "done": true
-  },
-  "framedblocks:recipes/building_blocks/framed_torch": {
-    "criteria": {
-      "hasFramedCube": "2026-10-21 19:34:15 +0300"
-    },
-    "done": true
-  },
-  "framedblocks:recipes/building_blocks/framed_fancy_powered_rail_slope": {
-    "criteria": {
-      "hasFramedSlope": "2026-10-21 19:34:15 +0300"
-    },
-    "done": true
-  },
-  "framedblocks:recipes/building_blocks/framed_thick_lattice": {
-    "criteria": {
-      "hasFramedCube": "2026-10-21 19:34:15 +0300"
-    },
-    "done": true
-  },
-  "framedblocks:recipes/tools/framed_key": {
-    "criteria": {
-      "hasFramedCube": "2026-10-21 19:34:15 +0300"
-    },
-    "done": true
-  },
-  "framedblocks:recipes/building_blocks/framed_wall": {
-    "criteria": {
-      "hasFramedCube": "2026-10-21 19:34:15 +0300"
-    },
-    "done": true
-  },
-  "framedblocks:recipes/building_blocks/framed_slope_edge": {
-    "criteria": {
-      "hasFramedSlope": "2026-10-21 19:34:15 +0300"
-    },
-    "done": true
-  },
-  "framedblocks:recipes/building_blocks/framed_slope": {
-    "criteria": {
-      "hasFramedCube": "2026-10-21 19:34:15 +0300"
-    },
-    "done": true
-  },
-  "framedblocks:recipes/tools/powered_framing_saw": {
-    "criteria": {
-      "hasFramedCube": "2026-10-21 19:34:15 +0300"
-    },
-    "done": true
-  },
-  "framedblocks:recipes/building_blocks/framed_fancy_activator_rail_slope": {
-    "criteria": {
-      "hasFramedSlope": "2026-10-21 19:34:15 +0300"
-    },
-    "done": true
-  },
-  "framedblocks:recipes/building_blocks/framed_fancy_detector_rail_slope": {
-    "criteria": {
-      "hasFramedSlope": "2026-10-21 19:34:15 +0300"
-    },
-    "done": true
-  },
-  "framedblocks:recipes/building_blocks/framed_slab": {
-    "criteria": {
-      "hasFramedCube": "2026-10-21 19:34:15 +0300"
-    },
-    "done": true
-  },
-  "framedblocks:recipes/building_blocks/framed_corner_slope": {
-    "criteria": {
-      "hasFramedSlope": "2026-10-21 19:34:15 +0300"
-    },
-    "done": true
-  },
-  "framedblocks:recipes/building_blocks/framed_gold_pressure_plate": {
-    "criteria": {
-      "hasFramedCube": "2026-10-21 19:34:15 +0300"
-    },
-    "done": true
-  },
-  "framedblocks:recipes/tools/framed_blueprint": {
-    "criteria": {
-      "hasFramedCube": "2026-10-21 19:34:15 +0300"
-    },
-    "done": true
-  },
-  "framedblocks:recipes/tools/framing_saw": {
-    "criteria": {
-      "hasFramedCube": "2026-10-21 19:34:15 +0300"
-    },
-    "done": true
-  },
-  "framedblocks:recipes/building_blocks/framed_obsidian_pressure_plate": {
-    "criteria": {
-      "hasFramedCube": "2026-10-21 19:34:15 +0300"
-    },
-    "done": true
-  },
-  "framedblocks:recipes/building_blocks/framed_bars": {
-    "criteria": {
-      "hasFramedCube": "2026-10-21 19:34:15 +0300"
-    },
-    "done": true
-  },
-  "framedblocks:recipes/building_blocks/framed_pyramid_slab": {
-    "criteria": {
-      "hasFramedSlope": "2026-10-21 19:34:15 +0300"
-    },
-    "done": true
-  },
-  "framedblocks:recipes/building_blocks/framed_hanging_sign": {
-    "criteria": {
-      "hasFramedCube": "2026-10-21 19:34:15 +0300"
-    },
-    "done": true
-  },
-  "framedblocks:recipes/building_blocks/framed_fancy_activator_rail": {
-    "criteria": {
-      "hasFramedCube": "2026-10-21 19:34:15 +0300"
-    },
-    "done": true
-  },
-  "framedblocks:recipes/tools/framed_wrench": {
-    "criteria": {
-      "hasFramedCube": "2026-10-21 19:34:15 +0300"
-    },
-    "done": true
-  },
-  "framedblocks:recipes/building_blocks/framed_half_slope": {
-    "criteria": {
-      "hasFramedSlope": "2026-10-21 19:34:15 +0300"
-    },
-    "done": true
-  },
-  "framedblocks:recipes/building_blocks/framed_double_threeway_corner": {
-    "criteria": {
-      "hasFramedThreewayCorner": "2026-10-22 09:15:09 +0300"
-    },
-    "done": true
-  },
-  "framedblocks:recipes/building_blocks/framed_double_prism_corner": {
-    "criteria": {
-      "hasFramedPrismCorner": "2026-10-22 09:15:34 +0300"
-    },
-    "done": true
-  },
-  "create:recipes/misc/crafting/kinetics/mechanical_crafter": {
-    "criteria": {
-      "has_item": "2026-10-22 10:18:16 +0300"
-    },
-    "done": true
-  },
-  "create:recipes/misc/crafting/kinetics/rotation_speed_controller": {
-    "criteria": {
-      "has_item": "2026-10-22 10:18:16 +0300"
-    },
-    "done": true
-  },
-  "create:recipes/misc/crafting/kinetics/mechanical_arm": {
-    "criteria": {
-      "has_item": "2026-10-22 10:18:16 +0300"
-    },
-    "done": true
-  },
-  "create:recipes/misc/crafting/kinetics/brass_door": {
-    "criteria": {
-      "has_item": "2026-10-22 10:18:16 +0300"
-    },
-    "done": true
-  },
-  "create:recipes/misc/crafting/logistics/content_observer": {
-    "criteria": {
-      "has_item": "2026-10-22 10:18:16 +0300"
-    },
-    "done": true
-  },
-  "create:recipes/misc/crafting/logistics/display_link": {
-    "criteria": {
-      "has_item": "2026-10-22 10:18:16 +0300"
-    },
-    "done": true
-  },
-  "create:recipes/misc/crafting/logistics/stockpile_switch": {
-    "criteria": {
-      "has_item": "2026-10-22 10:18:16 +0300"
-    },
-    "done": true
-  },
-  "create:recipes/misc/crafting/kinetics/sequenced_gearshift": {
-    "criteria": {
-      "has_item": "2026-10-22 10:18:16 +0300"
-    },
-    "done": true
-  },
-  "create:recipes/misc/crafting/logistics/redstone_contact": {
-    "criteria": {
-      "has_item": "2026-10-22 10:18:16 +0300"
-    },
-    "done": true
-  },
-  "create:recipes/misc/crafting/kinetics/clockwork_bearing": {
-    "criteria": {
-      "has_item": "2026-10-22 10:18:16 +0300"
-    },
-    "done": true
-  },
-  "create:recipes/misc/crafting/kinetics/nixie_tube": {
-    "criteria": {
-      "has_item": "2026-10-22 10:18:16 +0300"
+      "has_planks": "2026-10-28 00:00:34 +0300"
     },
     "done": true
   },
   "create:recipes/building_blocks/crafting/logistics/lime_table_cloth": {
     "criteria": {
-      "has_wool": "2026-10-22 10:19:20 +0300"
+      "has_wool": "2026-10-28 00:00:45 +0300"
     },
     "done": true
   },
   "create:recipes/building_blocks/crafting/logistics/yellow_table_cloth": {
     "criteria": {
-      "has_wool": "2026-10-22 10:19:20 +0300"
+      "has_wool": "2026-10-28 00:00:45 +0300"
     },
     "done": true
   },
   "create:recipes/building_blocks/crafting/logistics/green_table_cloth": {
     "criteria": {
-      "has_wool": "2026-10-22 10:19:20 +0300"
+      "has_wool": "2026-10-28 00:00:45 +0300"
     },
     "done": true
   },
   "create:recipes/building_blocks/crafting/kinetics/brown_seat": {
     "criteria": {
-      "has_wool": "2026-10-22 10:19:20 +0300"
+      "has_wool": "2026-10-28 00:00:45 +0300"
     },
     "done": true
   },
   "create:recipes/building_blocks/crafting/logistics/magenta_table_cloth": {
     "criteria": {
-      "has_wool": "2026-10-22 10:19:20 +0300"
+      "has_wool": "2026-10-28 00:00:45 +0300"
     },
     "done": true
   },
   "create:recipes/building_blocks/crafting/kinetics/gray_seat": {
     "criteria": {
-      "has_wool": "2026-10-22 10:19:20 +0300"
+      "has_wool": "2026-10-28 00:00:45 +0300"
     },
     "done": true
   },
   "create:recipes/building_blocks/crafting/logistics/orange_table_cloth": {
     "criteria": {
-      "has_wool": "2026-10-22 10:19:20 +0300"
+      "has_wool": "2026-10-28 00:00:45 +0300"
     },
     "done": true
   },
   "minecraft:recipes/decorations/painting": {
     "criteria": {
-      "has_wool": "2026-10-22 10:19:20 +0300"
+      "has_wool": "2026-10-28 00:00:45 +0300"
     },
     "done": true
   },
   "create:recipes/building_blocks/crafting/kinetics/red_seat": {
     "criteria": {
-      "has_wool": "2026-10-22 10:19:20 +0300"
+      "has_wool": "2026-10-28 00:00:45 +0300"
     },
     "done": true
   },
   "create:recipes/building_blocks/crafting/kinetics/light_gray_seat": {
     "criteria": {
-      "has_wool": "2026-10-22 10:19:20 +0300"
+      "has_wool": "2026-10-28 00:00:45 +0300"
     },
     "done": true
   },
   "create:recipes/building_blocks/crafting/kinetics/blue_seat": {
     "criteria": {
-      "has_wool": "2026-10-22 10:19:20 +0300"
+      "has_wool": "2026-10-28 00:00:45 +0300"
     },
     "done": true
   },
   "create:recipes/building_blocks/crafting/kinetics/orange_seat": {
     "criteria": {
-      "has_wool": "2026-10-22 10:19:20 +0300"
+      "has_wool": "2026-10-28 00:00:45 +0300"
     },
     "done": true
   },
   "create:recipes/building_blocks/crafting/kinetics/magenta_seat": {
     "criteria": {
-      "has_wool": "2026-10-22 10:19:20 +0300"
+      "has_wool": "2026-10-28 00:00:45 +0300"
     },
     "done": true
   },
   "create:recipes/building_blocks/crafting/logistics/blue_table_cloth": {
     "criteria": {
-      "has_wool": "2026-10-22 10:19:20 +0300"
+      "has_wool": "2026-10-28 00:00:45 +0300"
     },
     "done": true
   },
   "create:recipes/building_blocks/crafting/kinetics/light_blue_seat": {
     "criteria": {
-      "has_wool": "2026-10-22 10:19:20 +0300"
+      "has_wool": "2026-10-28 00:00:45 +0300"
     },
     "done": true
   },
   "create:recipes/building_blocks/crafting/logistics/light_gray_table_cloth": {
     "criteria": {
-      "has_wool": "2026-10-22 10:19:20 +0300"
+      "has_wool": "2026-10-28 00:00:45 +0300"
     },
     "done": true
   },
   "create:recipes/building_blocks/crafting/kinetics/cyan_seat": {
     "criteria": {
-      "has_wool": "2026-10-22 10:19:20 +0300"
+      "has_wool": "2026-10-28 00:00:45 +0300"
     },
     "done": true
   },
   "create:recipes/building_blocks/crafting/logistics/cyan_table_cloth": {
     "criteria": {
-      "has_wool": "2026-10-22 10:19:20 +0300"
+      "has_wool": "2026-10-28 00:00:45 +0300"
     },
     "done": true
   },
   "minecraft:recipes/decorations/white_carpet": {
     "criteria": {
-      "has_white_wool": "2026-10-22 10:19:20 +0300"
+      "has_white_wool": "2026-10-28 00:00:45 +0300"
     },
     "done": true
   },
   "create:recipes/building_blocks/crafting/logistics/red_table_cloth": {
     "criteria": {
-      "has_wool": "2026-10-22 10:19:20 +0300"
+      "has_wool": "2026-10-28 00:00:45 +0300"
     },
     "done": true
   },
   "create:recipes/building_blocks/crafting/logistics/light_blue_table_cloth": {
     "criteria": {
-      "has_wool": "2026-10-22 10:19:20 +0300"
+      "has_wool": "2026-10-28 00:00:45 +0300"
     },
     "done": true
   },
   "create:recipes/building_blocks/crafting/logistics/white_table_cloth": {
     "criteria": {
-      "has_wool": "2026-10-22 10:19:20 +0300"
+      "has_wool": "2026-10-28 00:00:45 +0300"
     },
     "done": true
   },
   "create:recipes/building_blocks/crafting/logistics/gray_table_cloth": {
     "criteria": {
-      "has_wool": "2026-10-22 10:19:20 +0300"
+      "has_wool": "2026-10-28 00:00:45 +0300"
     },
     "done": true
   },
   "create:recipes/building_blocks/crafting/kinetics/pink_seat": {
     "criteria": {
-      "has_wool": "2026-10-22 10:19:20 +0300"
+      "has_wool": "2026-10-28 00:00:45 +0300"
     },
     "done": true
   },
   "create:recipes/building_blocks/crafting/kinetics/black_seat": {
     "criteria": {
-      "has_wool": "2026-10-22 10:19:20 +0300"
+      "has_wool": "2026-10-28 00:00:45 +0300"
     },
     "done": true
   },
   "create:recipes/building_blocks/crafting/logistics/black_table_cloth": {
     "criteria": {
-      "has_wool": "2026-10-22 10:19:20 +0300"
+      "has_wool": "2026-10-28 00:00:45 +0300"
     },
     "done": true
   },
   "minecraft:recipes/decorations/white_banner": {
     "criteria": {
-      "has_white_wool": "2026-10-22 10:19:20 +0300"
+      "has_white_wool": "2026-10-28 00:00:45 +0300"
     },
     "done": true
   },
   "create:recipes/building_blocks/crafting/logistics/pink_table_cloth": {
     "criteria": {
-      "has_wool": "2026-10-22 10:19:20 +0300"
+      "has_wool": "2026-10-28 00:00:45 +0300"
     },
     "done": true
   },
   "create:recipes/building_blocks/crafting/kinetics/white_seat": {
     "criteria": {
-      "has_wool": "2026-10-22 10:19:20 +0300"
+      "has_wool": "2026-10-28 00:00:45 +0300"
     },
     "done": true
   },
   "create:recipes/building_blocks/crafting/logistics/brown_table_cloth": {
     "criteria": {
-      "has_wool": "2026-10-22 10:19:20 +0300"
+      "has_wool": "2026-10-28 00:00:45 +0300"
     },
     "done": true
   },
   "create:recipes/building_blocks/crafting/kinetics/green_seat": {
     "criteria": {
-      "has_wool": "2026-10-22 10:19:20 +0300"
+      "has_wool": "2026-10-28 00:00:45 +0300"
     },
     "done": true
   },
   "create:recipes/building_blocks/crafting/kinetics/lime_seat": {
     "criteria": {
-      "has_wool": "2026-10-22 10:19:20 +0300"
+      "has_wool": "2026-10-28 00:00:45 +0300"
     },
     "done": true
   },
   "create:recipes/building_blocks/crafting/kinetics/purple_seat": {
     "criteria": {
-      "has_wool": "2026-10-22 10:19:20 +0300"
+      "has_wool": "2026-10-28 00:00:45 +0300"
     },
     "done": true
   },
   "minecraft:recipes/decorations/white_bed": {
     "criteria": {
-      "has_white_wool": "2026-10-22 10:19:20 +0300"
+      "has_white_wool": "2026-10-28 00:00:45 +0300"
     },
     "done": true
   },
   "create:recipes/building_blocks/crafting/kinetics/yellow_seat": {
     "criteria": {
-      "has_wool": "2026-10-22 10:19:20 +0300"
+      "has_wool": "2026-10-28 00:00:45 +0300"
     },
     "done": true
   },
   "create:recipes/building_blocks/crafting/logistics/purple_table_cloth": {
     "criteria": {
-      "has_wool": "2026-10-22 10:19:20 +0300"
+      "has_wool": "2026-10-28 00:00:45 +0300"
     },
     "done": true
   },
-  "minecraft:recipes/misc/charcoal": {
+  "framedblocks:recipes/building_blocks/framed_panel": {
     "criteria": {
-      "has_log": "2026-10-22 11:37:32 +0300"
+      "hasFramedCube": "2026-10-28 00:01:01 +0300"
     },
     "done": true
   },
-  "minecraft:recipes/building_blocks/oak_planks": {
+  "framedblocks:recipes/building_blocks/framed_flower_pot": {
     "criteria": {
-      "has_logs": "2026-10-22 11:37:32 +0300"
+      "hasFramedCube": "2026-10-28 00:01:01 +0300"
     },
     "done": true
   },
-  "minecraft:recipes/building_blocks/oak_wood": {
+  "framedblocks:recipes/building_blocks/framed_stone_pressure_plate": {
     "criteria": {
-      "has_log": "2026-10-22 11:37:32 +0300"
+      "hasFramedCube": "2026-10-28 00:01:01 +0300"
     },
     "done": true
   },
-  "copycats:recipes/misc/crafting/copycat_vertical_slice_from_conversion": {
+  "framedblocks:recipes/building_blocks/framed_one_way_window": {
     "criteria": {
-      "has_item": "2026-10-23 22:26:54 +0300"
+      "hasFramedCube": "2026-10-28 00:01:01 +0300"
     },
     "done": true
   },
-  "minecraft:recipes/building_blocks/stone_bricks": {
+  "framedblocks:recipes/building_blocks/framed_button": {
     "criteria": {
-      "has_stone": "2026-10-23 22:28:18 +0300"
+      "hasFramedCube": "2026-10-28 00:01:01 +0300"
     },
     "done": true
   },
-  "minecraft:recipes/building_blocks/stone_bricks_from_stone_stonecutting": {
+  "framedblocks:recipes/building_blocks/framed_stairs": {
     "criteria": {
-      "has_stone": "2026-10-23 22:28:18 +0300"
+      "hasFramedCube": "2026-10-28 00:01:01 +0300"
     },
     "done": true
   },
-  "minecraft:recipes/building_blocks/stone_slab": {
+  "framedblocks:recipes/building_blocks/framed_collapsible_block": {
     "criteria": {
-      "has_stone": "2026-10-23 22:28:18 +0300"
+      "hasFramedCube": "2026-10-28 00:01:01 +0300"
     },
     "done": true
   },
-  "minecraft:recipes/building_blocks/stone_stairs_from_stone_stonecutting": {
+  "framedblocks:recipes/building_blocks/framed_lattice_block": {
     "criteria": {
-      "has_stone": "2026-10-23 22:28:18 +0300"
+      "hasFramedCube": "2026-10-28 00:01:01 +0300"
     },
     "done": true
   },
-  "minecraft:recipes/redstone/stone_button": {
+  "framedblocks:recipes/building_blocks/framed_chest": {
     "criteria": {
-      "has_stone": "2026-10-23 22:28:18 +0300"
+      "hasFramedCube": "2026-10-28 00:01:01 +0300"
     },
     "done": true
   },
-  "minecraft:recipes/decorations/stonecutter": {
+  "framedblocks:recipes/building_blocks/framed_secret_storage": {
     "criteria": {
-      "has_stone": "2026-10-23 22:28:18 +0300"
+      "hasFramedCube": "2026-10-28 00:01:01 +0300"
     },
     "done": true
   },
-  "minecraft:recipes/redstone/stone_pressure_plate": {
+  "framedblocks:recipes/building_blocks/framed_soul_torch": {
     "criteria": {
-      "has_stone": "2026-10-23 22:28:18 +0300"
+      "hasFramedCube": "2026-10-28 00:01:01 +0300"
     },
     "done": true
   },
-  "minecraft:recipes/building_blocks/smooth_stone": {
+  "framedblocks:recipes/misc/framed_reinforcement": {
     "criteria": {
-      "has_stone": "2026-10-23 22:28:18 +0300"
+      "hasFramedCube": "2026-10-28 00:01:01 +0300"
     },
     "done": true
   },
-  "minecraft:recipes/decorations/stone_brick_walls_from_stone_stonecutting": {
+  "framedblocks:recipes/tools/framed_hammer": {
     "criteria": {
-      "has_stone": "2026-10-23 22:28:18 +0300"
+      "hasFramedCube": "2026-10-28 00:01:01 +0300"
     },
     "done": true
   },
-  "minecraft:recipes/building_blocks/stone_brick_slab_from_stone_stonecutting": {
+  "framedblocks:recipes/building_blocks/framed_target": {
     "criteria": {
-      "has_stone": "2026-10-23 22:28:18 +0300"
+      "hasFramedCube": "2026-10-28 00:01:01 +0300"
     },
     "done": true
   },
-  "minecraft:recipes/building_blocks/stone_brick_stairs_from_stone_stonecutting": {
+  "framedblocks:recipes/building_blocks/framed_ladder": {
     "criteria": {
-      "has_stone": "2026-10-23 22:28:18 +0300"
+      "hasFramedCube": "2026-10-28 00:01:01 +0300"
     },
     "done": true
   },
-  "minecraft:recipes/building_blocks/stone_slab_from_stone_stonecutting": {
+  "framedblocks:recipes/building_blocks/framed_item_frame": {
     "criteria": {
-      "has_stone": "2026-10-23 22:28:18 +0300"
+      "hasFramedCube": "2026-10-28 00:01:01 +0300"
     },
     "done": true
   },
-  "minecraft:recipes/building_blocks/chiseled_stone_bricks_stone_from_stonecutting": {
+  "framedblocks:recipes/building_blocks/framed_stone_button": {
     "criteria": {
-      "has_stone": "2026-10-23 22:28:18 +0300"
+      "hasFramedCube": "2026-10-28 00:01:01 +0300"
     },
     "done": true
   },
-  "minecraft:recipes/building_blocks/stone_stairs": {
+  "framedblocks:recipes/tools/framed_screwdriver": {
     "criteria": {
-      "has_stone": "2026-10-23 22:28:18 +0300"
+      "hasFramedCube": "2026-10-28 00:01:01 +0300"
     },
     "done": true
   },
-  "minecraft:recipes/decorations/smoker": {
+  "framedblocks:recipes/building_blocks/framed_pressure_plate": {
     "criteria": {
-      "has_furnace": "2026-10-24 20:58:57 +0300"
+      "hasFramedCube": "2026-10-28 00:01:01 +0300"
     },
     "done": true
   },
-  "create:recipes/building_blocks/spruce_window_pane": {
+  "framedblocks:recipes/building_blocks/framed_tube": {
     "criteria": {
-      "has_ingredient": "2026-10-24 20:59:57 +0300"
+      "hasFramedCube": "2026-10-28 00:01:01 +0300"
     },
     "done": true
   },
-  "create:recipes/building_blocks/dark_oak_window_pane": {
+  "framedblocks:recipes/building_blocks/framed_vertical_stairs": {
     "criteria": {
-      "has_ingredient": "2026-10-25 22:42:14 +0300"
+      "hasFramedCube": "2026-10-28 00:01:01 +0300"
+    },
+    "done": true
+  },
+  "framedblocks:recipes/building_blocks/framed_lever": {
+    "criteria": {
+      "hasFramedCube": "2026-10-28 00:01:01 +0300"
+    },
+    "done": true
+  },
+  "framedblocks:recipes/building_blocks/framed_collapsible_copycat_block": {
+    "criteria": {
+      "hasFramedCube": "2026-10-28 00:01:01 +0300"
+    },
+    "done": true
+  },
+  "framedblocks:recipes/building_blocks/framed_sign": {
+    "criteria": {
+      "hasFramedCube": "2026-10-28 00:01:01 +0300"
+    },
+    "done": true
+  },
+  "framedblocks:recipes/building_blocks/framed_fancy_rail": {
+    "criteria": {
+      "hasFramedCube": "2026-10-28 00:01:01 +0300"
+    },
+    "done": true
+  },
+  "framedblocks:recipes/building_blocks/framed_corner_pillar": {
+    "criteria": {
+      "hasFramedCube": "2026-10-28 00:01:01 +0300"
+    },
+    "done": true
+  },
+  "framedblocks:recipes/building_blocks/framed_fancy_detector_rail": {
+    "criteria": {
+      "hasFramedCube": "2026-10-28 00:01:01 +0300"
+    },
+    "done": true
+  },
+  "framedblocks:recipes/building_blocks/framed_glowing_cube": {
+    "criteria": {
+      "hasFramedCube": "2026-10-28 00:01:01 +0300"
+    },
+    "done": true
+  },
+  "framedblocks:recipes/building_blocks/framed_fence_gate": {
+    "criteria": {
+      "hasFramedCube": "2026-10-28 00:01:01 +0300"
+    },
+    "done": true
+  },
+  "framedblocks:recipes/tools/framed_axe": {
+    "criteria": {
+      "hasFramedCube": "2026-10-28 00:01:01 +0300"
+    },
+    "done": true
+  },
+  "framedblocks:recipes/building_blocks/framed_fancy_powered_rail": {
+    "criteria": {
+      "hasFramedCube": "2026-10-28 00:01:01 +0300"
+    },
+    "done": true
+  },
+  "framedblocks:recipes/building_blocks/framed_chiseled_bookshelf": {
+    "criteria": {
+      "hasFramedCube": "2026-10-28 00:01:01 +0300"
+    },
+    "done": true
+  },
+  "framedblocks:recipes/building_blocks/framed_redstone_torch": {
+    "criteria": {
+      "hasFramedCube": "2026-10-28 00:01:01 +0300"
+    },
+    "done": true
+  },
+  "framedblocks:recipes/building_blocks/framed_door": {
+    "criteria": {
+      "hasFramedCube": "2026-10-28 00:01:01 +0300"
+    },
+    "done": true
+  },
+  "framedblocks:recipes/building_blocks/framed_iron_pressure_plate": {
+    "criteria": {
+      "hasFramedCube": "2026-10-28 00:01:01 +0300"
+    },
+    "done": true
+  },
+  "framedblocks:recipes/building_blocks/framed_pane": {
+    "criteria": {
+      "hasFramedCube": "2026-10-28 00:01:01 +0300"
+    },
+    "done": true
+  },
+  "framedblocks:recipes/building_blocks/framed_bookshelf": {
+    "criteria": {
+      "hasFramedCube": "2026-10-28 00:01:01 +0300"
+    },
+    "done": true
+  },
+  "framedblocks:recipes/building_blocks/framed_fence": {
+    "criteria": {
+      "hasFramedCube": "2026-10-28 00:01:01 +0300"
+    },
+    "done": true
+  },
+  "framedblocks:recipes/building_blocks/framed_redstone_block": {
+    "criteria": {
+      "hasFramedCube": "2026-10-28 00:01:01 +0300"
+    },
+    "done": true
+  },
+  "framedblocks:recipes/building_blocks/framed_bouncy_cube": {
+    "criteria": {
+      "hasFramedCube": "2026-10-28 00:01:01 +0300"
+    },
+    "done": true
+  },
+  "framedblocks:recipes/building_blocks/framed_torch": {
+    "criteria": {
+      "hasFramedCube": "2026-10-28 00:01:01 +0300"
+    },
+    "done": true
+  },
+  "framedblocks:recipes/building_blocks/framed_thick_lattice": {
+    "criteria": {
+      "hasFramedCube": "2026-10-28 00:01:01 +0300"
+    },
+    "done": true
+  },
+  "framedblocks:recipes/tools/framed_key": {
+    "criteria": {
+      "hasFramedCube": "2026-10-28 00:01:01 +0300"
+    },
+    "done": true
+  },
+  "framedblocks:recipes/building_blocks/framed_wall": {
+    "criteria": {
+      "hasFramedCube": "2026-10-28 00:01:01 +0300"
+    },
+    "done": true
+  },
+  "framedblocks:recipes/building_blocks/framed_slope": {
+    "criteria": {
+      "hasFramedCube": "2026-10-28 00:01:01 +0300"
+    },
+    "done": true
+  },
+  "framedblocks:recipes/tools/powered_framing_saw": {
+    "criteria": {
+      "hasFramedCube": "2026-10-28 00:01:01 +0300"
+    },
+    "done": true
+  },
+  "framedblocks:recipes/building_blocks/framed_slab": {
+    "criteria": {
+      "hasFramedCube": "2026-10-28 00:01:01 +0300"
+    },
+    "done": true
+  },
+  "framedblocks:recipes/building_blocks/framed_gold_pressure_plate": {
+    "criteria": {
+      "hasFramedCube": "2026-10-28 00:01:01 +0300"
+    },
+    "done": true
+  },
+  "framedblocks:recipes/tools/framed_blueprint": {
+    "criteria": {
+      "hasFramedCube": "2026-10-28 00:01:01 +0300"
+    },
+    "done": true
+  },
+  "framedblocks:recipes/tools/framing_saw": {
+    "criteria": {
+      "hasFramedCube": "2026-10-28 00:01:01 +0300"
+    },
+    "done": true
+  },
+  "framedblocks:recipes/building_blocks/framed_obsidian_pressure_plate": {
+    "criteria": {
+      "hasFramedCube": "2026-10-28 00:01:01 +0300"
+    },
+    "done": true
+  },
+  "framedblocks:recipes/building_blocks/framed_bars": {
+    "criteria": {
+      "hasFramedCube": "2026-10-28 00:01:01 +0300"
+    },
+    "done": true
+  },
+  "framedblocks:recipes/building_blocks/framed_hanging_sign": {
+    "criteria": {
+      "hasFramedCube": "2026-10-28 00:01:01 +0300"
+    },
+    "done": true
+  },
+  "framedblocks:recipes/building_blocks/framed_fancy_activator_rail": {
+    "criteria": {
+      "hasFramedCube": "2026-10-28 00:01:01 +0300"
+    },
+    "done": true
+  },
+  "framedblocks:recipes/tools/framed_wrench": {
+    "criteria": {
+      "hasFramedCube": "2026-10-28 00:01:01 +0300"
+    },
+    "done": true
+  },
+  "framedblocks:recipes/building_blocks/framed_adj_double_panel": {
+    "criteria": {
+      "hasFramedCollapsibleBlock": "2026-10-28 00:01:07 +0300"
+    },
+    "done": true
+  },
+  "framedblocks:recipes/building_blocks/framed_adj_double_slab": {
+    "criteria": {
+      "hasFramedCollapsibleBlock": "2026-10-28 00:01:07 +0300"
+    },
+    "done": true
+  },
+  "framedblocks:recipes/building_blocks/framed_adj_double_copycat_panel": {
+    "criteria": {
+      "hasFramedCollapsibleCopycatBlock": "2026-10-28 00:01:09 +0300"
+    },
+    "done": true
+  },
+  "framedblocks:recipes/building_blocks/framed_adj_double_copycat_slab": {
+    "criteria": {
+      "hasFramedCollapsibleCopycatBlock": "2026-10-28 00:01:09 +0300"
+    },
+    "done": true
+  },
+  "framedblocks:recipes/building_blocks/framed_elevated_slope_slab_rotate_to_framed_extended_slope_panel": {
+    "criteria": {
+      "hasFramedElevatedSlopeSlab": "2026-10-28 00:01:11 +0300"
+    },
+    "done": true
+  },
+  "framedblocks:recipes/building_blocks/framed_elevated_double_slope_slab": {
+    "criteria": {
+      "hasFramedSlopeSlab": "2026-10-28 00:01:13 +0300"
+    },
+    "done": true
+  },
+  "framedblocks:recipes/building_blocks/framed_elevated_slope_slab": {
+    "criteria": {
+      "hasFramedSlopeSlab": "2026-10-28 00:01:13 +0300"
+    },
+    "done": true
+  },
+  "framedblocks:recipes/building_blocks/framed_slope_slab_rotate_to_framed_slope_panel": {
+    "criteria": {
+      "hasFramedSlopeSlab": "2026-10-28 00:01:13 +0300"
+    },
+    "done": true
+  },
+  "framedblocks:recipes/building_blocks/framed_double_slope_slab": {
+    "criteria": {
+      "hasFramedSlopeSlab": "2026-10-28 00:01:13 +0300"
+    },
+    "done": true
+  },
+  "framedblocks:recipes/building_blocks/framed_stacked_slope_slab": {
+    "criteria": {
+      "hasFramedSlopeSlab": "2026-10-28 00:01:13 +0300"
+    },
+    "done": true
+  },
+  "framedblocks:recipes/building_blocks/framed_flat_slope_slab_corner": {
+    "criteria": {
+      "hasFramedSlopeSlab": "2026-10-28 00:01:13 +0300"
+    },
+    "done": true
+  },
+  "framedblocks:recipes/building_blocks/framed_compound_slope_slab": {
+    "criteria": {
+      "hasFramedSlopeSlab": "2026-10-28 00:01:13 +0300"
+    },
+    "done": true
+  },
+  "framedblocks:recipes/building_blocks/framed_flat_inner_slope_slab_corner": {
+    "criteria": {
+      "hasFramedSlopeSlab": "2026-10-28 00:01:13 +0300"
+    },
+    "done": true
+  },
+  "framedblocks:recipes/building_blocks/framed_extended_slope_panel_rotate_to_framed_elevated_slope_slab": {
+    "criteria": {
+      "hasFramedExtendedSlopePanel": "2026-10-28 00:01:22 +0300"
+    },
+    "done": true
+  },
+  "framedblocks:recipes/building_blocks/framed_stacked_slope_panel": {
+    "criteria": {
+      "hasFramedSlopePanel": "2026-10-28 00:01:23 +0300"
+    },
+    "done": true
+  },
+  "framedblocks:recipes/building_blocks/framed_extended_slope_panel": {
+    "criteria": {
+      "hasFramedSlopePanel": "2026-10-28 00:01:23 +0300"
+    },
+    "done": true
+  },
+  "framedblocks:recipes/building_blocks/framed_pyramid": {
+    "criteria": {
+      "hasFramedSlopePanel": "2026-10-28 00:01:23 +0300"
+    },
+    "done": true
+  },
+  "framedblocks:recipes/building_blocks/framed_large_inner_corner_slope_panel": {
+    "criteria": {
+      "hasFramedSlopePanel": "2026-10-28 00:01:23 +0300"
+    },
+    "done": true
+  },
+  "framedblocks:recipes/building_blocks/framed_slope_panel_rotate_to_framed_slope_slab": {
+    "criteria": {
+      "hasFramedSlopePanel": "2026-10-28 00:01:23 +0300"
+    },
+    "done": true
+  },
+  "framedblocks:recipes/building_blocks/framed_extended_double_slope_panel": {
+    "criteria": {
+      "hasFramedSlopePanel": "2026-10-28 00:01:23 +0300"
+    },
+    "done": true
+  },
+  "framedblocks:recipes/building_blocks/framed_small_inner_corner_slope_panel": {
+    "criteria": {
+      "hasFramedSlopePanel": "2026-10-28 00:01:23 +0300"
+    },
+    "done": true
+  },
+  "framedblocks:recipes/building_blocks/framed_compound_slope_panel": {
+    "criteria": {
+      "hasFramedSlopePanel": "2026-10-28 00:01:23 +0300"
+    },
+    "done": true
+  },
+  "framedblocks:recipes/building_blocks/framed_small_corner_slope_panel": {
+    "criteria": {
+      "hasFramedSlopePanel": "2026-10-28 00:01:23 +0300"
+    },
+    "done": true
+  },
+  "framedblocks:recipes/building_blocks/framed_flat_inner_slope_panel_corner": {
+    "criteria": {
+      "hasFramedSlopePanel": "2026-10-28 00:01:23 +0300"
+    },
+    "done": true
+  },
+  "framedblocks:recipes/building_blocks/framed_large_corner_slope_panel": {
+    "criteria": {
+      "hasFramedSlopePanel": "2026-10-28 00:01:23 +0300"
+    },
+    "done": true
+  },
+  "framedblocks:recipes/building_blocks/framed_flat_slope_panel_corner": {
+    "criteria": {
+      "hasFramedSlopePanel": "2026-10-28 00:01:23 +0300"
+    },
+    "done": true
+  },
+  "framedblocks:recipes/building_blocks/framed_double_slope_panel": {
+    "criteria": {
+      "hasFramedSlopePanel": "2026-10-28 00:01:23 +0300"
     },
     "done": true
   },
