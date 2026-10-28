@@ -1,18 +1,13 @@
 
 package net.ziftech.copycats_extended.client.model;
 
-import com.simibubi.create.foundation.model.BakedModelWrapperWithData;
-import com.simibubi.create.foundation.model.BakedQuadHelper;
-
-import com.copycatsplus.copycats.foundation.copycat.model.assembly.AssemblyTransform;
-import com.copycatsplus.copycats.foundation.copycat.model.assembly.CopycatRenderContext;
-import com.copycatsplus.copycats.foundation.copycat.model.assembly.MutableAABB;
-import com.copycatsplus.copycats.foundation.copycat.model.assembly.MutableCullFace;
-import com.copycatsplus.copycats.foundation.copycat.model.assembly.MutableVec3;
+import com.copycatsplus.copycats.foundation.copycat.model.assembly.*;
+import com.copycatsplus.copycats.foundation.copycat.model.assembly.MutableQuad;
 import com.copycatsplus.copycats.foundation.copycat.model.assembly.quad.QuadSlope;
 import com.copycatsplus.copycats.foundation.copycat.model.assembly.quad.QuadTransform;
 import com.copycatsplus.copycats.foundation.copycat.model.assembly.quad.QuadUVUpdate;
-
+import com.simibubi.create.foundation.model.BakedModelWrapperWithData;
+import com.simibubi.create.foundation.model.BakedQuadHelper;
 import net.minecraft.client.renderer.RenderType;
 import net.minecraft.client.renderer.block.model.BakedQuad;
 import net.minecraft.client.renderer.texture.TextureAtlasSprite;
@@ -25,12 +20,9 @@ import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.block.state.properties.Half;
 import net.minecraft.world.phys.AABB;
 import net.minecraft.world.phys.Vec3;
-
 import net.neoforged.neoforge.client.model.data.ModelData;
-
 import net.ziftech.copycats_extended.block.CopycatAdvSlopeBlock;
 import net.ziftech.copycats_extended.block.SlopeMode;
-
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
@@ -38,7 +30,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
-public class SlopeTextureBakedModel extends BakedModelWrapperWithData {
+public class  SlopeTextureBakedModel extends BakedModelWrapperWithData {
 
   private static final long MATERIAL_RANDOM_SEED = 42L;
   private static final double UV_DETERMINANT_EPSILON = 1.0E-8;
@@ -82,66 +74,106 @@ public class SlopeTextureBakedModel extends BakedModelWrapperWithData {
   }
 
   /**
-   * Диагностический отбор секции по её исходному положению.
-   *
-   * Условие minZ > 0 пока является проверочным предположением.
-   * После теста его нужно уточнить по фактическим границам select.
+   * Секция должна содержать QuadSlope(UP).
+   * minZ == 0 тоже допустим: первая секция является частью боковой грани.
    */
   private static boolean isTargetSideSection(
     MutableAABB select,
     QuadUVUpdate uvUpdate
   ) {
-    if (!hasUpperSlopeTransform(uvUpdate)) {
-      return false;
-    }
-
-    return select.minZ > SECTION_EPSILON;
+    return hasUpperSlopeTransform(uvUpdate);
   }
 
   /**
-   * Для выбранных секций отключает автоматический пересчёт UV
-   * и сводит UV всех четырёх вершин к одной точке текстуры.
+   * Проверяет, что четырёхугольник находится на боковой плоскости
+   * x = 0 или x = 1 и имеет нормаль вдоль X.
+   */
+  private static boolean isTargetTriangleSide(
+    com.copycatsplus.copycats.foundation.copycat.model.assembly.MutableQuad quad
+  ) {
+    MutableVec3 normal = quad.computeFaceNormal();
+
+    boolean leftSide =
+      normal.x < -0.99
+        && quad.vertices.stream()
+        .allMatch(v -> Math.abs(v.xyz.x) < 1.0E-5);
+
+    boolean rightSide =
+      normal.x > 0.99
+        && quad.vertices.stream()
+        .allMatch(v -> Math.abs(v.xyz.x - 1.0) < 1.0E-5);
+
+    return leftSide || rightSide;
+  }
+
+  /**
+   * Для боковых граней пропускает автоматический QuadUVUpdate
+   * и назначает UV по координатам самой грани.
+   *
+   * Все остальные грани обрабатываются исходными трансформациями.
    */
   private static QuadTransform preserveTriangleSideUv(
     QuadUVUpdate original
   ) {
     return (quad, sprite) -> {
+      // Сначала выполняем геометрические трансформации,
+      // пропуская автоматический пересчёт UV.
       for (QuadTransform transform : original.transforms()) {
+        if (transform instanceof QuadUVUpdate) {
+          continue;
+        }
+
         if (!transform.transformQuad(quad, sprite)) {
           return false;
         }
       }
 
-      MutableVec3 normal = quad.computeFaceNormal();
+      // Не боковая грань — восстанавливаем обычную обработку UV.
+      if (!isTargetTriangleSide(quad)) {
+        for (QuadTransform transform : original.transforms()) {
+          if (!transform.transformQuad(quad, sprite)) {
+            return false;
+          }
+        }
 
-      System.out.printf(
-        "UV QUAD: normal=(%.4f, %.4f, %.4f), vertices=%s%n",
-        normal.x,
-        normal.y,
-        normal.z,
-        quad.vertices.stream()
-          .map(vertex -> String.format(
-            "(%.5f, %.5f, %.5f)",
-            vertex.xyz.x,
-            vertex.xyz.y,
-            vertex.xyz.z
-          ))
-          .toList()
-      );
+        return true;
+      }
 
+      // Только боковые грани x = 0 и x = 1.
+      setSideUv(quad, sprite);
       return true;
     };
+  }
+
+  /**
+   * Отображает текстуру на боковой плоскости через координаты Z и Y.
+   *
+   * ВАЖНО: этот метод требует доступа к UV-координатам MutableVertex.
+   * Присваивание ниже нужно согласовать с фактическим API MutableVertex
+   * в используемой версии Copycats+.
+   */
+  private static void setSideUv(
+    com.copycatsplus.copycats.foundation.copycat.model.assembly.MutableQuad quad,
+    TextureAtlasSprite sprite
+  ) {
+    for (var vertex : quad.vertices) {
+      double z = vertex.xyz.z;
+      double y = vertex.xyz.y;
+
+      float u = sprite.getU((float) (z * 16.0));
+      float v = sprite.getV((float) ((1.0 - y) * 16.0));
+
+      vertex.uv.set(u, v);
+    }
   }
 
   private static QuadTransform[] adjustTransforms(
     MutableAABB select,
     QuadTransform[] transforms
   ) {
-    // Диагностически изменяем UV только у секций,
-    // содержащих исключительно QuadUVUpdate.
-    // Секции с дополнительными трансформациями не трогаем.
     if (transforms.length == 1
-      && transforms[0] instanceof QuadUVUpdate uvUpdate) {
+      && transforms[0] instanceof QuadUVUpdate uvUpdate
+      && isTargetSideSection(select, uvUpdate)) {
       return new QuadTransform[] {
         preserveTriangleSideUv(uvUpdate)
       };
