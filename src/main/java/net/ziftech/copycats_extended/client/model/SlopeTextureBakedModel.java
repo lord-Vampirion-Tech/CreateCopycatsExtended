@@ -279,7 +279,18 @@ public class SlopeTextureBakedModel extends BakedModelWrapperWithData {
     List<BakedQuad> quads =
       sourceModel.getQuads(state, side, random);
 
-    if (state == null || !shouldTransform(side)) {
+    if (state == null) {
+      return quads;
+    }
+
+    if (shouldTransformSideSourceQuads(side)) {
+      quads = transformSideSourceQuads(
+        quads,
+        getMaterialSideQuads(state)
+      );
+    }
+
+    if (!shouldTransform(side)) {
       return quads;
     }
 
@@ -306,6 +317,17 @@ public class SlopeTextureBakedModel extends BakedModelWrapperWithData {
         renderType
       );
 
+    if (shouldTransformSideSourceQuads(side)) {
+      quads = transformSideSourceQuads(
+        quads,
+        getMaterialSideQuads(
+          state,
+          data,
+          renderType
+        )
+      );
+    }
+
     if (!shouldTransform(side)) {
       return quads;
     }
@@ -318,6 +340,85 @@ public class SlopeTextureBakedModel extends BakedModelWrapperWithData {
         renderType
       )
     );
+  }
+
+  /**
+   * Боковые стороны скоса соответствуют двум направлениям,
+   * перпендикулярным направлению FACING.
+   *
+   * Для side == null обрабатываем также не-cull шаблонные квады,
+   * но ниже заменяются только квады с боковым направлением.
+   */
+  private boolean shouldTransformSideSourceQuads(
+    @Nullable Direction side
+  ) {
+    if (mode != SlopeMode.SECOND) {
+      return false;
+    }
+
+    if (side == null) {
+      return true;
+    }
+
+    Direction facing = slopeState.getValue(CopycatAdvSlopeBlock.FACING);
+    return side == facing.getClockWise()
+      || side == facing.getCounterClockWise();
+  }
+
+  /**
+   * Переносит UV и спрайт с исходной грани материала на шаблонные
+   * боковые квады. Геометрическая обёртка затем применяет этот UV-map
+   * только к секциям, содержащим QuadSlope(UP).
+   */
+  private List<BakedQuad> transformSideSourceQuads(
+    List<BakedQuad> quads,
+    List<BakedQuad> materialSideQuads
+  ) {
+    if (materialSideQuads.isEmpty()) {
+      return quads;
+    }
+
+    Direction facing = slopeState.getValue(CopycatAdvSlopeBlock.FACING);
+    Direction clockwise = facing.getClockWise();
+    Direction counterClockwise = facing.getCounterClockWise();
+    boolean ceiling =
+      slopeState.getValue(CopycatAdvSlopeBlock.HALF) == Half.TOP;
+    Direction materialSide = getMaterialSide();
+
+    List<BakedQuad> result = new ArrayList<>(quads.size());
+
+    for (BakedQuad quad : quads) {
+      if (quad.getDirection() != clockwise
+        && quad.getDirection() != counterClockwise) {
+        result.add(quad);
+        continue;
+      }
+
+      for (BakedQuad materialQuad : materialSideQuads) {
+        int[] vertices = quad.getVertices().clone();
+        UvPlane uvPlane = UvPlane.from(
+          materialQuad,
+          materialSide,
+          ceiling
+        );
+
+        for (int i = 0; i < 4; i++) {
+          Vec3 pos = BakedQuadHelper.getXYZ(vertices, i);
+          BakedQuadHelper.setU(vertices, i, uvPlane.u(pos.y, pos.z));
+          BakedQuadHelper.setV(vertices, i, uvPlane.v(pos.y, pos.z));
+        }
+
+        result.add(new BakedQuad(
+          vertices,
+          materialQuad.getTintIndex(),
+          quad.getDirection(),
+          materialQuad.getSprite(),
+          quad.isShade()
+        ));
+      }
+    }
+
+    return result;
   }
 
   /**
