@@ -67,7 +67,10 @@ public class CopycatAdvSlopeModelCore extends CopycatSlopeModelCore {
         super.emitCopycatQuads(
           key,
           state,
-          SlopeTextureBakedModel.wrapAssemblyContext(context),
+          SlopeTextureBakedModel.wrapAssemblyContext(
+            context,
+            state.getValue(CopycatAdvSlopeBlock.FACING)
+          ),
           material
         );
       } else {
