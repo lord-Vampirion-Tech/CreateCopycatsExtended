@@ -343,26 +343,17 @@ public class SlopeTextureBakedModel extends BakedModelWrapperWithData {
   }
 
   /**
-   * Боковые стороны скоса соответствуют двум направлениям,
-   * перпендикулярным направлению FACING.
-   *
-   * Для side == null обрабатываем также не-cull шаблонные квады,
-   * но ниже заменяются только квады с боковым направлением.
+   * В исходной геометрии assembleSlope боковые плоскости находятся
+   * на WEST/EAST (X = 0 и X = 1). AssemblyTransform поворачивает
+   * их вместе с остальной геометрией, поэтому FACING здесь не нужен.
    */
   private boolean shouldTransformSideSourceQuads(
     @Nullable Direction side
   ) {
-    if (mode != SlopeMode.SECOND) {
-      return false;
-    }
-
-    if (side == null) {
-      return true;
-    }
-
-    Direction facing = slopeState.getValue(CopycatAdvSlopeBlock.FACING);
-    return side == facing.getClockWise()
-      || side == facing.getCounterClockWise();
+    return mode == SlopeMode.SECOND
+      && (side == null
+        || side == Direction.WEST
+        || side == Direction.EAST);
   }
 
   /**
