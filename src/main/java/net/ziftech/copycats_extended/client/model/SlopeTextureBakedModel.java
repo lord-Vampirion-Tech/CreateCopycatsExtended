@@ -30,11 +30,10 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
-public class  SlopeTextureBakedModel extends BakedModelWrapperWithData {
+public class SlopeTextureBakedModel extends BakedModelWrapperWithData {
 
   private static final long MATERIAL_RANDOM_SEED = 42L;
   private static final double UV_DETERMINANT_EPSILON = 1.0E-8;
-  private static final double SECTION_EPSILON = 1.0E-8;
 
   private final BakedModel sourceModel;
   private final BlockState slopeState;
@@ -61,11 +60,10 @@ public class  SlopeTextureBakedModel extends BakedModelWrapperWithData {
   }
 
   /**
-   * Проверяет наличие QuadSlope(UP) среди вложенных трансформаций.
+   * Проверяет, содержит ли UV-трансформация наклон верхней грани.
+   * Только такие секции участвуют в дополнительном remap боковых UV.
    */
-  private static boolean hasUpperSlopeTransform(
-    QuadUVUpdate uvUpdate
-  ) {
+  private static boolean hasUpperSlopeTransform(QuadUVUpdate uvUpdate) {
     return Arrays.stream(uvUpdate.transforms())
       .anyMatch(transform ->
         transform instanceof QuadSlope slope
@@ -74,109 +72,71 @@ public class  SlopeTextureBakedModel extends BakedModelWrapperWithData {
   }
 
   /**
-   * Секция должна содержать QuadSlope(UP).
-   * minZ == 0 тоже допустим: первая секция является частью боковой грани.
+   * Целевые боковые грани лежат на плоскостях x = 0 и x = 1.
    */
-  private static boolean isTargetSideSection(
-    MutableAABB select,
-    QuadUVUpdate uvUpdate
-  ) {
-    return hasUpperSlopeTransform(uvUpdate);
-  }
-
-  /**
-   * Проверяет, что четырёхугольник находится на боковой плоскости
-   * x = 0 или x = 1 и имеет нормаль вдоль X.
-   */
-  private static boolean isTargetTriangleSide(
-    com.copycatsplus.copycats.foundation.copycat.model.assembly.MutableQuad quad
-  ) {
+  private static boolean isTargetTriangleSide(MutableQuad quad) {
     MutableVec3 normal = quad.computeFaceNormal();
 
     boolean leftSide =
       normal.x < -0.99
         && quad.vertices.stream()
-        .allMatch(v -> Math.abs(v.xyz.x) < 1.0E-5);
+        .allMatch(vertex -> Math.abs(vertex.xyz.x) < 1.0E-5);
 
     boolean rightSide =
       normal.x > 0.99
         && quad.vertices.stream()
-        .allMatch(v -> Math.abs(v.xyz.x - 1.0) < 1.0E-5);
+        .allMatch(vertex -> Math.abs(vertex.xyz.x - 1.0) < 1.0E-5);
 
     return leftSide || rightSide;
   }
 
   /**
-   * Для боковых граней пропускает автоматический QuadUVUpdate
-   * и назначает UV по координатам самой грани.
+   * Применяет геометрические трансформации один раз.
    *
-   * Все остальные грани обрабатываются исходными трансформациями.
+   * Для боковых граней UV пересчитываются по аффинной UV-плоскости,
+   * построенной из исходных координат и UV вершин этой же грани.
+   * Для остальных граней сохраняется стандартный алгоритм QuadUVUpdate.
    */
-  private static QuadTransform preserveTriangleSideUv(
-    QuadUVUpdate original
-  ) {
+  private static QuadTransform remapSideUv(QuadUVUpdate original) {
     return (quad, sprite) -> {
-      // Сначала выполняем геометрические трансформации,
-      // пропуская автоматический пересчёт UV.
+      List<MutableVec3> originalPositions = new ArrayList<>(4);
+      for (var vertex : quad.vertices) {
+        originalPositions.add(vertex.xyz.copy());
+      }
+
       for (QuadTransform transform : original.transforms()) {
-        if (transform instanceof QuadUVUpdate) {
-          continue;
-        }
-
-        if (!transform.transformQuad(quad, sprite)) {
-          return false;
-        }
+        transform.transformQuad(quad, sprite);
       }
 
-      // Не боковая грань — восстанавливаем обычную обработку UV.
-      if (!isTargetTriangleSide(quad)) {
-        for (QuadTransform transform : original.transforms()) {
-          if (!transform.transformQuad(quad, sprite)) {
-            return false;
+      if (isTargetTriangleSide(quad)) {
+        SideUvPlane plane = SideUvPlane.from(originalPositions, quad);
+
+        if (plane != null) {
+          for (var vertex : quad.vertices) {
+            MutableVec3 position = vertex.xyz;
+            vertex.uv.set(
+              plane.u(position.y, position.z),
+              plane.v(position.y, position.z)
+            );
           }
-        }
 
-        return true;
+          return true;
+        }
       }
 
-      // Только боковые грани x = 0 и x = 1.
-      setSideUv(quad, sprite);
+      // Вне целевой боковой грани оставляем стандартный UV-update.
+      QuadUVUpdate.updateUV(quad, sprite, originalPositions);
       return true;
     };
   }
 
-  /**
-   * Отображает текстуру на боковой плоскости через координаты Z и Y.
-   *
-   * ВАЖНО: этот метод требует доступа к UV-координатам MutableVertex.
-   * Присваивание ниже нужно согласовать с фактическим API MutableVertex
-   * в используемой версии Copycats+.
-   */
-  private static void setSideUv(
-    com.copycatsplus.copycats.foundation.copycat.model.assembly.MutableQuad quad,
-    TextureAtlasSprite sprite
-  ) {
-    for (var vertex : quad.vertices) {
-      double z = vertex.xyz.z;
-      double y = vertex.xyz.y;
-
-      float u = sprite.getU((float) (z * 16.0));
-      float v = sprite.getV((float) ((1.0 - y) * 16.0));
-
-      vertex.uv.set(u, v);
-    }
-  }
-
   private static QuadTransform[] adjustTransforms(
-    MutableAABB select,
     QuadTransform[] transforms
   ) {
     if (transforms.length == 1
       && transforms[0] instanceof QuadUVUpdate uvUpdate
-      && isTargetSideSection(select, uvUpdate)) {
-      return new QuadTransform[] {
-        preserveTriangleSideUv(uvUpdate)
-      };
+      && hasUpperSlopeTransform(uvUpdate)) {
+      return new QuadTransform[] { remapSideUv(uvUpdate) };
     }
 
     return transforms;
@@ -187,9 +147,7 @@ public class  SlopeTextureBakedModel extends BakedModelWrapperWithData {
 
     private final CopycatRenderContext delegate;
 
-    private TriangleSideUvContext(
-      CopycatRenderContext delegate
-    ) {
+    private TriangleSideUvContext(CopycatRenderContext delegate) {
       this.delegate = delegate;
     }
 
@@ -200,12 +158,7 @@ public class  SlopeTextureBakedModel extends BakedModelWrapperWithData {
       MutableAABB select,
       MutableCullFace cull
     ) {
-      delegate.assemblePiece(
-        assemblyTransform,
-        offset,
-        select,
-        cull
-      );
+      delegate.assemblePiece(assemblyTransform, offset, select, cull);
     }
 
     @Override
@@ -216,23 +169,12 @@ public class  SlopeTextureBakedModel extends BakedModelWrapperWithData {
       MutableCullFace cull,
       QuadTransform... transforms
     ) {
-      System.out.printf(
-        "SLOPE SECTION: min=(%.5f, %.5f, %.5f), max=(%.5f, %.5f, %.5f), transforms=%s%n",
-        select.minX,
-        select.minY,
-        select.minZ,
-        select.maxX,
-        select.maxY,
-        select.maxZ,
-        Arrays.toString(transforms)
-      );
-
       delegate.assemblePiece(
         assemblyTransform,
         offset,
         select,
         cull,
-        adjustTransforms(select, transforms)
+        adjustTransforms(transforms)
       );
     }
 
@@ -242,10 +184,7 @@ public class  SlopeTextureBakedModel extends BakedModelWrapperWithData {
     }
 
     @Override
-    public void assembleRaw(
-      AABB crop,
-      Vec3 move
-    ) {
+    public void assembleRaw(AABB crop, Vec3 move) {
       delegate.assembleRaw(crop, move);
     }
 
@@ -255,11 +194,79 @@ public class  SlopeTextureBakedModel extends BakedModelWrapperWithData {
       Vec3 move,
       QuadTransform... transforms
     ) {
-      delegate.assembleRaw(
-        crop,
-        move,
-        transforms
-      );
+      delegate.assembleRaw(crop, move, transforms);
+    }
+  }
+
+  /**
+   * Аффинное соответствие UV координатам Y/Z боковой плоскости.
+   * UV берутся из исходных вершин до изменения геометрии.
+   */
+  private record SideUvPlane(
+    double y0,
+    double z0,
+    double u0,
+    double v0,
+    double uY,
+    double uZ,
+    double vY,
+    double vZ
+  ) {
+    float u(double y, double z) {
+      return (float) (u0 + uY * (y - y0) + uZ * (z - z0));
+    }
+
+    float v(double y, double z) {
+      return (float) (v0 + vY * (y - y0) + vZ * (z - z0));
+    }
+
+    @Nullable
+    static SideUvPlane from(
+      List<MutableVec3> originalPositions,
+      MutableQuad quad
+    ) {
+      // Решаем линейную систему по любой тройке неколлинеарных вершин.
+      for (int i = 0; i < 4; i++) {
+        for (int j = i + 1; j < 4; j++) {
+          for (int k = j + 1; k < 4; k++) {
+            MutableVec3 a = originalPositions.get(i);
+            MutableVec3 b = originalPositions.get(j);
+            MutableVec3 c = originalPositions.get(k);
+
+            double dy1 = b.y - a.y;
+            double dz1 = b.z - a.z;
+            double dy2 = c.y - a.y;
+            double dz2 = c.z - a.z;
+
+            double determinant = dy1 * dz2 - dy2 * dz1;
+            if (Math.abs(determinant) < UV_DETERMINANT_EPSILON) {
+              continue;
+            }
+
+            double u0 = quad.vertices.get(i).uv.u;
+            double v0 = quad.vertices.get(i).uv.v;
+            double u1 = quad.vertices.get(j).uv.u;
+            double v1 = quad.vertices.get(j).uv.v;
+            double u2 = quad.vertices.get(k).uv.u;
+            double v2 = quad.vertices.get(k).uv.v;
+
+            double uY =
+              ((u1 - u0) * dz2 - (u2 - u0) * dz1) / determinant;
+            double uZ =
+              (dy1 * (u2 - u0) - dy2 * (u1 - u0)) / determinant;
+            double vY =
+              ((v1 - v0) * dz2 - (v2 - v0) * dz1) / determinant;
+            double vZ =
+              (dy1 * (v2 - v0) - dy2 * (v1 - v0)) / determinant;
+
+            return new SideUvPlane(
+              a.y, a.z, u0, v0, uY, uZ, vY, vZ
+            );
+          }
+        }
+      }
+
+      return null;
     }
   }
 
