@@ -54,9 +54,10 @@ public class SlopeTextureBakedModel extends BakedModelWrapperWithData {
    * Оборачивает контекст сборки геометрии скоса.
    */
   public static CopycatRenderContext wrapAssemblyContext(
-    CopycatRenderContext delegate
+    CopycatRenderContext delegate,
+    Direction facing
   ) {
-    return new TriangleSideUvContext(delegate);
+    return new TriangleSideUvContext(delegate, facing.getAxis());
   }
 
   /**
@@ -74,20 +75,35 @@ public class SlopeTextureBakedModel extends BakedModelWrapperWithData {
   /**
    * Целевые боковые грани лежат на плоскостях x = 0 и x = 1.
    */
-  private static boolean isTargetTriangleSide(MutableQuad quad) {
+  private static boolean isTargetTriangleSide(
+    MutableQuad quad,
+    Direction.Axis sideAxis
+  ) {
     MutableVec3 normal = quad.computeFaceNormal();
 
-    boolean leftSide =
-      normal.x < -0.99
+    if (sideAxis == Direction.Axis.X) {
+      return Math.abs(normal.x) > 0.99
         && quad.vertices.stream()
-        .allMatch(vertex -> Math.abs(vertex.xyz.x) < 1.0E-5);
+        .allMatch(vertex ->
+          Math.min(
+            Math.abs(vertex.xyz.x),
+            Math.abs(vertex.xyz.x - 1.0)
+          ) < 1.0E-5
+        );
+    }
 
-    boolean rightSide =
-      normal.x > 0.99
+    if (sideAxis == Direction.Axis.Z) {
+      return Math.abs(normal.z) > 0.99
         && quad.vertices.stream()
-        .allMatch(vertex -> Math.abs(vertex.xyz.x - 1.0) < 1.0E-5);
+        .allMatch(vertex ->
+          Math.min(
+            Math.abs(vertex.xyz.z),
+            Math.abs(vertex.xyz.z - 1.0)
+          ) < 1.0E-5
+        );
+    }
 
-    return leftSide || rightSide;
+    return false;
   }
 
   /**
@@ -97,7 +113,10 @@ public class SlopeTextureBakedModel extends BakedModelWrapperWithData {
    * построенной из исходных координат и UV вершин этой же грани.
    * Для остальных граней сохраняется стандартный алгоритм QuadUVUpdate.
    */
-  private static QuadTransform remapSideUv(QuadUVUpdate original) {
+  private static QuadTransform remapSideUv(
+    QuadUVUpdate original,
+    Direction.Axis sideAxis
+  ) {
     return (quad, sprite) -> {
       List<MutableVec3> originalPositions = new ArrayList<>(4);
       for (var vertex : quad.vertices) {
@@ -108,16 +127,24 @@ public class SlopeTextureBakedModel extends BakedModelWrapperWithData {
         transform.transformQuad(quad, sprite);
       }
 
-      if (isTargetTriangleSide(quad)) {
-        SideUvPlane plane = SideUvPlane.from(originalPositions, quad);
+      if (isTargetTriangleSide(quad, sideAxis)) {
+        SideUvPlane plane = SideUvPlane.from(
+          originalPositions,
+          quad,
+          sideAxis
+        );
 
         if (plane != null) {
           for (var vertex : quad.vertices) {
             MutableVec3 position = vertex.xyz;
-            vertex.uv.set(
-              plane.u(position.y, position.z),
-              plane.v(position.y, position.z)
-            );
+            double p = sideAxis == Direction.Axis.X
+              ? position.y
+              : position.x;
+            double q = sideAxis == Direction.Axis.X
+              ? position.z
+              : position.y;
+
+            vertex.uv.set(plane.u(p, q), plane.v(p, q));
           }
 
           return true;
@@ -131,12 +158,15 @@ public class SlopeTextureBakedModel extends BakedModelWrapperWithData {
   }
 
   private static QuadTransform[] adjustTransforms(
-    QuadTransform[] transforms
+    QuadTransform[] transforms,
+    Direction.Axis sideAxis
   ) {
     if (transforms.length == 1
       && transforms[0] instanceof QuadUVUpdate uvUpdate
       && hasUpperSlopeTransform(uvUpdate)) {
-      return new QuadTransform[] { remapSideUv(uvUpdate) };
+      return new QuadTransform[] {
+        remapSideUv(uvUpdate, sideAxis)
+      };
     }
 
     return transforms;
@@ -146,9 +176,14 @@ public class SlopeTextureBakedModel extends BakedModelWrapperWithData {
     implements CopycatRenderContext {
 
     private final CopycatRenderContext delegate;
+    private final Direction.Axis sideAxis;
 
-    private TriangleSideUvContext(CopycatRenderContext delegate) {
+    private TriangleSideUvContext(
+      CopycatRenderContext delegate,
+      Direction.Axis sideAxis
+    ) {
       this.delegate = delegate;
+      this.sideAxis = sideAxis;
     }
 
     @Override
@@ -174,7 +209,7 @@ public class SlopeTextureBakedModel extends BakedModelWrapperWithData {
         offset,
         select,
         cull,
-        adjustTransforms(transforms)
+        adjustTransforms(transforms, sideAxis)
       );
     }
 
@@ -223,7 +258,8 @@ public class SlopeTextureBakedModel extends BakedModelWrapperWithData {
     @Nullable
     static SideUvPlane from(
       List<MutableVec3> originalPositions,
-      MutableQuad quad
+      MutableQuad quad,
+      Direction.Axis sideAxis
     ) {
       // Решаем линейную систему по любой тройке неколлинеарных вершин.
       for (int i = 0; i < 4; i++) {
@@ -233,12 +269,19 @@ public class SlopeTextureBakedModel extends BakedModelWrapperWithData {
             MutableVec3 b = originalPositions.get(j);
             MutableVec3 c = originalPositions.get(k);
 
-            double dy1 = b.y - a.y;
-            double dz1 = b.z - a.z;
-            double dy2 = c.y - a.y;
-            double dz2 = c.z - a.z;
+            double p1a = sideAxis == Direction.Axis.X ? a.y : a.x;
+            double q1a = sideAxis == Direction.Axis.X ? a.z : a.y;
+            double p1b = sideAxis == Direction.Axis.X ? b.y : b.x;
+            double q1b = sideAxis == Direction.Axis.X ? b.z : b.y;
+            double p1c = sideAxis == Direction.Axis.X ? c.y : c.x;
+            double q1c = sideAxis == Direction.Axis.X ? c.z : c.y;
 
-            double determinant = dy1 * dz2 - dy2 * dz1;
+            double dp1 = p1b - p1a;
+            double dq1 = q1b - q1a;
+            double dp2 = p1c - p1a;
+            double dq2 = q1c - q1a;
+
+            double determinant = dp1 * dq2 - dp2 * dq1;
             if (Math.abs(determinant) < UV_DETERMINANT_EPSILON) {
               continue;
             }
@@ -250,17 +293,17 @@ public class SlopeTextureBakedModel extends BakedModelWrapperWithData {
             double u2 = quad.vertices.get(k).uv.u;
             double v2 = quad.vertices.get(k).uv.v;
 
-            double uY =
-              ((u1 - u0) * dz2 - (u2 - u0) * dz1) / determinant;
-            double uZ =
-              (dy1 * (u2 - u0) - dy2 * (u1 - u0)) / determinant;
-            double vY =
-              ((v1 - v0) * dz2 - (v2 - v0) * dz1) / determinant;
-            double vZ =
-              (dy1 * (v2 - v0) - dy2 * (v1 - v0)) / determinant;
+            double uP =
+              ((u1 - u0) * dq2 - (u2 - u0) * dq1) / determinant;
+            double uQ =
+              (dp1 * (u2 - u0) - dp2 * (u1 - u0)) / determinant;
+            double vP =
+              ((v1 - v0) * dq2 - (v2 - v0) * dq1) / determinant;
+            double vQ =
+              (dp1 * (v2 - v0) - dp2 * (v1 - v0)) / determinant;
 
             return new SideUvPlane(
-              a.y, a.z, u0, v0, uY, uZ, vY, vZ
+              p1a, q1a, u0, v0, uP, uQ, vP, vQ
             );
           }
         }
@@ -352,8 +395,9 @@ public class SlopeTextureBakedModel extends BakedModelWrapperWithData {
   ) {
     return mode == SlopeMode.SECOND
       && (side == null
-        || side == Direction.WEST
-        || side == Direction.EAST);
+        || side.getAxis() == slopeState
+          .getValue(CopycatAdvSlopeBlock.FACING)
+          .getAxis());
   }
 
   /**
@@ -395,8 +439,14 @@ public class SlopeTextureBakedModel extends BakedModelWrapperWithData {
 
         for (int i = 0; i < 4; i++) {
           Vec3 pos = BakedQuadHelper.getXYZ(vertices, i);
-          BakedQuadHelper.setU(vertices, i, uvPlane.u(pos.y, pos.z));
-          BakedQuadHelper.setV(vertices, i, uvPlane.v(pos.y, pos.z));
+          double p = materialSide.getAxis() == Direction.Axis.X
+            ? pos.y
+            : pos.x;
+          double q = materialSide.getAxis() == Direction.Axis.X
+            ? pos.z
+            : pos.y;
+          BakedQuadHelper.setU(vertices, i, uvPlane.u(p, q));
+          BakedQuadHelper.setV(vertices, i, uvPlane.v(p, q));
         }
 
         result.add(new BakedQuad(
