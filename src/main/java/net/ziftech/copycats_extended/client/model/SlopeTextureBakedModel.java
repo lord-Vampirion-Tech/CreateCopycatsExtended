@@ -476,12 +476,15 @@ public class SlopeTextureBakedModel extends BakedModelWrapperWithData {
       return true;
     };
   }
-
   private static QuadTransform[] adjustTransforms(
     QuadTransform[] transforms,
-    Direction facing
+    Direction facing,
+    AssemblyPieceType pieceType
   ) {
-
+    // Для обычных участков исходные трансформации остаются без изменений.
+    if (pieceType != AssemblyPieceType.SLOPE_SIDE_CANDIDATE) {
+      return transforms;
+    }
 
     QuadTransform[] adjusted = transforms.clone();
     boolean changed = false;
@@ -489,13 +492,26 @@ public class SlopeTextureBakedModel extends BakedModelWrapperWithData {
     for (int i = 0; i < adjusted.length; i++) {
       if (adjusted[i] instanceof QuadUVUpdate uvUpdate
         && hasSlopeTransform(uvUpdate)) {
+
         adjusted[i] = remapSideUv(uvUpdate, facing);
         changed = true;
       }
     }
 
     return changed ? adjusted : transforms;
-//    return transforms;
+  }
+
+  private enum AssemblyPieceType {
+    /**
+     * Участок не предназначен для специальной коррекции UV.
+     */
+    DEFAULT,
+
+    /**
+     * Участок содержит преобразование наклонной поверхности.
+     * Коррекция дополнительно проверяет направление и геометрию QUAD.
+     */
+    SLOPE_SIDE_CANDIDATE
   }
 
   private static class TriangleSideUvContext
@@ -519,6 +535,7 @@ public class SlopeTextureBakedModel extends BakedModelWrapperWithData {
       MutableAABB select,
       MutableCullFace cull
     ) {
+      // Вызов без дополнительных QuadTransform не перехватываем.
       delegate.assemblePiece(
         assemblyTransform,
         offset,
@@ -535,13 +552,39 @@ public class SlopeTextureBakedModel extends BakedModelWrapperWithData {
       MutableCullFace cull,
       QuadTransform... transforms
     ) {
+      AssemblyPieceType pieceType = classifyPiece(transforms);
+
       delegate.assemblePiece(
         assemblyTransform,
         offset,
         select,
         cull,
-        adjustTransforms(transforms, facing)
+        adjustTransforms(
+          transforms,
+          facing,
+          pieceType
+        )
       );
+    }
+
+    /**
+     * Определяет, может ли участок содержать боковые грани,
+     * которым требуется специальная обработка UV.
+     *
+     * Это предварительная классификация участка, а не утверждение,
+     * что все его QUAD нужно преобразовывать.
+     */
+    private static AssemblyPieceType classifyPiece(
+      QuadTransform[] transforms
+    ) {
+      for (QuadTransform transform : transforms) {
+        if (transform instanceof QuadUVUpdate uvUpdate
+          && hasSlopeTransform(uvUpdate)) {
+          return AssemblyPieceType.SLOPE_SIDE_CANDIDATE;
+        }
+      }
+
+      return AssemblyPieceType.DEFAULT;
     }
 
     @Override
