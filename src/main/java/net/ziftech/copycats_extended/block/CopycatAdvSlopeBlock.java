@@ -43,77 +43,41 @@ import java.util.function.Predicate;
 
 public class CopycatAdvSlopeBlock extends CopycatSlopeBlock {
 
-  public static final BooleanProperty WALL_ORIENTATION =
-    BooleanProperty.create("wall_orientation");
-
-  private static final int PLACEMENT_HELPER_ID =
-    PlacementHelpers.register(new PlacementHelper());
-
-  public static final EnumProperty<SlopeMode> SLOPE_MODE =
-    EnumProperty.create("slope_mode", SlopeMode.class);
+  public static final BooleanProperty WALL_ORIENTATION = BooleanProperty.create("wall_orientation");
+  private static final int PLACEMENT_HELPER_ID = PlacementHelpers.register(new PlacementHelper());
+  public static final EnumProperty<SlopeMode> SLOPE_MODE = EnumProperty.create("slope_mode", SlopeMode.class);
 
   public CopycatAdvSlopeBlock(Properties properties) {
     super(properties);
 
-    registerDefaultState(
-      defaultBlockState()
-        .setValue(FACING, Direction.NORTH)
-        .setValue(HALF, Half.BOTTOM)
-        .setValue(WALL_ORIENTATION, false)
-        .setValue(SLOPE_MODE, SlopeMode.FIRST)
+    registerDefaultState(defaultBlockState()
+      .setValue(FACING, Direction.NORTH)
+      .setValue(HALF, Half.BOTTOM)
+      .setValue(WALL_ORIENTATION, false)
+      .setValue(SLOPE_MODE, SlopeMode.FIRST)
     );
   }
 
   @Override
-  protected void createBlockStateDefinition(
-    StateDefinition.Builder<Block, BlockState> builder
-  ) {
+  protected void createBlockStateDefinition(StateDefinition.Builder<Block, BlockState> builder) {
     super.createBlockStateDefinition(builder.add(WALL_ORIENTATION, SLOPE_MODE));
   }
-
 
   @Override
   public BlockState getStateForPlacement(BlockPlaceContext context) {
     BlockState placement = super.getStateForPlacement(context);
-
-    if (placement == null) {
-      return null;
-    }
-
-    return CopycatAdvBlockBase.getSlopePlacement(
-      context,
-      placement,
-      this,
-      FACING,
-      HALF,
-      WALL_ORIENTATION
-    );
+    if (placement == null) return null;
+    return CopycatAdvBlockBase.getSlopePlacement(context, placement, this, FACING, HALF, WALL_ORIENTATION);
   }
 
   @Override
-  public VoxelShape getShape(
-    BlockState state,
-    BlockGetter level,
-    BlockPos pos,
-    CollisionContext context
-  ) {
-    if (!state.getValue(WALL_ORIENTATION)) {
-      return super.getShape(state, level, pos, context);
-    }
-
-    return CopycatAdvSlopeGeometry.createWallShape(
-      state.getValue(FACING),
-      state.getValue(HALF)
-    );
+  public VoxelShape getShape(BlockState state, BlockGetter level, BlockPos pos, CollisionContext context) {
+    if (!state.getValue(WALL_ORIENTATION)) return super.getShape(state, level, pos, context);
+    return CopycatAdvSlopeGeometry.createWallShape(state.getValue(FACING), state.getValue(HALF));
   }
 
   @Override
-  public VoxelShape getCollisionShape(
-    BlockState state,
-    BlockGetter level,
-    BlockPos pos,
-    CollisionContext context
-  ) {
+  public VoxelShape getCollisionShape(BlockState state, BlockGetter level, BlockPos pos, CollisionContext context) {
     return getShape(state, level, pos, context);
   }
 
@@ -123,24 +87,10 @@ public class CopycatAdvSlopeBlock extends CopycatSlopeBlock {
   }
 
   @Override
-  public boolean hidesNeighborFace(
-    BlockGetter level,
-    BlockPos pos,
-    BlockState state,
-    BlockState neighborState,
-    Direction direction
-  ) {
-    if (state.getValue(WALL_ORIENTATION)) {
-      return false;
-    }
+  public boolean hidesNeighborFace(BlockGetter level, BlockPos pos, BlockState state, BlockState neighborState, Direction direction) {
+    if (state.getValue(WALL_ORIENTATION)) return false;
 
-    return ICopycatBlock.hidesNeighborFace(
-      level,
-      pos,
-      state,
-      neighborState,
-      direction
-    );
+    return ICopycatBlock.hidesNeighborFace(level, pos, state, neighborState, direction);
   }
 
   @Override
@@ -186,20 +136,14 @@ public class CopycatAdvSlopeBlock extends CopycatSlopeBlock {
     private PlacementHelper() {
       super(
         state -> state.is(ModBlocks.COPYCAT_ADV_SLOPE.get()),
-        state -> state.getValue(WALL_ORIENTATION)
-          ? Axis.Y
-          : state.getValue(FACING)
-          .getClockWise()
-          .getAxis(),
+        state -> state.getValue(WALL_ORIENTATION) ? Axis.Y : state.getValue(FACING).getClockWise().getAxis(),
         FACING
       );
     }
 
     @Override
     public Predicate<ItemStack> getItemPredicate() {
-      return stack ->
-        stack.getItem() instanceof BlockItem item
-          && item.getBlock() == ModBlocks.COPYCAT_ADV_SLOPE.get();
+      return stack -> stack.getItem() instanceof BlockItem item && item.getBlock() == ModBlocks.COPYCAT_ADV_SLOPE.get();
     }
 
     @Override
@@ -210,42 +154,30 @@ public class CopycatAdvSlopeBlock extends CopycatSlopeBlock {
       BlockPos pos,
       BlockHitResult ray
     ) {
-      PlacementOffset offset =
-        super.getOffset(player, world, state, pos, ray);
+      PlacementOffset offset = super.getOffset(player, world, state, pos, ray);
 
-      offset.withTransform(
-        offset.getTransform()
-          .andThen(placementState -> placementState
-            .setValue(FACING, state.getValue(FACING))
-            .setValue(HALF, state.getValue(HALF))
-            .setValue(WALL_ORIENTATION, state.getValue(WALL_ORIENTATION))
-            .setValue(SLOPE_MODE, state.getValue(SLOPE_MODE))
-          )
+      offset.withTransform(offset.getTransform()
+        .andThen(placementState -> placementState
+          .setValue(FACING, state.getValue(FACING))
+          .setValue(HALF, state.getValue(HALF))
+          .setValue(WALL_ORIENTATION, state.getValue(WALL_ORIENTATION))
+          .setValue(SLOPE_MODE, state.getValue(SLOPE_MODE))
+        )
       );
-
       return offset;
     }
   }
 
   @Override
-  public BlockState transform(
-    BlockState state,
-    StructureTransform transform
-  ) {
+  public BlockState transform(BlockState state, StructureTransform transform) {
     if (!state.getValue(WALL_ORIENTATION)) {
-      return BlockUtils.transformStepLikeHorizontal(
-          state,
-          transform,
-          defaultBlockState()
-        ).setValue(WALL_ORIENTATION, false)
+      return BlockUtils.transformStepLikeHorizontal(state, transform, defaultBlockState())
+        .setValue(WALL_ORIENTATION, false)
         .setValue(SLOPE_MODE, state.getValue(SLOPE_MODE));
     }
 
-    return BlockUtils.transformStepLikeVertical(
-        state,
-        transform,
-        defaultBlockState()
-      ).setValue(WALL_ORIENTATION, true)
+    return BlockUtils.transformStepLikeVertical(state, transform, defaultBlockState())
+      .setValue(WALL_ORIENTATION, true)
       .setValue(SLOPE_MODE, state.getValue(SLOPE_MODE));
   }
 

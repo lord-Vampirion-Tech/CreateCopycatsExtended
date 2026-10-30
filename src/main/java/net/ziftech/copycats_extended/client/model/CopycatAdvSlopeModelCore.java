@@ -29,8 +29,6 @@ public class CopycatAdvSlopeModelCore extends CopycatSlopeModelCore {
       (state, material) -> {
         BakedModel model = getModelOf(material);
 
-        // Для настенного скоса и первого режима используется
-        // исходная модель материала без дополнительной обёртки.
         if (state.getValue(CopycatAdvSlopeBlock.WALL_ORIENTATION)) {
           return model;
         }
@@ -59,28 +57,10 @@ public class CopycatAdvSlopeModelCore extends CopycatSlopeModelCore {
       state.getValue(CopycatAdvSlopeBlock.WALL_ORIENTATION);
 
     if (!wallMounted) {
-      SlopeMode mode = state.getValue(CopycatAdvSlopeBlock.SLOPE_MODE);
-
-      // Дополнительная обработка UV применяется только ко второму
-      // режиму обычного скоса. Геометрия собирается базовым классом.
-      if (mode == SlopeMode.SECOND) {
-        super.emitCopycatQuads(
-          key,
-          state,
-          SlopeTextureBakedModel.wrapAssemblyContext(
-            context,
-            state.getValue(CopycatAdvSlopeBlock.FACING)
-          ),
-          material
-        );
-      } else {
-        super.emitCopycatQuads(key, state, context, material);
-      }
-
+      super.emitCopycatQuads(key, state, context, material);
       return;
     }
 
-    // Настенный вариант использует отдельное преобразование геометрии.
     Direction facing = state.getValue(CopycatAdvSlopeBlock.FACING);
     Half half = state.getValue(CopycatAdvSlopeBlock.HALF);
 
