@@ -66,11 +66,30 @@ public class SlopeTextureBakedModel extends BakedModelWrapperWithData {
   }
 
   private Direction getSurfaceFace() {
-    return slopeState.getValue(CopycatAdvSlopeBlock.HALF) == Half.TOP ? Direction.DOWN : Direction.UP;
+    if (slopeState.getValue(CopycatAdvSlopeBlock.WALL_ORIENTATION)) {
+      return switch (slopeState.getValue(CopycatAdvSlopeBlock.FACING)) {
+        case EAST -> Direction.NORTH;
+        case WEST -> Direction.SOUTH;
+        case SOUTH -> Direction.EAST;
+        case NORTH -> Direction.WEST;
+        case UP, DOWN -> throw new IllegalStateException(
+          "Unexpected facing for wall: " + slopeState.getValue(CopycatAdvSlopeBlock.FACING));
+      };
+    } else {
+      return slopeState.getValue(CopycatAdvSlopeBlock.HALF) == Half.TOP
+        ? Direction.DOWN
+        : Direction.UP;
+    }
   }
 
   private Direction getMaterialSide() {
-    return slopeState.getValue(CopycatAdvSlopeBlock.FACING).getOpposite();
+    Direction facing = slopeState.getValue(CopycatAdvSlopeBlock.FACING);
+
+    if (slopeState.getValue(CopycatAdvSlopeBlock.WALL_ORIENTATION)) {
+      return facing.getCounterClockWise();
+    }
+
+    return facing.getOpposite();
   }
 
   private List<BakedQuad> getMaterialSideQuads(BlockState materialState) {

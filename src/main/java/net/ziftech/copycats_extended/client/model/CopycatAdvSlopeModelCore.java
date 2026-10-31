@@ -2,8 +2,6 @@
 package net.ziftech.copycats_extended.client.model;
 
 import com.copycatsplus.copycats.content.copycat.slope.CopycatSlopeModelCore;
-import com.copycatsplus.copycats.foundation.copycat.model.CopycatModelCore.EntryType;
-import com.copycatsplus.copycats.foundation.copycat.model.CopycatModelCore.ModelEntry;
 import com.copycatsplus.copycats.foundation.copycat.model.assembly.AssemblyTransform;
 import com.copycatsplus.copycats.foundation.copycat.model.assembly.CopycatRenderContext;
 
@@ -17,9 +15,6 @@ import net.ziftech.copycats_extended.block.SlopeMode;
 
 import java.util.List;
 
-import static com.copycatsplus.copycats.foundation.copycat.model.CopycatModelCore.MATERIAL_KEY;
-import static com.copycatsplus.copycats.foundation.copycat.model.CopycatModelCore.getModelOf;
-
 public class CopycatAdvSlopeModelCore extends CopycatSlopeModelCore {
 
   @Override
@@ -29,17 +24,19 @@ public class CopycatAdvSlopeModelCore extends CopycatSlopeModelCore {
       (state, material) -> {
         BakedModel model = getModelOf(material);
 
-        if (state.getValue(CopycatAdvSlopeBlock.WALL_ORIENTATION)) {
-          return model;
-        }
-
-        SlopeMode mode = state.getValue(CopycatAdvSlopeBlock.SLOPE_MODE);
+        SlopeMode mode = state.getValue(
+          CopycatAdvSlopeBlock.SLOPE_MODE
+        );
 
         if (mode == SlopeMode.FIRST) {
           return model;
         }
 
-        return new SlopeTextureBakedModel(model, state, mode);
+        return new SlopeTextureBakedModel(
+          model,
+          state,
+          mode
+        );
       },
       this,
       EntryType.COPYCAT
@@ -92,4 +89,36 @@ public class CopycatAdvSlopeModelCore extends CopycatSlopeModelCore {
       enhanced
     );
   }
+
+//  private static Direction rotateDirection(
+//    Direction direction,
+//    Direction.Axis axis,
+//    int angle
+//  ) {
+//    int rotations = Math.floorMod(angle / 90, 4);
+//
+//    for (int i = 0; i < rotations; i++) {
+//      direction = switch (axis) {
+//        case X -> switch (direction) {
+//          case UP -> Direction.SOUTH;
+//          case SOUTH -> Direction.DOWN;
+//          case DOWN -> Direction.NORTH;
+//          case NORTH -> Direction.UP;
+//          default -> direction;
+//        };
+//
+//        case Z -> switch (direction) {
+//          case EAST -> Direction.UP;
+//          case UP -> Direction.WEST;
+//          case WEST -> Direction.DOWN;
+//          case DOWN -> Direction.EAST;
+//          default -> direction;
+//        };
+//
+//        default -> direction;
+//      };
+//    }
+//
+//    return direction;
+//  }
 }
