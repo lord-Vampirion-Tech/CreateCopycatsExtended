@@ -76,36 +76,4 @@ public class CopycatAdvSlopeModelCore extends CopycatSlopeModelCore {
 
     CopycatSlopeModelCore.assembleSlope(context, transform, 0, 16, enhanced);
   }
-
-//  private static Direction rotateDirection(
-//    Direction direction,
-//    Direction.Axis axis,
-//    int angle
-//  ) {
-//    int rotations = Math.floorMod(angle / 90, 4);
-//
-//    for (int i = 0; i < rotations; i++) {
-//      direction = switch (axis) {
-//        case X -> switch (direction) {
-//          case UP -> Direction.SOUTH;
-//          case SOUTH -> Direction.DOWN;
-//          case DOWN -> Direction.NORTH;
-//          case NORTH -> Direction.UP;
-//          default -> direction;
-//        };
-//
-//        case Z -> switch (direction) {
-//          case EAST -> Direction.UP;
-//          case UP -> Direction.WEST;
-//          case WEST -> Direction.DOWN;
-//          case DOWN -> Direction.EAST;
-//          default -> direction;
-//        };
-//
-//        default -> direction;
-//      };
-//    }
-//
-//    return direction;
-//  }
 }

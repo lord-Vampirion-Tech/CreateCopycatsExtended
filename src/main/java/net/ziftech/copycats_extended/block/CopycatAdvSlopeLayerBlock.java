@@ -16,7 +16,6 @@ import net.minecraft.world.level.block.entity.BlockEntityType;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.block.state.StateDefinition;
 import net.minecraft.world.level.block.state.properties.EnumProperty;
-import net.minecraft.world.level.block.state.properties.Half;
 import net.minecraft.world.phys.shapes.CollisionContext;
 import net.minecraft.world.phys.shapes.VoxelShape;
 
@@ -62,9 +61,6 @@ public class CopycatAdvSlopeLayerBlock extends CopycatSlopeLayerBlock {
 
     registerDefaultState(
       defaultBlockState()
-        .setValue(FACING, Direction.NORTH)
-        .setValue(HALF, Half.BOTTOM)
-        .setValue(LAYERS, 1)
         .setValue(WALL_ORIENTATION, WallOrientation.NORMAL)
     );
   }
@@ -163,20 +159,6 @@ public class CopycatAdvSlopeLayerBlock extends CopycatSlopeLayerBlock {
       neighborState,
       direction
     );
-  }
-
-  @Override
-  public boolean useShapeForLightOcclusion(@NotNull BlockState state) {
-    return true;
-  }
-
-  @Override
-  public float getShadeBrightness(
-    BlockState state,
-    @NotNull BlockGetter level,
-    @NotNull BlockPos pos
-  ) {
-    return state.getValue(LAYERS) == 8 ? 0.2F : 1.0F;
   }
 
   @Override

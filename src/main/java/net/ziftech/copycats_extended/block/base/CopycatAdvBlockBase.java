@@ -103,15 +103,15 @@ public final class CopycatAdvBlockBase {
 
     if (facing == null) facing = context.getHorizontalDirection();
 
-    boolean right = switch (clickedFace) {
-      case SOUTH, WEST -> localSide >= 0.5D;
-      case NORTH, EAST -> localSide < 0.5D;
-      default -> false;
-    };
+//    boolean right = switch (clickedFace) {
+//      case SOUTH, WEST -> localSide >= 0.5D;
+//      case NORTH, EAST -> localSide < 0.5D;
+//      default -> false;
+//    };
 
     BlockState wallPlacement = placement
       .setValue(facingProperty, facing)
-      .setValue(halfProperty, right ? Half.TOP : Half.BOTTOM)
+//      .setValue(halfProperty, right ? Half.TOP : Half.BOTTOM)
       .setValue(wallMountedProperty, true);
 
     return normalizeWallSlope(

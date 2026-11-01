@@ -26,14 +26,12 @@ public class SlopeTextureBakedModel extends BakedModelWrapperWithData {
   private static final long MATERIAL_RANDOM_SEED = 42L;
   private static final double UV_DETERMINANT_EPSILON = 1.0E-8;
 
-  private final BakedModel sourceModel;
   private final BlockState slopeState;
   private final SlopeMode mode;
 
   public SlopeTextureBakedModel(BakedModel sourceModel, BlockState slopeState, SlopeMode mode) {
     super(sourceModel);
 
-    this.sourceModel = sourceModel;
     this.slopeState = slopeState;
     this.mode = mode;
   }
@@ -46,7 +44,7 @@ public class SlopeTextureBakedModel extends BakedModelWrapperWithData {
   public @NotNull List<BakedQuad> getQuads(@Nullable BlockState state,
                                            @Nullable Direction side,
                                            @NotNull RandomSource random) {
-    List<BakedQuad> quads = sourceModel.getQuads(state, side, random, ModelData.EMPTY, null);
+    List<BakedQuad> quads = originalModel.getQuads(state, side, random, ModelData.EMPTY, null);
     if (state == null || shouldSkipTransform(side)) return quads;
     return transformSurfaceQuads(quads, getMaterialSideQuads(state, ModelData.EMPTY, null));
   }
@@ -57,7 +55,7 @@ public class SlopeTextureBakedModel extends BakedModelWrapperWithData {
                                            @NotNull RandomSource random,
                                            @NotNull ModelData data,
                                            @Nullable RenderType renderType) {
-    List<BakedQuad> quads = sourceModel.getQuads(state, side, random, data, renderType);
+    List<BakedQuad> quads = originalModel.getQuads(state, side, random, data, renderType);
     if (shouldSkipTransform(side)) return quads;
     return transformSurfaceQuads(quads, getMaterialSideQuads(state, data, renderType));
   }
@@ -104,10 +102,10 @@ public class SlopeTextureBakedModel extends BakedModelWrapperWithData {
     RandomSource random = RandomSource.create(MATERIAL_RANDOM_SEED);
 
     List<BakedQuad> result = new ArrayList<>(
-      sourceModel.getQuads(materialState, face, random, data, renderType)
+      originalModel.getQuads(materialState, face, random, data, renderType)
     );
 
-    for (BakedQuad quad : sourceModel.getQuads(materialState, null, random, data, renderType)) {
+    for (BakedQuad quad : originalModel.getQuads(materialState, null, random, data, renderType)) {
       if (quad.getDirection() == face) result.add(quad);
     }
     return result;
