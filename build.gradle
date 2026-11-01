@@ -57,6 +57,10 @@ dependencies {
     runtimeOnly("dev.engine-room.flywheel:flywheel-neoforge-${minecraft_version}:${flywheel_version}")
     implementation("com.tterrag.registrate:Registrate:${registrate_version}")
 
+    // Diagnostic rendering environment
+    runtimeOnly("maven.modrinth:AANobbMI:Pb3OXVqC") // Sodium 0.6.13
+    runtimeOnly("maven.modrinth:YL57xq9U:t3ruzodq") // Iris 1.8.12
+
     // Copycats+ development/runtime dependency from Modrinth Maven.
     // Version page: https://modrinth.com/mod/copycats/version/bPYeUWZx
     implementation("maven.modrinth:UT2M39wf:${copycats_modrinth_version_id}")

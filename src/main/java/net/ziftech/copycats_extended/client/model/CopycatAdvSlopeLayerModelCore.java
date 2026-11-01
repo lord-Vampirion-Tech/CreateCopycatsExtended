@@ -29,19 +29,15 @@ public class CopycatAdvSlopeLayerModelCore extends CopycatSlopeLayerModelCore {
       return;
     }
 
-    Direction facing =
-      state.getValue(CopycatAdvSlopeLayerBlock.FACING);
+    Direction facing = state.getValue(CopycatAdvSlopeLayerBlock.FACING);
 
-    Half half =
-      state.getValue(CopycatAdvSlopeLayerBlock.HALF);
+    Half half = state.getValue(CopycatAdvSlopeLayerBlock.HALF);
 
-    int layers =
-      state.getValue(CopycatAdvSlopeLayerBlock.LAYERS);
+    int layers = state.getValue(CopycatAdvSlopeLayerBlock.LAYERS);
 
     int angle = CopycatAdvSlopeLayerGeometry.wallAngle(facing, half);
 
-    boolean rotateAroundZ =
-      CopycatAdvSlopeLayerGeometry.rotateAroundZ(facing);
+    boolean rotateAroundZ = CopycatAdvSlopeLayerGeometry.rotateAroundZ(facing);
 
     AssemblyTransform transform = t -> {
       t.rotateY((int) facing.toYRot())

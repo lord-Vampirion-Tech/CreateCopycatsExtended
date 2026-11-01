@@ -15,10 +15,8 @@ public final class CopycatAdvSlopeLayerGeometry {
 
   public static int wallAngle(Direction facing, Half half) {
     return switch (facing) {
-      case NORTH -> half == Half.TOP ? 270 : 90;
-      case SOUTH -> half == Half.TOP ? 90 : 270;
-      case WEST -> half == Half.TOP ? 90 : 270;
-      case EAST -> half == Half.TOP ? 270 : 90;
+      case NORTH, EAST -> half == Half.TOP ? 270 : 90;
+      case SOUTH, WEST -> half == Half.TOP ? 90 : 270;
       default -> throw new IllegalArgumentException(
         "Wall slope requires horizontal facing: " + facing
       );

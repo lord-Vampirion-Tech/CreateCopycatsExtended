@@ -23,6 +23,11 @@ public final class CopycatAdvSlopeRotation {
   @SubscribeEvent
   public static void onClientSetup(FMLClientSetupEvent event) {
     event.enqueueWork(() -> {
+//      RadialWrenchMenu.registerRotationProperty(
+//        CopycatAdvSlopeBlock.HALF,
+//        "Half"
+//      );
+
       RadialWrenchMenu.registerRotationProperty(
         CopycatAdvSlopeBlock.SLOPE_MODE,
         "Slope Mode"

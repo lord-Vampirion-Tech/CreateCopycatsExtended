@@ -23,8 +23,8 @@ public final class CopycatAdvSlopeLayerRotation {
   public static void onClientSetup(FMLClientSetupEvent event) {
     event.enqueueWork(() -> {
       RadialWrenchMenu.registerRotationProperty(
-        CopycatAdvSlopeLayerBlock.HALF,
-        "Half"
+        CopycatAdvSlopeLayerBlock.WALL_ORIENTATION,
+          "Wall_Orientation"
       );
     });
   }
