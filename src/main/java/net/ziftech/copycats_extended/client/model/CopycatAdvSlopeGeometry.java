@@ -12,31 +12,20 @@ public final class CopycatAdvSlopeGeometry {
   private CopycatAdvSlopeGeometry() {
   }
 
-  /**
-   * Основной угол поворота скоса у стены.
-   */
   public static int wallAngle(Direction facing, Half half) {
     return switch (facing) {
-      case NORTH -> half == Half.TOP ? 270 : 90;
-      case SOUTH -> half == Half.TOP ? 90 : 270;
-      case WEST  -> half == Half.TOP ? 90 : 270;
-      case EAST  -> half == Half.TOP ? 270 : 90;
+      case NORTH, EAST -> half == Half.TOP ? 270 : 90;
+      case SOUTH, WEST -> half == Half.TOP ? 90 : 270;
       default -> throw new IllegalArgumentException(
         "Wall slope requires horizontal facing: " + facing
       );
     };
   }
 
-  /**
-   * Определяет ось основного поворота.
-   */
   public static boolean rotateAroundZ(Direction facing) {
     return facing.getAxis() == Direction.Axis.X;
   }
 
-  /**
-   * Дополнительный угол для разворота скоса вдоль стены.
-   */
   public static int wallSidewaysAngle(Direction facing) {
     return switch (facing) {
       case NORTH, WEST -> 270;
@@ -47,20 +36,10 @@ public final class CopycatAdvSlopeGeometry {
     };
   }
 
-  /**
-   * Определяет ось дополнительного поворота.
-   */
   public static boolean wallSidewaysRotateAroundZ(Direction facing) {
     return facing.getAxis() == Direction.Axis.Z;
   }
 
-  /**
-   * Создаёт форму обычного скоса, установленного у стены.
-   *
-   * layers и WallOrientation больше не используются.
-   * Настенный режим определяется свойством WALL_ORIENTATION
-   * в CopycatAdvSlopeBlock.
-   */
   public static VoxelShape createWallShape(
     Direction facing,
     Half half

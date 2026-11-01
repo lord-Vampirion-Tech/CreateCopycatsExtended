@@ -24,19 +24,13 @@ public class CopycatAdvSlopeModelCore extends CopycatSlopeModelCore {
       (state, material) -> {
         BakedModel model = getModelOf(material);
 
-        SlopeMode mode = state.getValue(
-          CopycatAdvSlopeBlock.SLOPE_MODE
-        );
+        SlopeMode mode = state.getValue(CopycatAdvSlopeBlock.SLOPE_MODE);
 
         if (mode == SlopeMode.FIRST) {
           return model;
         }
 
-        return new SlopeTextureBakedModel(
-          model,
-          state,
-          mode
-        );
+        return new SlopeTextureBakedModel(model, state, mode);
       },
       this,
       EntryType.COPYCAT
@@ -50,8 +44,7 @@ public class CopycatAdvSlopeModelCore extends CopycatSlopeModelCore {
     CopycatRenderContext context,
     BlockState material
   ) {
-    boolean wallMounted =
-      state.getValue(CopycatAdvSlopeBlock.WALL_ORIENTATION);
+    boolean wallMounted = state.getValue(CopycatAdvSlopeBlock.WALL_ORIENTATION);
 
     if (!wallMounted) {
       super.emitCopycatQuads(key, state, context, material);
@@ -81,13 +74,7 @@ public class CopycatAdvSlopeModelCore extends CopycatSlopeModelCore {
       }
     };
 
-    CopycatSlopeModelCore.assembleSlope(
-      context,
-      transform,
-      0,
-      16,
-      enhanced
-    );
+    CopycatSlopeModelCore.assembleSlope(context, transform, 0, 16, enhanced);
   }
 
 //  private static Direction rotateDirection(

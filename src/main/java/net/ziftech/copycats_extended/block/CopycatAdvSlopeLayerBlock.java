@@ -23,6 +23,7 @@ import net.minecraft.world.phys.shapes.VoxelShape;
 import net.ziftech.copycats_extended.block.base.CopycatAdvBlockBase;
 import net.ziftech.copycats_extended.client.model.CopycatAdvSlopeLayerGeometry;
 import net.ziftech.copycats_extended.registry.ModBlockEntities;
+import org.jetbrains.annotations.NotNull;
 
 public class CopycatAdvSlopeLayerBlock extends CopycatSlopeLayerBlock {
 
@@ -43,7 +44,7 @@ public class CopycatAdvSlopeLayerBlock extends CopycatSlopeLayerBlock {
     }
 
     @Override
-    public String getSerializedName() {
+    public @NotNull String getSerializedName() {
       return name;
     }
 
@@ -78,12 +79,8 @@ public class CopycatAdvSlopeLayerBlock extends CopycatSlopeLayerBlock {
   }
 
   @Override
-  public BlockState getStateForPlacement(BlockPlaceContext context) {
+  public @NotNull BlockState getStateForPlacement(@NotNull BlockPlaceContext context) {
     BlockState placement = super.getStateForPlacement(context);
-
-    if (placement == null) {
-      return null;
-    }
 
     return CopycatAdvBlockBase.getLayerPlacement(
       context,
@@ -95,10 +92,9 @@ public class CopycatAdvSlopeLayerBlock extends CopycatSlopeLayerBlock {
     );
   }
 
-  @SuppressWarnings("deprecation")
   @Override
   public boolean canBeReplaced(
-    BlockState state,
+    @NotNull BlockState state,
     BlockPlaceContext context
   ) {
     if (context.isSecondaryUseActive()) {
@@ -113,11 +109,11 @@ public class CopycatAdvSlopeLayerBlock extends CopycatSlopeLayerBlock {
   }
 
   @Override
-  public VoxelShape getShape(
+  public @NotNull VoxelShape getShape(
     BlockState state,
-    BlockGetter level,
-    BlockPos pos,
-    CollisionContext context
+    @NotNull BlockGetter level,
+    @NotNull BlockPos pos,
+    @NotNull CollisionContext context
   ) {
     WallOrientation orientation = state.getValue(WALL_ORIENTATION);
 
@@ -134,11 +130,11 @@ public class CopycatAdvSlopeLayerBlock extends CopycatSlopeLayerBlock {
   }
 
   @Override
-  public VoxelShape getCollisionShape(
-    BlockState state,
-    BlockGetter level,
-    BlockPos pos,
-    CollisionContext context
+  public @NotNull VoxelShape getCollisionShape(
+    @NotNull BlockState state,
+    @NotNull BlockGetter level,
+    @NotNull BlockPos pos,
+    @NotNull CollisionContext context
   ) {
     return getShape(state, level, pos, context);
   }
@@ -150,11 +146,11 @@ public class CopycatAdvSlopeLayerBlock extends CopycatSlopeLayerBlock {
 
   @Override
   public boolean hidesNeighborFace(
-    BlockGetter level,
-    BlockPos pos,
-    BlockState state,
-    BlockState neighborState,
-    Direction direction
+    @NotNull BlockGetter level,
+    @NotNull BlockPos pos,
+    @NotNull BlockState state,
+    @NotNull BlockState neighborState,
+    @NotNull Direction direction
   ) {
     if (state.getValue(WALL_ORIENTATION).isWallMounted()) {
       return false;
@@ -170,23 +166,23 @@ public class CopycatAdvSlopeLayerBlock extends CopycatSlopeLayerBlock {
   }
 
   @Override
-  public boolean useShapeForLightOcclusion(BlockState state) {
+  public boolean useShapeForLightOcclusion(@NotNull BlockState state) {
     return true;
   }
 
   @Override
   public float getShadeBrightness(
     BlockState state,
-    BlockGetter level,
-    BlockPos pos
+    @NotNull BlockGetter level,
+    @NotNull BlockPos pos
   ) {
     return state.getValue(LAYERS) == 8 ? 0.2F : 1.0F;
   }
 
   @Override
-  public BlockState transform(
+  public @NotNull BlockState transform(
     BlockState state,
-    StructureTransform transform
+    @NotNull StructureTransform transform
   ) {
     WallOrientation orientation = state.getValue(WALL_ORIENTATION);
 
@@ -211,12 +207,12 @@ public class CopycatAdvSlopeLayerBlock extends CopycatSlopeLayerBlock {
   }
 
   @Override
-  public Class<CCCopycatBlockEntity> getBlockEntityClass() {
+  public @NotNull Class<CCCopycatBlockEntity> getBlockEntityClass() {
     return CCCopycatBlockEntity.class;
   }
 
   @Override
-  public BlockEntityType<? extends CCCopycatBlockEntity>
+  public @NotNull BlockEntityType<? extends CCCopycatBlockEntity>
   getBlockEntityType() {
     return ModBlockEntities.COPYCAT_ADV_SLOPE_LAYER.get();
   }

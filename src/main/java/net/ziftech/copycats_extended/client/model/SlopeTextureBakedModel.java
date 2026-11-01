@@ -1,4 +1,3 @@
-
 package net.ziftech.copycats_extended.client.model;
 
 import com.simibubi.create.foundation.model.BakedModelWrapperWithData;
@@ -44,16 +43,22 @@ public class SlopeTextureBakedModel extends BakedModelWrapperWithData {
   // ============================================================
 
   @Override
-  public @NotNull List<BakedQuad> getQuads(@Nullable BlockState state, @Nullable Direction side, @NotNull RandomSource random) {
-    List<BakedQuad> quads = sourceModel.getQuads(state, side, random);
-    if (state == null || !shouldTransform(side)) return quads;
-    return transformSurfaceQuads(quads, getMaterialSideQuads(state));
+  public @NotNull List<BakedQuad> getQuads(@Nullable BlockState state,
+                                           @Nullable Direction side,
+                                           @NotNull RandomSource random) {
+    List<BakedQuad> quads = sourceModel.getQuads(state, side, random, ModelData.EMPTY, null);
+    if (state == null || shouldSkipTransform(side)) return quads;
+    return transformSurfaceQuads(quads, getMaterialSideQuads(state, ModelData.EMPTY, null));
   }
 
   @Override
-  public List<BakedQuad> getQuads(BlockState state, Direction side, @NotNull RandomSource random, @NotNull ModelData data, RenderType renderType) {
+  public @NotNull List<BakedQuad> getQuads(@Nullable BlockState state,
+                                           @Nullable Direction side,
+                                           @NotNull RandomSource random,
+                                           @NotNull ModelData data,
+                                           @Nullable RenderType renderType) {
     List<BakedQuad> quads = sourceModel.getQuads(state, side, random, data, renderType);
-    if (!shouldTransform(side)) return quads;
+    if (shouldSkipTransform(side)) return quads;
     return transformSurfaceQuads(quads, getMaterialSideQuads(state, data, renderType));
   }
 
@@ -61,8 +66,8 @@ public class SlopeTextureBakedModel extends BakedModelWrapperWithData {
   // ШИРОКАЯ НАКЛОННАЯ ПОВЕРХНОСТЬ
   // ============================================================
 
-  private boolean shouldTransform(@Nullable Direction side) {
-    return mode == SlopeMode.SECOND && (side == null || side == getSurfaceFace());
+  private boolean shouldSkipTransform(@Nullable Direction side) {
+    return mode != SlopeMode.SECOND || (side != null && side != getSurfaceFace());
   }
 
   private Direction getSurfaceFace() {
@@ -92,21 +97,17 @@ public class SlopeTextureBakedModel extends BakedModelWrapperWithData {
     return facing.getOpposite();
   }
 
-  private List<BakedQuad> getMaterialSideQuads(BlockState materialState) {
+  private List<BakedQuad> getMaterialSideQuads(BlockState materialState,
+                                               ModelData data,
+                                               @Nullable RenderType renderType) {
     Direction face = getMaterialSide();
-    List<BakedQuad> result = new ArrayList<>(sourceModel.getQuads(materialState, face, RandomSource.create(MATERIAL_RANDOM_SEED)));
+    RandomSource random = RandomSource.create(MATERIAL_RANDOM_SEED);
 
-    for (BakedQuad quad : sourceModel.getQuads(materialState, null, RandomSource.create(MATERIAL_RANDOM_SEED))) {
-      if (quad.getDirection() == face) result.add(quad);
-    }
-    return result;
-  }
+    List<BakedQuad> result = new ArrayList<>(
+      sourceModel.getQuads(materialState, face, random, data, renderType)
+    );
 
-  private List<BakedQuad> getMaterialSideQuads(BlockState materialState, ModelData data, RenderType renderType) {
-    Direction face = getMaterialSide();
-    List<BakedQuad> result = new ArrayList<>(sourceModel.getQuads(materialState, face, RandomSource.create(MATERIAL_RANDOM_SEED), data, renderType));
-
-    for (BakedQuad quad : sourceModel.getQuads(materialState, null, RandomSource.create(MATERIAL_RANDOM_SEED), data, renderType)) {
+    for (BakedQuad quad : sourceModel.getQuads(materialState, null, random, data, renderType)) {
       if (quad.getDirection() == face) result.add(quad);
     }
     return result;

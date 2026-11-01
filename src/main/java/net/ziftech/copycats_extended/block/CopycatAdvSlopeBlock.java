@@ -38,6 +38,7 @@ import net.ziftech.copycats_extended.block.base.CopycatAdvBlockBase;
 import net.ziftech.copycats_extended.client.model.CopycatAdvSlopeGeometry;
 import net.ziftech.copycats_extended.registry.ModBlockEntities;
 import net.ziftech.copycats_extended.registry.ModBlocks;
+import org.jetbrains.annotations.NotNull;
 
 import java.util.function.Predicate;
 
@@ -64,20 +65,19 @@ public class CopycatAdvSlopeBlock extends CopycatSlopeBlock {
   }
 
   @Override
-  public BlockState getStateForPlacement(BlockPlaceContext context) {
+  public @NotNull BlockState getStateForPlacement(@NotNull BlockPlaceContext context) {
     BlockState placement = super.getStateForPlacement(context);
-    if (placement == null) return null;
     return CopycatAdvBlockBase.getSlopePlacement(context, placement, this, FACING, HALF, WALL_ORIENTATION);
   }
 
   @Override
-  public VoxelShape getShape(BlockState state, BlockGetter level, BlockPos pos, CollisionContext context) {
+  public @NotNull VoxelShape getShape(BlockState state, @NotNull BlockGetter level, @NotNull BlockPos pos, @NotNull CollisionContext context) {
     if (!state.getValue(WALL_ORIENTATION)) return super.getShape(state, level, pos, context);
     return CopycatAdvSlopeGeometry.createWallShape(state.getValue(FACING), state.getValue(HALF));
   }
 
   @Override
-  public VoxelShape getCollisionShape(BlockState state, BlockGetter level, BlockPos pos, CollisionContext context) {
+  public @NotNull VoxelShape getCollisionShape(@NotNull BlockState state, @NotNull BlockGetter level, @NotNull BlockPos pos, @NotNull CollisionContext context) {
     return getShape(state, level, pos, context);
   }
 
@@ -87,26 +87,26 @@ public class CopycatAdvSlopeBlock extends CopycatSlopeBlock {
   }
 
   @Override
-  public boolean hidesNeighborFace(BlockGetter level, BlockPos pos, BlockState state, BlockState neighborState, Direction direction) {
+  public boolean hidesNeighborFace(@NotNull BlockGetter level, @NotNull BlockPos pos, BlockState state, @NotNull BlockState neighborState, @NotNull Direction direction) {
     if (state.getValue(WALL_ORIENTATION)) return false;
 
     return ICopycatBlock.hidesNeighborFace(level, pos, state, neighborState, direction);
   }
 
   @Override
-  public boolean useShapeForLightOcclusion(BlockState state) {
+  public boolean useShapeForLightOcclusion(@NotNull BlockState state) {
     return true;
   }
 
   @Override
-  public ItemInteractionResult useItemOn(
-    ItemStack stack,
-    BlockState state,
-    Level level,
-    BlockPos pos,
-    Player player,
-    InteractionHand hand,
-    BlockHitResult hitResult
+  public @NotNull ItemInteractionResult useItemOn(
+    @NotNull ItemStack stack,
+    @NotNull BlockState state,
+    @NotNull Level level,
+    @NotNull BlockPos pos,
+    @NotNull Player player,
+    @NotNull InteractionHand hand,
+    @NotNull BlockHitResult hitResult
   ) {
     return InteractionUtils.sequentialItem(
       () -> InteractionUtils.usePlacementHelper(
@@ -142,12 +142,12 @@ public class CopycatAdvSlopeBlock extends CopycatSlopeBlock {
     }
 
     @Override
-    public Predicate<ItemStack> getItemPredicate() {
+    public @NotNull Predicate<ItemStack> getItemPredicate() {
       return stack -> stack.getItem() instanceof BlockItem item && item.getBlock() == ModBlocks.COPYCAT_ADV_SLOPE.get();
     }
 
     @Override
-    public PlacementOffset getOffset(
+    public @NotNull PlacementOffset getOffset(
       Player player,
       Level world,
       BlockState state,
@@ -169,7 +169,7 @@ public class CopycatAdvSlopeBlock extends CopycatSlopeBlock {
   }
 
   @Override
-  public BlockState transform(BlockState state, StructureTransform transform) {
+  public @NotNull BlockState transform(BlockState state, @NotNull StructureTransform transform) {
     if (!state.getValue(WALL_ORIENTATION)) {
       return BlockUtils.transformStepLikeHorizontal(state, transform, defaultBlockState())
         .setValue(WALL_ORIENTATION, false)
@@ -182,12 +182,12 @@ public class CopycatAdvSlopeBlock extends CopycatSlopeBlock {
   }
 
   @Override
-  public Class<CCCopycatBlockEntity> getBlockEntityClass() {
+  public @NotNull Class<CCCopycatBlockEntity> getBlockEntityClass() {
     return CCCopycatBlockEntity.class;
   }
 
   @Override
-  public BlockEntityType<? extends CCCopycatBlockEntity>
+  public @NotNull BlockEntityType<? extends CCCopycatBlockEntity>
   getBlockEntityType() {
     return ModBlockEntities.COPYCAT_ADV_SLOPE.get();
   }

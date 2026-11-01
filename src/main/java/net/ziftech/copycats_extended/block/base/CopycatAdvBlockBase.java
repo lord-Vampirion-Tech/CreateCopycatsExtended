@@ -34,16 +34,7 @@ public final class CopycatAdvBlockBase {
     }
   }
 
-  private CopycatAdvBlockBase() {
-  }
-
-  /**
-   * Определяет направление скоса по точке клика на горизонтальной
-   * поверхности относительно направления взгляда игрока.
-   */
-  private static Direction getHorizontalSlopeFacing(
-    BlockPlaceContext context
-  ) {
+  private static Direction getHorizontalSlopeFacing(BlockPlaceContext context) {
     BlockPos pos = context.getClickedPos();
 
     double localX = context.getClickLocation().x - pos.getX() - 0.5D;
@@ -61,13 +52,6 @@ public final class CopycatAdvBlockBase {
     return forwardOffset > 0 ? playerFacing : playerFacing.getOpposite();
   }
 
-  /**
-   * Рассчитывает размещение расширенного скоса.
-   * <p>
-   * wallMountedProperty:
-   * false — горизонтальный скос;
-   * true  — настенный скос.
-   */
   public static BlockState getSlopePlacement(
     BlockPlaceContext context,
     BlockState placement,
@@ -120,10 +104,8 @@ public final class CopycatAdvBlockBase {
     if (facing == null) facing = context.getHorizontalDirection();
 
     boolean right = switch (clickedFace) {
-      case SOUTH -> localSide >= 0.5D;
-      case NORTH -> localSide < 0.5D;
-      case EAST -> localSide < 0.5D;
-      case WEST -> localSide >= 0.5D;
+      case SOUTH, WEST -> localSide >= 0.5D;
+      case NORTH, EAST -> localSide < 0.5D;
       default -> false;
     };
 
@@ -139,10 +121,6 @@ public final class CopycatAdvBlockBase {
     );
   }
 
-  /**
-   * Нормализует состояние настенного скоса.
-   * Правила нормализации можно менять независимо от размещения.
-   */
   private static BlockState normalizeWallSlope(
     BlockState state,
     DirectionProperty facingProperty,
@@ -171,9 +149,6 @@ public final class CopycatAdvBlockBase {
     };
   }
 
-  /**
-   * Рассчитывает размещение слоистого скоса.
-   */
   public static BlockState getLayerPlacement(
     BlockPlaceContext context,
     BlockState placement,
@@ -228,10 +203,8 @@ public final class CopycatAdvBlockBase {
 
     // Левая или правая зона боковой грани.
     boolean right = switch (clickedFace) {
-      case SOUTH -> localSide >= 0.5D;
-      case NORTH -> localSide < 0.5D;
-      case EAST -> localSide < 0.5D;
-      case WEST -> localSide >= 0.5D;
+      case SOUTH, WEST -> localSide >= 0.5D;
+      case NORTH, EAST -> localSide < 0.5D;
       default -> false;
     };
 

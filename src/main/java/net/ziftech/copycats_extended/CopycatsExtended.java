@@ -1,12 +1,8 @@
 
 package net.ziftech.copycats_extended;
 
-import com.copycatsplus.copycats.foundation.tooltip.CopycatCharacteristics;
-import com.copycatsplus.copycats.foundation.tooltip.CopycatDescription;
-
 import net.neoforged.bus.api.IEventBus;
 import net.neoforged.fml.common.Mod;
-import net.neoforged.fml.event.lifecycle.FMLCommonSetupEvent;
 
 import net.ziftech.copycats_extended.registry.ModBlockEntities;
 import net.ziftech.copycats_extended.registry.ModBlocks;

@@ -2,6 +2,7 @@
 package net.ziftech.copycats_extended.block;
 
 import net.minecraft.util.StringRepresentable;
+import org.jetbrains.annotations.NotNull;
 
 public enum SlopeMode implements StringRepresentable {
   FIRST("first"),
@@ -15,7 +16,7 @@ public enum SlopeMode implements StringRepresentable {
   }
 
   @Override
-  public String getSerializedName() {
+  public @NotNull String getSerializedName() {
     return name;
   }
 }
