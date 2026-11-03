@@ -15,6 +15,10 @@ java {
     withSourcesJar()
 }
 
+sourceSets.main.resources {
+    srcDir 'src/generated/resources'
+}
+
 neoForge {
     version = neoforge_version
 
@@ -27,6 +31,16 @@ neoForge {
             server()
             programArgument '--nogui'
             systemProperty 'neoforge.enabledGameTestNamespaces', mod_id
+        }
+        data {
+            data()
+
+            programArguments.addAll(
+                    '--mod', mod_id,
+                    '--all',
+                    '--output', file('src/generated/resources/').absolutePath,
+                    '--existing', file('src/main/resources/').absolutePath
+            )
         }
     }
 

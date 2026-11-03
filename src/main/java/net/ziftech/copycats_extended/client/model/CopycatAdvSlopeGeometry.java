@@ -9,9 +9,6 @@ import net.minecraft.world.phys.shapes.VoxelShape;
 
 public final class CopycatAdvSlopeGeometry {
 
-  private CopycatAdvSlopeGeometry() {
-  }
-
   public static int wallAngle(Direction facing, Half half) {
     return switch (facing) {
       case NORTH, EAST -> half == Half.TOP ? 270 : 90;

@@ -10,9 +10,6 @@ import net.ziftech.copycats_extended.block.CopycatAdvSlopeLayerBlock.WallOrienta
 
 public final class CopycatAdvSlopeLayerGeometry {
 
-  private CopycatAdvSlopeLayerGeometry() {
-  }
-
   public static int wallAngle(Direction facing, Half half) {
     return switch (facing) {
       case NORTH, EAST -> half == Half.TOP ? 270 : 90;

@@ -1,14 +1,23 @@
+
 package net.ziftech.copycats_extended.registry;
 
+import java.util.function.Supplier;
+
 import net.minecraft.core.registries.Registries;
+import net.minecraft.world.level.block.Block;
+import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.entity.BlockEntityType;
+import net.minecraft.world.level.block.entity.BlockEntityType.BlockEntitySupplier;
+
 import net.neoforged.neoforge.registries.DeferredHolder;
 import net.neoforged.neoforge.registries.DeferredRegister;
+
 import net.ziftech.copycats_extended.CopycatsExtended;
 import net.ziftech.copycats_extended.block.CopycatAdvSlopeBlockEntity;
 import net.ziftech.copycats_extended.block.CopycatAdvSlopeLayerBlockEntity;
+import net.ziftech.copycats_extended.block.TEST.TEST_CopycatBlockEntity;
 
-public class ModBlockEntities {
+public final class ModBlockEntities {
 
   public static final DeferredRegister<BlockEntityType<?>> BLOCK_ENTITIES =
     DeferredRegister.create(
@@ -16,23 +25,50 @@ public class ModBlockEntities {
       CopycatsExtended.MOD_ID
     );
 
-  public static final DeferredHolder<BlockEntityType<?>,
-    BlockEntityType<CopycatAdvSlopeBlockEntity>> COPYCAT_ADV_SLOPE =
-    BLOCK_ENTITIES.register(
+  private ModBlockEntities() {
+  }
+
+  @SafeVarargs
+  private static <T extends BlockEntity>
+  DeferredHolder<BlockEntityType<?>, BlockEntityType<T>> registerBlockEntity(
+    String name,
+    BlockEntitySupplier<T> factory,
+    Supplier<? extends Block>... validBlocks
+  ) {
+    return BLOCK_ENTITIES.register(
+      name,
+      () -> {
+        Block[] blocks = new Block[validBlocks.length];
+
+        for (int i = 0; i < validBlocks.length; i++) {
+          blocks[i] = validBlocks[i].get();
+        }
+
+        return BlockEntityType.Builder
+          .of(factory, blocks)
+          .build(null);
+      }
+    );
+  }
+
+  public static final DeferredHolder<BlockEntityType<?>, BlockEntityType<CopycatAdvSlopeBlockEntity>>
+    COPYCAT_ADV_SLOPE = registerBlockEntity(
     "copycat_adv_slope",
-    () -> BlockEntityType.Builder.of(
-      CopycatAdvSlopeBlockEntity::new,
-      ModBlocks.COPYCAT_ADV_SLOPE.get()
-    ).build(null)
+    CopycatAdvSlopeBlockEntity::new,
+    ModBlocks.COPYCAT_ADV_SLOPE
   );
 
-  public static final DeferredHolder<BlockEntityType<?>,
-    BlockEntityType<CopycatAdvSlopeLayerBlockEntity>> COPYCAT_ADV_SLOPE_LAYER =
-    BLOCK_ENTITIES.register(
+  public static final DeferredHolder<BlockEntityType<?>, BlockEntityType<CopycatAdvSlopeLayerBlockEntity>>
+    COPYCAT_ADV_SLOPE_LAYER = registerBlockEntity(
     "copycat_adv_slope_layer",
-    () -> BlockEntityType.Builder.of(
-      CopycatAdvSlopeLayerBlockEntity::new,
-      ModBlocks.COPYCAT_ADV_SLOPE_LAYER.get()
-    ).build(null)
+    CopycatAdvSlopeLayerBlockEntity::new,
+    ModBlocks.COPYCAT_ADV_SLOPE_LAYER
+  );
+
+  public static final DeferredHolder<BlockEntityType<?>, BlockEntityType<TEST_CopycatBlockEntity>>
+    TEST_COPYCAT_BLOCK = registerBlockEntity(
+    "TEST_copycat_block",
+    TEST_CopycatBlockEntity::new,
+    ModBlocks.TEST_COPYCAT_BLOCK
   );
 }

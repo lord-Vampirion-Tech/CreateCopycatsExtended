@@ -5,6 +5,9 @@ import com.copycatsplus.copycats.foundation.copycat.model.CopycatModelCore;
 
 import net.minecraft.client.renderer.block.BlockModelShaper;
 import net.minecraft.client.resources.model.ModelResourceLocation;
+import net.minecraft.core.registries.BuiltInRegistries;
+import net.minecraft.world.level.block.Block;
+
 import net.neoforged.api.distmarker.Dist;
 import net.neoforged.bus.api.SubscribeEvent;
 import net.neoforged.fml.common.EventBusSubscriber;
@@ -20,46 +23,71 @@ import net.ziftech.copycats_extended.registry.ModBlocks;
   modid = CopycatsExtended.MOD_ID,
   value = Dist.CLIENT
 )
-public class CopycatsExtendedClientEvents {
-
-  private CopycatsExtendedClientEvents() {
-  }
+public final class CopycatsExtendedClientEvents {
 
   @SubscribeEvent
   public static void modifyBakingResult(ModelEvent.ModifyBakingResult event) {
-    var slope = ModBlocks.COPYCAT_ADV_SLOPE.get();
-    for (var state : slope.getStateDefinition().getPossibleStates()) {
-      ModelResourceLocation modelLocation =
-        BlockModelShaper.stateToModelLocation(state);
+    registerModel(
+      event,
+      ModBlocks.COPYCAT_ADV_SLOPE.get(),
+      new CopycatAdvSlopeModelCore()
+    );
+
+    registerItemModel(
+      event,
+      ModBlocks.COPYCAT_ADV_SLOPE.get(),
+      new CopycatAdvSlopeModelCore()
+    );
+
+    registerModel(
+      event,
+      ModBlocks.COPYCAT_ADV_SLOPE_LAYER.get(),
+      new CopycatAdvSlopeLayerModelCore()
+    );
+
+    registerItemModel(
+      event,
+      ModBlocks.COPYCAT_ADV_SLOPE_LAYER.get(),
+      new CopycatAdvSlopeLayerModelCore()
+    );
+  }
+
+  private static void registerModel(
+    ModelEvent.ModifyBakingResult event,
+    Block block,
+    CopycatModelCore modelCore
+  ) {
+    for (var state : block.getStateDefinition().getPossibleStates()) {
+      var modelLocation = BlockModelShaper.stateToModelLocation(state);
 
       event.getModels().computeIfPresent(
         modelLocation,
         (location, originalModel) ->
-          CopycatModelCore.createModel(
-            originalModel,
-            new CopycatAdvSlopeModelCore()
-          )
-      );
-    }
-
-    var slopeLayer = ModBlocks.COPYCAT_ADV_SLOPE_LAYER.get();
-    for (var state : slopeLayer.getStateDefinition().getPossibleStates()) {
-      ModelResourceLocation modelLocation =
-        BlockModelShaper.stateToModelLocation(state);
-
-      event.getModels().computeIfPresent(
-        modelLocation,
-        (location, originalModel) ->
-          CopycatModelCore.createModel(
-            originalModel,
-            new CopycatAdvSlopeLayerModelCore()
-          )
+          CopycatModelCore.createModel(originalModel, modelCore)
       );
     }
   }
 
+  private static void registerItemModel(
+    ModelEvent.ModifyBakingResult event,
+    Block block,
+    CopycatModelCore modelCore
+  ) {
+    var itemLocation = ModelResourceLocation.inventory(
+      BuiltInRegistries.ITEM.getKey(block.asItem())
+    );
+
+    event.getModels().computeIfPresent(
+      itemLocation,
+      (location, originalModel) ->
+        CopycatModelCore.createModel(originalModel, modelCore)
+    );
+  }
+
   @SubscribeEvent
-  public static void registerBlockColors(RegisterColorHandlersEvent.Block event) {
+  public static void registerBlockColors(
+    RegisterColorHandlersEvent.Block event
+  ) {
     event.register(
       ICopycatBlock.wrappedColor(),
       ModBlocks.COPYCAT_ADV_SLOPE.get(),

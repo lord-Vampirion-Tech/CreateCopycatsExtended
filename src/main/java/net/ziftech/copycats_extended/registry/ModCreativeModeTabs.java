@@ -4,6 +4,7 @@ import net.minecraft.core.registries.Registries;
 import net.minecraft.network.chat.Component;
 import net.minecraft.world.item.CreativeModeTab;
 import net.minecraft.world.item.ItemStack;
+
 import net.neoforged.neoforge.registries.DeferredHolder;
 import net.neoforged.neoforge.registries.DeferredRegister;
 
@@ -18,17 +19,16 @@ public class ModCreativeModeTabs {
     );
 
   public static final DeferredHolder<CreativeModeTab, CreativeModeTab> MAIN =
-    TABS.register(
-      "main",
-      () -> CreativeModeTab.builder()
-        .title(Component.translatable("itemGroup.copycats_extended.main"))
-        .icon(() -> new ItemStack(ModItems.COPYCAT_ADV_SLOPE.get()))
-        .displayItems((parameters, output) -> {
-          output.accept(ModItems.COPYCAT_ADV_SLOPE.get());
-          output.accept(ModItems.COPYCAT_ADV_SLOPE_LAYER.get());
-          output.accept(ModItems.BASE_BLOCK.get());
-        })
-        .build()
+    TABS.register("main", () -> CreativeModeTab.builder()
+      .title(Component.translatable("itemGroup.copycats_extended.main"))
+      .icon(() -> new ItemStack(ModItems.COPYCAT_ADV_SLOPE.get()))
+      .displayItems((parameters, output) -> {
+        output.accept(ModItems.COPYCAT_ADV_SLOPE.get());
+        output.accept(ModItems.COPYCAT_ADV_SLOPE_LAYER.get());
+        output.accept(ModItems.BASE_BLOCK.get());
+        output.accept(ModItems.TEST_COPYCAT_BLOCK.get());
+      })
+      .build()
     );
 
 }

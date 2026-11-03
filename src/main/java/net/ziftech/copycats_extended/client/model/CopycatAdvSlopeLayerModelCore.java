@@ -1,5 +1,7 @@
 package net.ziftech.copycats_extended.client.model;
 
+import java.util.List;
+
 import com.copycatsplus.copycats.content.copycat.slope.CopycatSlopeModelCore;
 import com.copycatsplus.copycats.content.copycat.slope_layer.CopycatSlopeLayerModelCore;
 import com.copycatsplus.copycats.foundation.copycat.model.assembly.AssemblyTransform;
@@ -11,8 +13,18 @@ import net.minecraft.world.level.block.state.properties.Half;
 
 import net.ziftech.copycats_extended.block.CopycatAdvSlopeLayerBlock;
 import net.ziftech.copycats_extended.block.CopycatAdvSlopeLayerBlock.WallOrientation;
+import net.ziftech.copycats_extended.registry.ModBlocks;
 
 public class CopycatAdvSlopeLayerModelCore extends CopycatSlopeLayerModelCore {
+
+  private static final String ITEM_GEOMETRY_KEY = "item_geometry";
+
+  @Override
+  public void registerModels(List<ModelEntry> entries) {
+    super.registerModels(entries);
+
+    entries.add(new ModelEntry(ITEM_GEOMETRY_KEY, null, this, EntryType.STATIC));
+  }
 
   @Override
   public void emitCopycatQuads(
@@ -21,8 +33,20 @@ public class CopycatAdvSlopeLayerModelCore extends CopycatSlopeLayerModelCore {
     CopycatRenderContext context,
     BlockState material
   ) {
-    WallOrientation orientation =
-      state.getValue(CopycatAdvSlopeLayerBlock.WALL_ORIENTATION);
+    if (ITEM_GEOMETRY_KEY.equals(key)) {
+      if (state != null)
+        return;
+
+      state = ModBlocks.COPYCAT_ADV_SLOPE_LAYER.get().defaultBlockState();
+
+    } else if (state == null) {
+      return;
+    }
+
+    if (!MATERIAL_KEY.equals(key) && !ITEM_GEOMETRY_KEY.equals(key))
+      return;
+
+    WallOrientation orientation = state.getValue(CopycatAdvSlopeLayerBlock.WALL_ORIENTATION);
 
     if (!orientation.isWallMounted()) {
       super.emitCopycatQuads(key, state, context, material);
@@ -53,8 +77,7 @@ public class CopycatAdvSlopeLayerModelCore extends CopycatSlopeLayerModelCore {
         int sidewaysAngle =
           CopycatAdvSlopeLayerGeometry.wallSidewaysAngle(facing);
 
-        if (CopycatAdvSlopeLayerGeometry
-          .wallSidewaysRotateAroundZ(facing)) {
+        if (CopycatAdvSlopeLayerGeometry.wallSidewaysRotateAroundZ(facing)) {
           t.rotateZ(sidewaysAngle);
         } else {
           t.rotateX(sidewaysAngle);
@@ -80,5 +103,11 @@ public class CopycatAdvSlopeLayerModelCore extends CopycatSlopeLayerModelCore {
       to,
       enhanced
     );
+  }
+
+  @Override
+  public void prepareForRender() {
+    super.prepareForRender();
+    colorize = false;
   }
 }
