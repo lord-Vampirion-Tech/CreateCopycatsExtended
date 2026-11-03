@@ -1,0 +1,10 @@
+{
+  "block.copycats_extended.TEST_copycat_block": "Тестовый копикат-блок",
+  "block.copycats_extended.base_block": "Базовый Блок",
+  "block.copycats_extended.copycat_adv_slope": "Продвинутый скос",
+  "block.copycats_extended.copycat_adv_slope_layer": "Продвинутый слой скоса",
+  "tooltip.copycats_extended.characteristics.test_info.description": "Это тестовая характеристика.",
+  "tooltip.copycats_extended.characteristics.test_info.title": "Тестовая информация",
+  "tooltip.copycats_extended.characteristics.test_key.description": "Нажмите _%s_, чтобы активировать функцию.",
+  "tooltip.copycats_extended.characteristics.test_key.title": "Тестовая клавиша"
+}

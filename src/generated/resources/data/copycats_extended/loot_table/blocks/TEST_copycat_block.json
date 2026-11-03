@@ -1,0 +1,21 @@
+{
+  "type": "minecraft:block",
+  "pools": [
+    {
+      "bonus_rolls": 0.0,
+      "conditions": [
+        {
+          "condition": "minecraft:survives_explosion"
+        }
+      ],
+      "entries": [
+        {
+          "type": "minecraft:item",
+          "name": "copycats_extended:TEST_copycat_block"
+        }
+      ],
+      "rolls": 1.0
+    }
+  ],
+  "random_sequence": "copycats_extended:blocks/TEST_copycat_block"
+}
