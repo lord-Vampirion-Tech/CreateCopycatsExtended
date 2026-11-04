@@ -41,15 +41,6 @@ public class CopycatAdvSlopeModelCore extends CopycatSlopeModelCore {
 //    ));
 //  }
 
-  private static final String ITEM_GEOMETRY_KEY = "item_geometry";
-
-  @Override
-  public void registerModels(List<ModelEntry> entries) {
-    super.registerModels(entries);
-
-    entries.add(new ModelEntry(ITEM_GEOMETRY_KEY, null, this, EntryType.STATIC));
-  }
-
   @Override
   public void emitCopycatQuads(
     String key,
@@ -57,19 +48,6 @@ public class CopycatAdvSlopeModelCore extends CopycatSlopeModelCore {
     CopycatRenderContext context,
     BlockState material
   ) {
-    if (ITEM_GEOMETRY_KEY.equals(key)) {
-      if (state != null)
-        return;
-
-      state = ModBlocks.COPYCAT_ADV_SLOPE.get().defaultBlockState();
-
-    } else if (state == null) {
-      return;
-    }
-
-    if (!MATERIAL_KEY.equals(key) && !ITEM_GEOMETRY_KEY.equals(key))
-      return;
-
     boolean wallMounted = state.getValue(CopycatAdvSlopeBlock.WALL_ORIENTATION);
     Direction facing = state.getValue(CopycatAdvSlopeBlock.FACING);
     Half half = state.getValue(CopycatAdvSlopeBlock.HALF);

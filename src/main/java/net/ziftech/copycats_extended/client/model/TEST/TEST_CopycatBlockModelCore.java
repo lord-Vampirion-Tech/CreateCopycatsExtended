@@ -12,17 +12,6 @@ import static com.copycatsplus.copycats.foundation.copycat.model.assembly.Copyca
 
 public class TEST_CopycatBlockModelCore extends CopycatModelCore {
 
-  private static final String ITEM_GEOMETRY_KEY = "item_geometry";
-
-  @Override
-  public void registerModels(List<ModelEntry> entries) {
-    // Обычная модель Copycat+: материал блока
-    super.registerModels(entries);
-
-    // Дополнительная модель для предмета
-    entries.add(new ModelEntry(ITEM_GEOMETRY_KEY, null, this, EntryType.STATIC));
-  }
-
   @Override
   public void emitCopycatQuads(
     String key,
@@ -37,9 +26,6 @@ public class TEST_CopycatBlockModelCore extends CopycatModelCore {
      * У предмета state == null:
      * используем только статическую геометрию.
      */
-    if (state == null && !key.equals(ITEM_GEOMETRY_KEY))
-      return;
-
     if (state != null && !key.equals(MATERIAL_KEY))
       return;
 

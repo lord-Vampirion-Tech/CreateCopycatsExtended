@@ -17,15 +17,6 @@ import net.ziftech.copycats_extended.registry.ModBlocks;
 
 public class CopycatAdvSlopeLayerModelCore extends CopycatSlopeLayerModelCore {
 
-  private static final String ITEM_GEOMETRY_KEY = "item_geometry";
-
-  @Override
-  public void registerModels(List<ModelEntry> entries) {
-    super.registerModels(entries);
-
-    entries.add(new ModelEntry(ITEM_GEOMETRY_KEY, null, this, EntryType.STATIC));
-  }
-
   @Override
   public void emitCopycatQuads(
     String key,
@@ -33,19 +24,6 @@ public class CopycatAdvSlopeLayerModelCore extends CopycatSlopeLayerModelCore {
     CopycatRenderContext context,
     BlockState material
   ) {
-    if (ITEM_GEOMETRY_KEY.equals(key)) {
-      if (state != null)
-        return;
-
-      state = ModBlocks.COPYCAT_ADV_SLOPE_LAYER.get().defaultBlockState();
-
-    } else if (state == null) {
-      return;
-    }
-
-    if (!MATERIAL_KEY.equals(key) && !ITEM_GEOMETRY_KEY.equals(key))
-      return;
-
     WallOrientation orientation = state.getValue(CopycatAdvSlopeLayerBlock.WALL_ORIENTATION);
 
     if (!orientation.isWallMounted()) {

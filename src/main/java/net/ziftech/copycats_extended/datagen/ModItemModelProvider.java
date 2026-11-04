@@ -2,14 +2,13 @@ package net.ziftech.copycats_extended.datagen;
 
 import net.minecraft.data.PackOutput;
 import net.minecraft.world.level.block.Block;
+import net.minecraft.core.registries.BuiltInRegistries;
 
 import net.neoforged.neoforge.client.model.generators.ItemModelProvider;
 import net.neoforged.neoforge.common.data.ExistingFileHelper;
 
 import net.ziftech.copycats_extended.CopycatsExtended;
 import net.ziftech.copycats_extended.registry.ModBlocks;
-
-import net.minecraft.core.registries.BuiltInRegistries;
 
 public final class ModItemModelProvider extends ItemModelProvider {
 
@@ -32,7 +31,9 @@ public final class ModItemModelProvider extends ItemModelProvider {
       .getKey(block)
       .getPath();
 
-    withExistingParent(name, mcLoc("block/cube_all"))
-      .texture("all", mcLoc("block/stone"));
+    getBuilder(name)
+      .parent(new net.neoforged.neoforge.client.model.generators.ModelFile.UncheckedModelFile(
+        modLoc("block/" + name)
+      ));
   }
 }

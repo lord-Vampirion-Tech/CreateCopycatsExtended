@@ -33,19 +33,7 @@ public final class CopycatsExtendedClientEvents {
       new CopycatAdvSlopeModelCore()
     );
 
-    registerItemModel(
-      event,
-      ModBlocks.COPYCAT_ADV_SLOPE.get(),
-      new CopycatAdvSlopeModelCore()
-    );
-
     registerModel(
-      event,
-      ModBlocks.COPYCAT_ADV_SLOPE_LAYER.get(),
-      new CopycatAdvSlopeLayerModelCore()
-    );
-
-    registerItemModel(
       event,
       ModBlocks.COPYCAT_ADV_SLOPE_LAYER.get(),
       new CopycatAdvSlopeLayerModelCore()
@@ -66,22 +54,6 @@ public final class CopycatsExtendedClientEvents {
           CopycatModelCore.createModel(originalModel, modelCore)
       );
     }
-  }
-
-  private static void registerItemModel(
-    ModelEvent.ModifyBakingResult event,
-    Block block,
-    CopycatModelCore modelCore
-  ) {
-    var itemLocation = ModelResourceLocation.inventory(
-      BuiltInRegistries.ITEM.getKey(block.asItem())
-    );
-
-    event.getModels().computeIfPresent(
-      itemLocation,
-      (location, originalModel) ->
-        CopycatModelCore.createModel(originalModel, modelCore)
-    );
   }
 
   @SubscribeEvent
