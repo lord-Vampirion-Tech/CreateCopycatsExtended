@@ -44,6 +44,23 @@ public class TEST_CopycatBlock extends CCWaterloggedCopycatBlock {
     return TEST_SHAPE;
   }
 
+
+  @Override
+  public boolean supportsExternalFaceHiding(BlockState state) {
+    return true;
+  }
+
+  @Override
+  public boolean hidesNeighborFace(
+    BlockGetter level,
+    BlockPos pos,
+    BlockState state,
+    BlockState neighborState,
+    Direction direction
+  ) {
+    return CopycatFaceOcclusion.hidesNeighborFace(level, pos, neighborState, direction);
+  }
+
   @Override
   public Class<CCCopycatBlockEntity> getBlockEntityClass() {
     return CCCopycatBlockEntity.class;
@@ -63,24 +80,10 @@ public class TEST_CopycatBlock extends CCWaterloggedCopycatBlock {
     return state;
   }
 
-  @Override
-  public VoxelShape getOcclusionShape(BlockState state, BlockGetter level, BlockPos pos) {
-    return CopycatFaceOcclusion.getOcclusionShape(state, level, pos);
-  }
 
   @Override
   public boolean supportsExternalFaceHiding(BlockState state) {
     return true;
   }
 
-  @Override
-  public boolean hidesNeighborFace(
-    BlockGetter level,
-    BlockPos pos,
-    BlockState state,
-    BlockState neighborState,
-    Direction direction
-  ) {
-    return CopycatFaceOcclusion.hidesNeighborFace(level, pos, neighborState, direction);
-  }
 }
