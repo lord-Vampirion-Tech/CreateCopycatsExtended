@@ -44,7 +44,6 @@ public class TEST_CopycatBlock extends CCWaterloggedCopycatBlock {
     return TEST_SHAPE;
   }
 
-
   @Override
   public boolean supportsExternalFaceHiding(BlockState state) {
     return true;
@@ -79,7 +78,6 @@ public class TEST_CopycatBlock extends CCWaterloggedCopycatBlock {
   ) {
     return state;
   }
-
 
   @Override
   public boolean supportsExternalFaceHiding(BlockState state) {
