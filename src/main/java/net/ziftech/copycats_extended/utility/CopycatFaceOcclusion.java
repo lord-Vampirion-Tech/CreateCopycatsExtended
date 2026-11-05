@@ -1,7 +1,6 @@
 package net.ziftech.copycats_extended.utility;
 
 import com.copycatsplus.copycats.foundation.copycat.ICopycatBlock;
-import com.copycatsplus.copycats.utility.BlockFaceUtils;
 
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
@@ -76,30 +75,6 @@ public final class CopycatFaceOcclusion {
       || state.getBlock() instanceof CopycatAdvSlopeLayerBlock;
   }
 
-  public static boolean hidesNeighborFace(
-    BlockGetter level,
-    BlockPos pos,
-    BlockState neighborState,
-    Direction direction
-  ) {
-    BlockPos neighborPos = pos.relative(direction);
-    BlockState ownMaterial = ICopycatBlock.getMaterial(level, pos);
-    BlockState neighborMaterial = neighborState.getBlock() instanceof ICopycatBlock
-      ? ICopycatBlock.getMaterial(level, neighborPos)
-      : neighborState;
-
-    return BlockFaceUtils.canOcclude(
-      level,
-      ownMaterial,
-      pos,
-      neighborMaterial,
-      neighborPos,
-      direction
-    ) && ownMaterial.skipRendering(
-      neighborMaterial,
-      direction
-    );
-  }
 
   private static final class MaterialBlockGetter implements BlockGetter {
 
