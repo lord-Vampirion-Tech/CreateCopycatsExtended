@@ -6,7 +6,6 @@ import com.copycatsplus.copycats.utility.BlockUtils;
 import com.simibubi.create.content.contraptions.StructureTransform;
 
 import net.minecraft.core.BlockPos;
-import net.minecraft.core.Direction;
 import net.minecraft.util.StringRepresentable;
 import net.minecraft.world.item.context.BlockPlaceContext;
 import net.minecraft.world.level.BlockGetter;
@@ -133,7 +132,6 @@ public class CopycatAdvSlopeLayerBlock extends CopycatSlopeLayerBlock {
   ) {
     return getShape(state, level, pos, context);
   }
-
 
   @Override
   public @NotNull BlockState transform(
