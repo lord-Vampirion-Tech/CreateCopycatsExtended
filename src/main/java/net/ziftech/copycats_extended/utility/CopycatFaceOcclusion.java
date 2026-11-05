@@ -80,14 +80,14 @@ public final class CopycatFaceOcclusion {
 
     return BlockFaceUtils.canOcclude(
       level,
-      neighborMaterial,
-      neighborPos,
       ownMaterial,
       pos,
-      direction.getOpposite()
+      neighborMaterial,
+      neighborPos,
+      direction
     ) || ownMaterial.skipRendering(
       neighborMaterial,
-      direction.getOpposite()
+      direction
     );
   }
 
