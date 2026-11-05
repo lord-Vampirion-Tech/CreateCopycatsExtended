@@ -33,37 +33,31 @@ import java.util.function.Supplier;
 )
 public final class CopycatSlopeTooltip {
 
-  private static final Map<Item, TooltipModifier> MODIFIERS = new HashMap<>();
+//  private static final Map<Item, TooltipModifier> MODIFIERS = new HashMap<>();
 
   @SubscribeEvent
   public static void onItemTooltip(ItemTooltipEvent event) {
     Item item = event.getItemStack().getItem();
 
-    boolean hasCopycatCharacteristics = CopycatDescription.ITEM_CHARACTERISTICS.containsKey(item);
-    boolean hasModCharacteristics = ModCharacteristics.has(item);
-
-    if (!hasCopycatCharacteristics && !hasModCharacteristics) {
+    if (!ModCharacteristics.has(item)) {
       return;
     }
 
-    TooltipModifier modifier = MODIFIERS.computeIfAbsent(item, CopycatSlopeTooltip::createModifier);
-
     appendModCharacteristics(event, item);
-    modifier.modify(event);
   }
 
-  private static TooltipModifier createModifier(Item item) {
-    boolean hasCopycatCharacteristics = CopycatDescription.ITEM_CHARACTERISTICS.containsKey(item);
-
-    if (hasCopycatCharacteristics) {
-      return TooltipUtils.sequential(
-        CopycatDescription.create(item),
-        new ItemDescription.Modifier(item, FontHelper.Palette.STANDARD_CREATE)
-      );
-    }
-
-    return new ItemDescription.Modifier(item, FontHelper.Palette.STANDARD_CREATE);
-  }
+//  private static TooltipModifier createModifier(Item item) {
+//    boolean hasCopycatCharacteristics = CopycatDescription.ITEM_CHARACTERISTICS.containsKey(item);
+//
+//    if (hasCopycatCharacteristics) {
+//      return TooltipUtils.sequential(
+//        CopycatDescription.create(item),
+//        new ItemDescription.Modifier(item, FontHelper.Palette.STANDARD_CREATE)
+//      );
+//    }
+//
+//    return new ItemDescription.Modifier(item, FontHelper.Palette.STANDARD_CREATE);
+//  }
 
   private static void appendModCharacteristics(
     ItemTooltipEvent event,

@@ -1,3 +1,4 @@
+
 package net.ziftech.copycats_extended.client.model.TEST;
 
 import com.copycatsplus.copycats.foundation.copycat.model.CopycatModelCore;
@@ -15,19 +16,15 @@ public class TEST_CopycatBlockModelCore extends CopycatModelCore {
     CopycatRenderContext context,
     BlockState material
   ) {
+
     AssemblyTransform transform = t -> {
+      // Общие трансформации модели.
     };
 
     TEST_CopycatBlockGeometry.assemble(
       context,
-      transform
+      transform,
+      enhanced
     );
-  }
-
-
-  @Override
-  public void prepareForRender() {
-    super.prepareForRender();
-    colorize = false;
   }
 }

@@ -1,11 +1,15 @@
 package net.ziftech.copycats_extended.block.TEST;
 
+import com.copycatsplus.copycats.CCShapes;
 import com.copycatsplus.copycats.foundation.copycat.CCWaterloggedCopycatBlock;
 import com.copycatsplus.copycats.foundation.copycat.CCCopycatBlockEntity;
 
 import com.simibubi.create.content.contraptions.StructureTransform;
 
+import net.minecraft.core.Direction;
+import net.minecraft.world.level.block.state.properties.Half;
 import net.minecraft.world.phys.shapes.BooleanOp;
+import net.ziftech.copycats_extended.client.model.TEST.TEST_CopycatBlockGeometry;
 import net.ziftech.copycats_extended.registry.ModBlockEntities;
 
 import net.minecraft.core.BlockPos;
@@ -15,39 +19,13 @@ import net.minecraft.world.phys.shapes.CollisionContext;
 import net.minecraft.world.phys.shapes.Shapes;
 import net.minecraft.world.phys.shapes.VoxelShape;
 
+
+import com.copycatsplus.copycats.foundation.copycat.ICopycatBlock;
+import net.minecraft.core.Direction;
+
 public class TEST_CopycatBlock extends CCWaterloggedCopycatBlock {
 
-  private static final int SLOPE_SUBDIVISIONS = 8;
-
-  private static VoxelShape createSlopeHitbox() {
-    VoxelShape shape = Shapes.empty();
-
-    for (int i = 0; i < SLOPE_SUBDIVISIONS; i++) {
-
-      double zMin = i / (double) SLOPE_SUBDIVISIONS;
-      double zMax = (i + 1.0) / SLOPE_SUBDIVISIONS;
-      double yMax = (i + 1.0) / SLOPE_SUBDIVISIONS;
-
-      VoxelShape section = Shapes.box(
-        0,
-        0,
-        zMin,
-        1,
-        yMax,
-        zMax
-      );
-
-      shape = Shapes.joinUnoptimized(
-        shape,
-        section,
-        BooleanOp.OR
-      );
-    }
-
-    return shape;
-  };
-
-  private static final VoxelShape TEST_SHAPE = createSlopeHitbox();
+  private static final VoxelShape TEST_SHAPE = TEST_CopycatBlockGeometry.create();
 
 //  private static final VoxelShape TEST_SHAPE = Shapes.or(
 //    // Центральная вертикальная колонна
@@ -67,12 +45,6 @@ public class TEST_CopycatBlock extends CCWaterloggedCopycatBlock {
     super(properties);
   }
 
-  /*
-   * =====================================================
-   * PHYSICAL SHAPE
-   * =====================================================
-   */
-
   @Override
   public VoxelShape getShape(
     BlockState state,
@@ -83,10 +55,6 @@ public class TEST_CopycatBlock extends CCWaterloggedCopycatBlock {
     return TEST_SHAPE;
   }
 
-  /*
-   * Физические столкновения.
-   * В данном случае совпадают с формой блока.
-   */
   @Override
   public VoxelShape getCollisionShape(
     BlockState state,
@@ -96,12 +64,6 @@ public class TEST_CopycatBlock extends CCWaterloggedCopycatBlock {
   ) {
     return TEST_SHAPE;
   }
-
-  /*
-   * =====================================================
-   * COPYCATS+ BLOCK ENTITY
-   * =====================================================
-   */
 
   @Override
   public Class<CCCopycatBlockEntity> getBlockEntityClass() {
@@ -114,17 +76,33 @@ public class TEST_CopycatBlock extends CCWaterloggedCopycatBlock {
     return ModBlockEntities.TEST_COPYCAT_BLOCK.get();
   }
 
-  /*
-   * =====================================================
-   * CREATE CONTRAPTION TRANSFORM
-   * =====================================================
-   */
-
   @Override
   public BlockState transform(
     BlockState state,
     StructureTransform transform
   ) {
     return state;
+  }
+
+  @Override
+  public boolean supportsExternalFaceHiding(BlockState state) {
+    return true;
+  }
+
+  @Override
+  public boolean hidesNeighborFace(
+    BlockGetter level,
+    BlockPos pos,
+    BlockState state,
+    BlockState neighborState,
+    Direction direction
+  ) {
+    return ICopycatBlock.hidesNeighborFace(
+      level,
+      pos,
+      state,
+      neighborState,
+      direction
+    );
   }
 }

@@ -31,16 +31,30 @@ public class ModBlocks {
     );
   }
 
+  private static <T extends Block> DeferredBlock<T> registerCopycatBlock(
+    String name,
+    Function<BlockBehaviour.Properties, T> factory
+  ) {
+    return BLOCKS.register(
+      name,
+      () -> factory.apply(
+        BlockBehaviour.Properties.of()
+          .strength(1.5F, 6.0F)
+          .noOcclusion()
+      )
+    );
+  }
+
   // Blocks
   public static final DeferredBlock<Block> BASE_BLOCK =
-    registerBlock("base_block", Block::new);
+    registerCopycatBlock("base_block", Block::new);
 
   public static final DeferredBlock<CopycatAdvSlopeBlock> COPYCAT_ADV_SLOPE =
-    registerBlock("copycat_adv_slope", CopycatAdvSlopeBlock::new);
+    registerCopycatBlock("copycat_adv_slope", CopycatAdvSlopeBlock::new);
 
   public static final DeferredBlock<CopycatAdvSlopeLayerBlock> COPYCAT_ADV_SLOPE_LAYER =
-    registerBlock("copycat_adv_slope_layer", CopycatAdvSlopeLayerBlock::new);
+    registerCopycatBlock("copycat_adv_slope_layer", CopycatAdvSlopeLayerBlock::new);
 
   public static final DeferredBlock<TEST_CopycatBlock> TEST_COPYCAT_BLOCK =
-    registerBlock("TEST_copycat_block", TEST_CopycatBlock::new);
+    registerCopycatBlock("TEST_copycat_block", TEST_CopycatBlock::new);
 }
