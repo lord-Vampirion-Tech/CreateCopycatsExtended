@@ -99,12 +99,23 @@ public class TEST_CopycatBlock extends CCWaterloggedCopycatBlock {
     BlockState neighborState,
     Direction direction
   ) {
-    return ICopycatBlock.hidesNeighborFace(
+    BlockPos neighborPos = pos.relative(direction);
+    BlockState ownMaterial = ICopycatBlock.getMaterial(level, pos);
+
+    BlockState neighborMaterial = neighborState.getBlock() instanceof ICopycatBlock
+      ? ICopycatBlock.getMaterial(level, neighborPos)
+      : neighborState;
+
+    return BlockFaceUtils.canOcclude(
       level,
+      neighborMaterial,
+      neighborPos,
+      ownMaterial,
       pos,
-      state,
-      neighborState,
-      direction
+      direction.getOpposite()
+    ) || ownMaterial.skipRendering(
+      neighborMaterial,
+      direction.getOpposite()
     );
   }
 }
