@@ -5,7 +5,7 @@
   "package": "net.ziftech.copycats_extended.mixin",
   "compatibilityLevel": "JAVA_21",
   "client": [
-    "CopycatModelNeoForgeMixin"
+    "CopycatFaceCullingMixin"
   ],
   "injectors": {
     "defaultRequire": 1
