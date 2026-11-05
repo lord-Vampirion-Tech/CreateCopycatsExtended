@@ -35,8 +35,8 @@ import net.minecraft.world.phys.shapes.VoxelShape;
 import net.ziftech.copycats_extended.block.base.CopycatAdvBlockBase;
 import net.ziftech.copycats_extended.client.model.CopycatAdvSlopeGeometry;
 import net.ziftech.copycats_extended.registry.ModBlockEntities;
-import net.ziftech.copycats_extended.registry.ModBlocks;
 import net.ziftech.copycats_extended.utility.CopycatFaceOcclusion;
+import net.ziftech.copycats_extended.registry.ModBlocks;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.function.Predicate;
@@ -78,10 +78,13 @@ public class CopycatAdvSlopeBlock extends CopycatSlopeBlock {
     return getShape(state, level, pos, context);
   }
 
+
   @Override
-  public @NotNull VoxelShape getOcclusionShape(BlockState state, @NotNull BlockGetter level, @NotNull BlockPos pos) {
-    return CopycatFaceOcclusion.getOcclusionShape(state, level, pos);
+  public boolean supportsExternalFaceHiding(BlockState state) {
+    return !state.getValue(WALL_ORIENTATION);
   }
+
+
 
   @Override
   public boolean supportsExternalFaceHiding(BlockState state) {
@@ -89,9 +92,14 @@ public class CopycatAdvSlopeBlock extends CopycatSlopeBlock {
   }
 
   @Override
-  public boolean hidesNeighborFace(@NotNull BlockGetter level, @NotNull BlockPos pos, BlockState state, @NotNull BlockState neighborState, @NotNull Direction direction) {
+  public boolean hidesNeighborFace(
+    @NotNull BlockGetter level,
+    @NotNull BlockPos pos,
+    BlockState state,
+    @NotNull BlockState neighborState,
+    @NotNull Direction direction
+  ) {
     if (state.getValue(WALL_ORIENTATION)) return false;
-
     return CopycatFaceOcclusion.hidesNeighborFace(level, pos, neighborState, direction);
   }
 
