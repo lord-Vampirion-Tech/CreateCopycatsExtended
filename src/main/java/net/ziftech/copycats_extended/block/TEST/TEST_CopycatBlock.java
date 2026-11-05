@@ -7,7 +7,6 @@ import com.simibubi.create.content.contraptions.StructureTransform;
 
 import net.ziftech.copycats_extended.client.model.TEST.TEST_CopycatBlockGeometry;
 import net.ziftech.copycats_extended.registry.ModBlockEntities;
-import net.ziftech.copycats_extended.utility.CopycatFaceOcclusion;
 
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
@@ -44,21 +43,6 @@ public class TEST_CopycatBlock extends CCWaterloggedCopycatBlock {
     return TEST_SHAPE;
   }
 
-  @Override
-  public boolean supportsExternalFaceHiding(BlockState state) {
-    return true;
-  }
-
-  @Override
-  public boolean hidesNeighborFace(
-    BlockGetter level,
-    BlockPos pos,
-    BlockState state,
-    BlockState neighborState,
-    Direction direction
-  ) {
-    return CopycatFaceOcclusion.hidesNeighborFace(level, pos, neighborState, direction);
-  }
 
   @Override
   public Class<CCCopycatBlockEntity> getBlockEntityClass() {
