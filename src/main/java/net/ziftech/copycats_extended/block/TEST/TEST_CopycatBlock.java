@@ -22,6 +22,8 @@ import net.minecraft.world.phys.shapes.VoxelShape;
 
 import com.copycatsplus.copycats.foundation.copycat.ICopycatBlock;
 import net.minecraft.core.Direction;
+import com.copycatsplus.copycats.utility.BlockFaceUtils;
+import java.util.Optional;
 
 public class TEST_CopycatBlock extends CCWaterloggedCopycatBlock {
 
@@ -103,6 +105,37 @@ public class TEST_CopycatBlock extends CCWaterloggedCopycatBlock {
       state,
       neighborState,
       direction
+    );
+  }
+
+  @Override
+  public VoxelShape getOcclusionShape(
+    BlockState state,
+    BlockGetter level,
+    BlockPos pos
+  ) {
+    return TEST_SHAPE;
+  }
+
+  @Override
+  public Optional<Boolean> shapeCanOccludeNeighbor(
+    BlockGetter level,
+    BlockPos pos,
+    BlockState state,
+    BlockPos neighborPos,
+    Direction direction
+  ) {
+    BlockState neighborState = level.getBlockState(neighborPos);
+
+    return Optional.of(
+      BlockFaceUtils.canOcclude(
+        level,
+        neighborState,
+        neighborPos,
+        state,
+        pos,
+        direction.getOpposite()
+      )
     );
   }
 }

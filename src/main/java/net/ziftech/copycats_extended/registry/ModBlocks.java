@@ -47,7 +47,7 @@ public class ModBlocks {
 
   // Blocks
   public static final DeferredBlock<Block> BASE_BLOCK =
-    registerCopycatBlock("base_block", Block::new);
+    registerBlock("base_block", Block::new);
 
   public static final DeferredBlock<CopycatAdvSlopeBlock> COPYCAT_ADV_SLOPE =
     registerCopycatBlock("copycat_adv_slope", CopycatAdvSlopeBlock::new);
