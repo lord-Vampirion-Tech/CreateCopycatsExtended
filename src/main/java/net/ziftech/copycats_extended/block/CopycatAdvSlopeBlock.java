@@ -35,7 +35,6 @@ import net.minecraft.world.phys.shapes.VoxelShape;
 import net.ziftech.copycats_extended.block.base.CopycatAdvBlockBase;
 import net.ziftech.copycats_extended.client.model.CopycatAdvSlopeGeometry;
 import net.ziftech.copycats_extended.registry.ModBlockEntities;
-import net.ziftech.copycats_extended.utility.CopycatFaceOcclusion;
 import net.ziftech.copycats_extended.registry.ModBlocks;
 import org.jetbrains.annotations.NotNull;
 
@@ -78,22 +77,6 @@ public class CopycatAdvSlopeBlock extends CopycatSlopeBlock {
     return getShape(state, level, pos, context);
   }
 
-  @Override
-  public boolean supportsExternalFaceHiding(BlockState state) {
-    return !state.getValue(WALL_ORIENTATION);
-  }
-
-  @Override
-  public boolean hidesNeighborFace(
-    @NotNull BlockGetter level,
-    @NotNull BlockPos pos,
-    BlockState state,
-    @NotNull BlockState neighborState,
-    @NotNull Direction direction
-  ) {
-    if (state.getValue(WALL_ORIENTATION)) return false;
-    return CopycatFaceOcclusion.hidesNeighborFace(level, pos, neighborState, direction);
-  }
 
   @Override
   public boolean useShapeForLightOcclusion(@NotNull BlockState state) {
