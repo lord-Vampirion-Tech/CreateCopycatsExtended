@@ -3,7 +3,6 @@ package net.ziftech.copycats_extended.block;
 
 import com.copycatsplus.copycats.content.copycat.slope.CopycatSlopeBlock;
 import com.copycatsplus.copycats.foundation.copycat.CCCopycatBlockEntity;
-import com.copycatsplus.copycats.foundation.copycat.ICopycatBlock;
 import com.copycatsplus.copycats.utility.BlockUtils;
 import com.copycatsplus.copycats.utility.InteractionUtils;
 import com.simibubi.create.content.contraptions.StructureTransform;
@@ -37,6 +36,7 @@ import net.ziftech.copycats_extended.block.base.CopycatAdvBlockBase;
 import net.ziftech.copycats_extended.client.model.CopycatAdvSlopeGeometry;
 import net.ziftech.copycats_extended.registry.ModBlockEntities;
 import net.ziftech.copycats_extended.registry.ModBlocks;
+import net.ziftech.copycats_extended.utility.CopycatFaceOcclusion;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.function.Predicate;
@@ -79,6 +79,11 @@ public class CopycatAdvSlopeBlock extends CopycatSlopeBlock {
   }
 
   @Override
+  public @NotNull VoxelShape getOcclusionShape(BlockState state, @NotNull BlockGetter level, @NotNull BlockPos pos) {
+    return CopycatFaceOcclusion.getOcclusionShape(state, level, pos);
+  }
+
+  @Override
   public boolean supportsExternalFaceHiding(BlockState state) {
     return !state.getValue(WALL_ORIENTATION);
   }
@@ -87,7 +92,7 @@ public class CopycatAdvSlopeBlock extends CopycatSlopeBlock {
   public boolean hidesNeighborFace(@NotNull BlockGetter level, @NotNull BlockPos pos, BlockState state, @NotNull BlockState neighborState, @NotNull Direction direction) {
     if (state.getValue(WALL_ORIENTATION)) return false;
 
-    return ICopycatBlock.hidesNeighborFace(level, pos, state, neighborState, direction);
+    return CopycatFaceOcclusion.hidesNeighborFace(level, pos, neighborState, direction);
   }
 
   @Override
