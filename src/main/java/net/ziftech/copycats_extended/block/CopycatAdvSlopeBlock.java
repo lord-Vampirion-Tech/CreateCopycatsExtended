@@ -78,14 +78,6 @@ public class CopycatAdvSlopeBlock extends CopycatSlopeBlock {
     return getShape(state, level, pos, context);
   }
 
-
-  @Override
-  public boolean supportsExternalFaceHiding(BlockState state) {
-    return !state.getValue(WALL_ORIENTATION);
-  }
-
-
-
   @Override
   public boolean supportsExternalFaceHiding(BlockState state) {
     return !state.getValue(WALL_ORIENTATION);
