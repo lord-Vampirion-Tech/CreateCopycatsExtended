@@ -62,6 +62,8 @@ repositories {
 }
 
 dependencies {
+    annotationProcessor("org.spongepowered:mixin:0.8.5:processor")
+
     // Create API + runtime dependencies used during development.
     implementation("com.simibubi.create:create-${minecraft_version}:${create_version}:slim") {
         transitive = false
