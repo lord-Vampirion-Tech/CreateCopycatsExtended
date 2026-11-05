@@ -9,7 +9,6 @@ import net.ziftech.copycats_extended.client.model.TEST.TEST_CopycatBlockGeometry
 import net.ziftech.copycats_extended.registry.ModBlockEntities;
 
 import net.minecraft.core.BlockPos;
-import net.minecraft.core.Direction;
 import net.minecraft.world.level.BlockGetter;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.phys.shapes.CollisionContext;
@@ -42,7 +41,6 @@ public class TEST_CopycatBlock extends CCWaterloggedCopycatBlock {
   ) {
     return TEST_SHAPE;
   }
-
 
   @Override
   public Class<CCCopycatBlockEntity> getBlockEntityClass() {
