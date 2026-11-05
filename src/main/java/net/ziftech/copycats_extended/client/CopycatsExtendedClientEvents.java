@@ -4,8 +4,6 @@ import com.copycatsplus.copycats.foundation.copycat.ICopycatBlock;
 import com.copycatsplus.copycats.foundation.copycat.model.CopycatModelCore;
 
 import net.minecraft.client.renderer.block.BlockModelShaper;
-import net.minecraft.client.resources.model.ModelResourceLocation;
-import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.world.level.block.Block;
 
 import net.neoforged.api.distmarker.Dist;
@@ -17,6 +15,7 @@ import net.neoforged.neoforge.client.event.RegisterColorHandlersEvent;
 import net.ziftech.copycats_extended.CopycatsExtended;
 import net.ziftech.copycats_extended.client.model.CopycatAdvSlopeModelCore;
 import net.ziftech.copycats_extended.client.model.CopycatAdvSlopeLayerModelCore;
+import net.ziftech.copycats_extended.client.model.TEST.TEST_CopycatBlockModelCore;
 import net.ziftech.copycats_extended.registry.ModBlocks;
 
 @EventBusSubscriber(
@@ -37,6 +36,12 @@ public final class CopycatsExtendedClientEvents {
       event,
       ModBlocks.COPYCAT_ADV_SLOPE_LAYER.get(),
       new CopycatAdvSlopeLayerModelCore()
+    );
+
+    registerModel(
+      event,
+      ModBlocks.TEST_COPYCAT_BLOCK.get(),
+      new TEST_CopycatBlockModelCore()
     );
   }
 
