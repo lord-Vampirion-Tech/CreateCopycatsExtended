@@ -18,7 +18,7 @@ import org.jetbrains.annotations.NotNull;
 
 public class TEST_CopycatBlock extends CCWaterloggedCopycatBlock {
 
-  private static final int SLOPE_SUBDIVISIONS = 4;
+  private static final int SLOPE_SUBDIVISIONS = 8;
 
   private static VoxelShape createSlopeHitbox() {
     VoxelShape shape = Shapes.empty();
@@ -38,11 +38,16 @@ public class TEST_CopycatBlock extends CCWaterloggedCopycatBlock {
         zMax
       );
 
-      shape = Shapes.joinUnoptimized(shape, section, BooleanOp.OR);
+      shape = Shapes.joinUnoptimized(
+        shape,
+        section,
+        BooleanOp.OR
+      );
     }
 
     return shape;
   }
+
 
   private static final VoxelShape TEST_SHAPE = createSlopeHitbox();
 
