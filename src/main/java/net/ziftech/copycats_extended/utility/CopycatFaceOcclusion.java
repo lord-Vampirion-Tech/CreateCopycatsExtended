@@ -17,29 +17,34 @@ import net.ziftech.copycats_extended.block.TEST.TEST_CopycatBlock;
 
 public final class CopycatFaceOcclusion {
 
+  private static final ThreadLocal<Boolean> MATERIAL_CULLING = ThreadLocal.withInitial(() -> false);
+
   private CopycatFaceOcclusion() {
   }
 
-  public static boolean shouldRenderFace(
+  public static Boolean getMaterialFaceResult(
     BlockState state,
     BlockGetter level,
     BlockPos pos,
     Direction face,
     BlockPos neighborPos
   ) {
-    if (!isOurCopycat(state.getBlock())) {
-      return Block.shouldRenderFace(state, level, pos, face, neighborPos);
-    }
-
-    BlockState ownMaterial = ICopycatBlock.getMaterial(level, pos);
-    if (ownMaterial.isAir()) {
-      return Block.shouldRenderFace(state, level, pos, face, neighborPos);
-    }
+    if (MATERIAL_CULLING.get()) return null;
 
     BlockState neighborState = level.getBlockState(neighborPos);
-    BlockState neighborMaterial = neighborState.getBlock() instanceof ICopycatBlock
+    boolean ownIsOurs = isOurCopycat(state);
+    boolean neighborIsOurs = isOurCopycat(neighborState);
+
+    if (!ownIsOurs && !neighborIsOurs) return null;
+
+    BlockState ownMaterial = ownIsOurs ? ICopycatBlock.getMaterial(level, pos) : state;
+    BlockState neighborMaterial = neighborIsOurs
       ? ICopycatBlock.getMaterial(level, neighborPos)
       : neighborState;
+
+    if ((ownIsOurs && ownMaterial.isAir()) || (neighborIsOurs && neighborMaterial.isAir())) {
+      return null;
+    }
 
     BlockPos ownPos = pos.immutable();
     BlockPos adjacentPos = neighborPos.immutable();
@@ -51,19 +56,24 @@ public final class CopycatFaceOcclusion {
       neighborMaterial
     );
 
-    return Block.shouldRenderFace(
-      ownMaterial,
-      materialLevel,
-      ownPos,
-      face,
-      adjacentPos
-    );
+    MATERIAL_CULLING.set(true);
+    try {
+      return Block.shouldRenderFace(
+        ownMaterial,
+        materialLevel,
+        ownPos,
+        face,
+        adjacentPos
+      );
+    } finally {
+      MATERIAL_CULLING.remove();
+    }
   }
 
-  private static boolean isOurCopycat(Block block) {
-    return block instanceof TEST_CopycatBlock
-      || block instanceof CopycatAdvSlopeBlock
-      || block instanceof CopycatAdvSlopeLayerBlock;
+  private static boolean isOurCopycat(BlockState state) {
+    return state.getBlock() instanceof TEST_CopycatBlock
+      || state.getBlock() instanceof CopycatAdvSlopeBlock
+      || state.getBlock() instanceof CopycatAdvSlopeLayerBlock;
   }
 
   public static boolean hidesNeighborFace(
@@ -85,7 +95,7 @@ public final class CopycatFaceOcclusion {
       neighborMaterial,
       neighborPos,
       direction
-    ) || ownMaterial.skipRendering(
+    ) && ownMaterial.skipRendering(
       neighborMaterial,
       direction
     );
