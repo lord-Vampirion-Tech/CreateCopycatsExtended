@@ -35,11 +35,6 @@ public class TEST_CopycatBlock extends CCWaterloggedCopycatBlock {
   }
 
   @Override
-  public VoxelShape getOcclusionShape(BlockState state, BlockGetter level, BlockPos pos) {
-    return CopycatFaceOcclusion.getOcclusionShape(state, level, pos);
-  }
-
-  @Override
   public VoxelShape getCollisionShape(
     BlockState state,
     BlockGetter level,
