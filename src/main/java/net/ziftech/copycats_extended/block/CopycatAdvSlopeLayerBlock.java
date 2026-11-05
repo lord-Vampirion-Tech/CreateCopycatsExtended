@@ -2,7 +2,6 @@ package net.ziftech.copycats_extended.block;
 
 import com.copycatsplus.copycats.content.copycat.slope_layer.CopycatSlopeLayerBlock;
 import com.copycatsplus.copycats.foundation.copycat.CCCopycatBlockEntity;
-import com.copycatsplus.copycats.foundation.copycat.ICopycatBlock;
 import com.copycatsplus.copycats.utility.BlockUtils;
 import com.simibubi.create.content.contraptions.StructureTransform;
 
@@ -22,6 +21,7 @@ import net.minecraft.world.phys.shapes.VoxelShape;
 import net.ziftech.copycats_extended.block.base.CopycatAdvBlockBase;
 import net.ziftech.copycats_extended.client.model.CopycatAdvSlopeLayerGeometry;
 import net.ziftech.copycats_extended.registry.ModBlockEntities;
+import net.ziftech.copycats_extended.utility.CopycatFaceOcclusion;
 import org.jetbrains.annotations.NotNull;
 
 public class CopycatAdvSlopeLayerBlock extends CopycatSlopeLayerBlock {
@@ -136,6 +136,11 @@ public class CopycatAdvSlopeLayerBlock extends CopycatSlopeLayerBlock {
   }
 
   @Override
+  public @NotNull VoxelShape getOcclusionShape(BlockState state, @NotNull BlockGetter level, @NotNull BlockPos pos) {
+    return CopycatFaceOcclusion.getOcclusionShape(state, level, pos);
+  }
+
+  @Override
   public boolean supportsExternalFaceHiding(BlockState state) {
     return !state.getValue(WALL_ORIENTATION).isWallMounted();
   }
@@ -152,13 +157,7 @@ public class CopycatAdvSlopeLayerBlock extends CopycatSlopeLayerBlock {
       return false;
     }
 
-    return ICopycatBlock.hidesNeighborFace(
-      level,
-      pos,
-      state,
-      neighborState,
-      direction
-    );
+    return CopycatFaceOcclusion.hidesNeighborFace(level, pos, neighborState, direction);
   }
 
   @Override
