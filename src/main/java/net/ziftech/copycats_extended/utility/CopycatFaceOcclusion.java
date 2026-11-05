@@ -11,8 +11,6 @@ import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.material.FluidState;
 
 import net.ziftech.copycats_extended.block.CopycatAdvSlopeBlock;
-import net.ziftech.copycats_extended.block.CopycatAdvSlopeLayerBlock;
-import net.ziftech.copycats_extended.block.TEST.TEST_CopycatBlock;
 
 public final class CopycatFaceOcclusion {
 
@@ -45,6 +43,12 @@ public final class CopycatFaceOcclusion {
       return null;
     }
 
+    // Let Copycats+' native canOcclude and shapeCanOccludeNeighbor hooks
+    // handle opaque materials. The material-only vanilla check bypasses those hooks.
+    if (ownMaterial.canOcclude() && neighborMaterial.canOcclude()) {
+      return null;
+    }
+
     BlockPos ownPos = pos.immutable();
     BlockPos adjacentPos = neighborPos.immutable();
     BlockGetter materialLevel = new MaterialBlockGetter(
@@ -70,11 +74,8 @@ public final class CopycatFaceOcclusion {
   }
 
   private static boolean isOurCopycat(BlockState state) {
-    return state.getBlock() instanceof TEST_CopycatBlock
-      || state.getBlock() instanceof CopycatAdvSlopeBlock
-      || state.getBlock() instanceof CopycatAdvSlopeLayerBlock;
+    return state.getBlock() instanceof CopycatAdvSlopeBlock;
   }
-
 
   private static final class MaterialBlockGetter implements BlockGetter {
 
