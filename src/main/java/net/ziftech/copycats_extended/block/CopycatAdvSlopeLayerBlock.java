@@ -136,11 +136,6 @@ public class CopycatAdvSlopeLayerBlock extends CopycatSlopeLayerBlock {
   }
 
   @Override
-  public @NotNull VoxelShape getOcclusionShape(BlockState state, @NotNull BlockGetter level, @NotNull BlockPos pos) {
-    return CopycatFaceOcclusion.getOcclusionShape(state, level, pos);
-  }
-
-  @Override
   public boolean supportsExternalFaceHiding(BlockState state) {
     return !state.getValue(WALL_ORIENTATION).isWallMounted();
   }
