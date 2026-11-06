@@ -43,12 +43,6 @@ public final class CopycatFaceOcclusion {
       return null;
     }
 
-    // Let Copycats+' native canOcclude and shapeCanOccludeNeighbor hooks
-    // handle opaque materials. The material-only vanilla check bypasses those hooks.
-    if (ownMaterial.canOcclude() && neighborMaterial.canOcclude()) {
-      return null;
-    }
-
     BlockPos ownPos = pos.immutable();
     BlockPos adjacentPos = neighborPos.immutable();
     BlockGetter materialLevel = new MaterialBlockGetter(
