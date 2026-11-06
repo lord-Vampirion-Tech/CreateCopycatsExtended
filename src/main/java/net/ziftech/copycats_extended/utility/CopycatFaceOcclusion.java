@@ -1,20 +1,16 @@
 package net.ziftech.copycats_extended.utility;
 
 import com.copycatsplus.copycats.foundation.copycat.ICopycatBlock;
+import com.copycatsplus.copycats.utility.BlockFaceUtils;
 
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.world.level.BlockGetter;
-import net.minecraft.world.level.block.Block;
-import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.state.BlockState;
-import net.minecraft.world.level.material.FluidState;
 
 import net.ziftech.copycats_extended.block.CopycatAdvSlopeBlock;
 
 public final class CopycatFaceOcclusion {
-
-  private static final ThreadLocal<Boolean> MATERIAL_CULLING = ThreadLocal.withInitial(() -> false);
 
   private CopycatFaceOcclusion() {
   }
@@ -26,98 +22,37 @@ public final class CopycatFaceOcclusion {
     Direction face,
     BlockPos neighborPos
   ) {
-    if (MATERIAL_CULLING.get()) return null;
-
     BlockState neighborState = level.getBlockState(neighborPos);
-    boolean ownIsOurs = isOurCopycat(state);
-    boolean neighborIsOurs = isOurCopycat(neighborState);
 
-    if (!ownIsOurs && !neighborIsOurs) return null;
-
-    BlockState ownMaterial = ownIsOurs ? ICopycatBlock.getMaterial(level, pos) : state;
-    BlockState neighborMaterial = neighborIsOurs
-      ? ICopycatBlock.getMaterial(level, neighborPos)
-      : neighborState;
-
-    if ((ownIsOurs && ownMaterial.isAir()) || (neighborIsOurs && neighborMaterial.isAir())) {
+    // Only handle the face of a normal block adjacent to our advanced slope.
+    // The slope's own face remains controlled by Copycats+' native shape logic.
+    if (state.getBlock() instanceof CopycatAdvSlopeBlock
+      || !(neighborState.getBlock() instanceof CopycatAdvSlopeBlock)) {
       return null;
     }
 
-    BlockPos ownPos = pos.immutable();
-    BlockPos adjacentPos = neighborPos.immutable();
-    BlockGetter materialLevel = new MaterialBlockGetter(
+    BlockState neighborMaterial = ICopycatBlock.getMaterial(level, neighborPos);
+    if (neighborMaterial.isAir()) return null;
+
+    // Preserve same-material face hiding, including transparent materials.
+    if (state.skipRendering(neighborMaterial, face)) {
+      return false;
+    }
+
+    // Transparent materials do not occlude neighboring block faces.
+    // Returning null lets Copycats+' canOcclude hook handle this case.
+    if (!neighborMaterial.canOcclude()) {
+      return null;
+    }
+
+    // Test whether the slope's material fully covers this neighboring face.
+    return !BlockFaceUtils.canOcclude(
       level,
-      ownPos,
-      ownMaterial,
-      adjacentPos,
-      neighborMaterial
+      state,
+      pos,
+      neighborMaterial,
+      neighborPos,
+      face
     );
-
-    MATERIAL_CULLING.set(true);
-    try {
-      return Block.shouldRenderFace(
-        ownMaterial,
-        materialLevel,
-        ownPos,
-        face,
-        adjacentPos
-      );
-    } finally {
-      MATERIAL_CULLING.remove();
-    }
-  }
-
-  private static boolean isOurCopycat(BlockState state) {
-    return state.getBlock() instanceof CopycatAdvSlopeBlock;
-  }
-
-  private static final class MaterialBlockGetter implements BlockGetter {
-
-    private final BlockGetter delegate;
-    private final BlockPos ownPos;
-    private final BlockState ownMaterial;
-    private final BlockPos neighborPos;
-    private final BlockState neighborMaterial;
-
-    private MaterialBlockGetter(
-      BlockGetter delegate,
-      BlockPos ownPos,
-      BlockState ownMaterial,
-      BlockPos neighborPos,
-      BlockState neighborMaterial
-    ) {
-      this.delegate = delegate;
-      this.ownPos = ownPos;
-      this.ownMaterial = ownMaterial;
-      this.neighborPos = neighborPos;
-      this.neighborMaterial = neighborMaterial;
-    }
-
-    @Override
-    public BlockEntity getBlockEntity(BlockPos pos) {
-      return delegate.getBlockEntity(pos);
-    }
-
-    @Override
-    public BlockState getBlockState(BlockPos pos) {
-      if (pos.equals(ownPos)) return ownMaterial;
-      if (pos.equals(neighborPos)) return neighborMaterial;
-      return delegate.getBlockState(pos);
-    }
-
-    @Override
-    public FluidState getFluidState(BlockPos pos) {
-      return delegate.getFluidState(pos);
-    }
-
-    @Override
-    public int getHeight() {
-      return delegate.getHeight();
-    }
-
-    @Override
-    public int getMinBuildHeight() {
-      return delegate.getMinBuildHeight();
-    }
   }
 }
