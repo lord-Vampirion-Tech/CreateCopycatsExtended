@@ -5,6 +5,8 @@ import com.copycatsplus.copycats.content.copycat.slope.CopycatSlopeBlock;
 import com.copycatsplus.copycats.foundation.copycat.CCCopycatBlockEntity;
 import com.copycatsplus.copycats.utility.BlockUtils;
 import com.copycatsplus.copycats.utility.InteractionUtils;
+import com.copycatsplus.copycats.utility.BlockFaceUtils;
+import com.copycatsplus.copycats.foundation.copycat.ICopycatBlock;
 import com.simibubi.create.content.contraptions.StructureTransform;
 import com.simibubi.create.foundation.placement.PoleHelper;
 
@@ -38,6 +40,7 @@ import net.ziftech.copycats_extended.registry.ModBlockEntities;
 import net.ziftech.copycats_extended.registry.ModBlocks;
 import org.jetbrains.annotations.NotNull;
 
+import java.util.Optional;
 import java.util.function.Predicate;
 
 public class CopycatAdvSlopeBlock extends CopycatSlopeBlock {
@@ -81,6 +84,33 @@ public class CopycatAdvSlopeBlock extends CopycatSlopeBlock {
   @Override
   public boolean useShapeForLightOcclusion(@NotNull BlockState state) {
     return true;
+  }
+
+  @Override
+  public boolean canOcclude(BlockGetter level, BlockState state, BlockPos pos) {
+    BlockState material = ICopycatBlock.getMaterial(level, pos);
+    return !material.isAir() && material.canOcclude();
+  }
+
+  @Override
+  public Optional<Boolean> shapeCanOccludeNeighbor(
+    BlockGetter level,
+    BlockPos pos,
+    BlockState state,
+    BlockPos neighborPos,
+    Direction dir
+  ) {
+    BlockState neighborState = level.getBlockState(neighborPos);
+    return Optional.of(
+      BlockFaceUtils.canOcclude(
+        level,
+        neighborState,
+        neighborPos,
+        state,
+        pos,
+        dir.getOpposite()
+      )
+    );
   }
 
   @Override
