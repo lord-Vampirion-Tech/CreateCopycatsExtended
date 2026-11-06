@@ -11,11 +11,11 @@
       "entries": [
         {
           "type": "minecraft:item",
-          "name": "copycats_extended:TEST_copycat_block"
+          "name": "copycats_extended:test_copycat_block"
         }
       ],
       "rolls": 1.0
     }
   ],
-  "random_sequence": "copycats_extended:blocks/TEST_copycat_block"
+  "random_sequence": "copycats_extended:blocks/test_copycat_block"
 }

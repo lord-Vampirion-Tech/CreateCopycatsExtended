@@ -1,4 +1,4 @@
-package net.ziftech.copycats_extended.client.model;
+package net.ziftech.copycats_extended.client.TEST;
 
 import com.simibubi.create.foundation.model.BakedModelWrapperWithData;
 import com.simibubi.create.foundation.model.BakedQuadHelper;

@@ -56,5 +56,5 @@ public class ModBlocks {
     registerCopycatBlock("copycat_adv_slope_layer", CopycatAdvSlopeLayerBlock::new);
 
   public static final DeferredBlock<TEST_CopycatBlock> TEST_COPYCAT_BLOCK =
-    registerCopycatBlock("TEST_copycat_block", TEST_CopycatBlock::new);
+    registerCopycatBlock("test_copycat_block", TEST_CopycatBlock::new);
 }

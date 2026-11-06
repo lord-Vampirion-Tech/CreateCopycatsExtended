@@ -24,28 +24,17 @@ public class ModDataGenerators {
       new ModItemModelProvider(output, existingFileHelper)
     );
 
-    ModLanguageProvider.register(
-      generator,
-      output,
-      event.includeClient()
-    );
+    ModLanguageProvider.register(generator, output, event.includeClient());
 
     // Server resources
     generator.addProvider(
       event.includeServer(),
-      new ModLootTableProvider(
-        output,
-        event.getLookupProvider()
-      )
+      new ModLootTableProvider(output, event.getLookupProvider())
     );
 
     generator.addProvider(
       event.includeServer(),
-      new ModBlockTagsProvider(
-        output,
-        event.getLookupProvider(),
-        existingFileHelper
-      )
+      new ModBlockTagsProvider(output, event.getLookupProvider(), existingFileHelper)
     );
   }
 }

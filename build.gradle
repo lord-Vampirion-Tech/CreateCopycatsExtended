@@ -101,7 +101,7 @@ tasks.withType(ProcessResources).configureEach {
 
 tasks.withType(JavaCompile).configureEach {
     options.encoding = 'UTF-8'
-    options.compilerArgs.add("-AoutRefMapFile=${layout.buildDirectory.file('classes/java/main/copycats_extended.refmap.json').get().asFile}")
+    //options.compilerArgs.add("-AoutRefMapFile=${layout.buildDirectory.file('classes/java/main/copycats_extended.refmap.json').get().asFile}")
 }
 
 tasks.register('printDependencyInfo') {

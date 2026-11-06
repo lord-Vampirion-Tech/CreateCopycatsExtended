@@ -1,8 +1,8 @@
 {
-  "block.copycats_extended.TEST_copycat_block": "Test Copycat Block",
   "block.copycats_extended.base_block": "Base Block",
   "block.copycats_extended.copycat_adv_slope": "Advanced Copycat Slope",
   "block.copycats_extended.copycat_adv_slope_layer": "Advanced Copycat Slope Layer",
+  "block.copycats_extended.test_copycat_block": "Test Copycat Block",
   "tooltip.copycats_extended.characteristics.test_info.description": "This is a test characteristic.",
   "tooltip.copycats_extended.characteristics.test_info.title": "Test Info",
   "tooltip.copycats_extended.characteristics.test_key.description": "Press _%s_ to activate the feature.",

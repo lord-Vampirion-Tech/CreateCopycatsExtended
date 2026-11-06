@@ -13,9 +13,9 @@ import net.neoforged.neoforge.client.event.ModelEvent;
 import net.neoforged.neoforge.client.event.RegisterColorHandlersEvent;
 
 import net.ziftech.copycats_extended.CopycatsExtended;
+import net.ziftech.copycats_extended.client.TEST.model.TEST_CopycatBlock_ModelCore;
 import net.ziftech.copycats_extended.client.model.CopycatAdvSlopeModelCore;
 import net.ziftech.copycats_extended.client.model.CopycatAdvSlopeLayerModelCore;
-import net.ziftech.copycats_extended.client.model.TEST.TEST_CopycatBlockModelCore;
 import net.ziftech.copycats_extended.registry.ModBlocks;
 
 @EventBusSubscriber(
@@ -41,8 +41,9 @@ public final class CopycatsExtendedClientEvents {
     registerModel(
       event,
       ModBlocks.TEST_COPYCAT_BLOCK.get(),
-      new TEST_CopycatBlockModelCore()
+      new TEST_CopycatBlock_ModelCore()
     );
+
   }
 
   private static void registerModel(

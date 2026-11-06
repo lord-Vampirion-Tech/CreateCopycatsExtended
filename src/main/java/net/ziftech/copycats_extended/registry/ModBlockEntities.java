@@ -15,7 +15,7 @@ import net.neoforged.neoforge.registries.DeferredRegister;
 import net.ziftech.copycats_extended.CopycatsExtended;
 import net.ziftech.copycats_extended.block.CopycatAdvSlopeBlockEntity;
 import net.ziftech.copycats_extended.block.CopycatAdvSlopeLayerBlockEntity;
-import net.ziftech.copycats_extended.block.TEST.TEST_CopycatBlockEntity;
+import net.ziftech.copycats_extended.block.TEST.TEST_CopycatBlock_Entity;
 
 public final class ModBlockEntities {
 
@@ -65,10 +65,11 @@ public final class ModBlockEntities {
     ModBlocks.COPYCAT_ADV_SLOPE_LAYER
   );
 
-  public static final DeferredHolder<BlockEntityType<?>, BlockEntityType<TEST_CopycatBlockEntity>>
+  public static final DeferredHolder<BlockEntityType<?>, BlockEntityType<TEST_CopycatBlock_Entity>>
     TEST_COPYCAT_BLOCK = registerBlockEntity(
-    "TEST_copycat_block",
-    TEST_CopycatBlockEntity::new,
+    "test_copycat_block",
+    TEST_CopycatBlock_Entity::new,
     ModBlocks.TEST_COPYCAT_BLOCK
   );
+
 }

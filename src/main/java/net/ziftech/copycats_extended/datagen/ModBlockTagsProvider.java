@@ -38,14 +38,11 @@ public final class ModBlockTagsProvider extends BlockTagsProvider {
     List<Block> pickaxeBlocks = List.of(
       ModBlocks.COPYCAT_ADV_SLOPE.get(),
       ModBlocks.COPYCAT_ADV_SLOPE_LAYER.get(),
-      ModBlocks.TEST_COPYCAT_BLOCK.get(),
-      ModBlocks.BASE_BLOCK.get()
+      ModBlocks.BASE_BLOCK.get(),
+      ModBlocks.TEST_COPYCAT_BLOCK.get()
     );
 
-    // Pickaxe mining
     var pickaxeTag = tag(BlockTags.MINEABLE_WITH_PICKAXE);
-
-    // Iron pickaxe or better
     var ironToolTag = tag(BlockTags.NEEDS_IRON_TOOL);
 
     for (Block block : pickaxeBlocks) {

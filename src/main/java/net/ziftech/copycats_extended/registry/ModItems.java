@@ -88,11 +88,7 @@ public final class ModItems {
 
   public static final DeferredItem<BlockItem> TEST_COPYCAT_BLOCK =
     newItem(
-      "TEST_copycat_block",
-      ModBlocks.TEST_COPYCAT_BLOCK,
-      CopycatCharacteristics.CT_TOGGLE,
-      ModCharacteristics.TEST_INFO,
-      ModCharacteristics.TEST_KEY
+      "test_copycat_block",
+      ModBlocks.TEST_COPYCAT_BLOCK
     );
-
 }

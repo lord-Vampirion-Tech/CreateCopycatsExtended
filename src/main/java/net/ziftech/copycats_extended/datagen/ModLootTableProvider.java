@@ -28,12 +28,7 @@ public final class ModLootTableProvider extends LootTableProvider {
     super(
       output,
       Set.of(),
-      List.of(
-        new SubProviderEntry(
-          ModBlockLootTables::new,
-          LootContextParamSets.BLOCK
-        )
-      ),
+      List.of(new SubProviderEntry(ModBlockLootTables::new, LootContextParamSets.BLOCK)),
       lookupProvider
     );
   }
@@ -44,11 +39,7 @@ public final class ModLootTableProvider extends LootTableProvider {
     private ModBlockLootTables(
       HolderLookup.Provider lookupProvider
     ) {
-      super(
-        Set.of(),
-        FeatureFlags.DEFAULT_FLAGS,
-        lookupProvider
-      );
+      super(Set.of(), FeatureFlags.DEFAULT_FLAGS, lookupProvider);
     }
 
     @Override
