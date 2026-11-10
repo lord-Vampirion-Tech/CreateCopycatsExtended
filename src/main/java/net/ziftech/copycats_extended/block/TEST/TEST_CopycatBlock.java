@@ -2,15 +2,19 @@ package net.ziftech.copycats_extended.block.TEST;
 
 import com.copycatsplus.copycats.foundation.copycat.CCCopycatBlockEntity;
 import com.copycatsplus.copycats.foundation.copycat.CCWaterloggedCopycatBlock;
+import com.copycatsplus.copycats.foundation.copycat.ICopycatBlock;
 import com.simibubi.create.content.contraptions.StructureTransform;
 import net.minecraft.core.BlockPos;
+import net.minecraft.core.Direction;
 import net.minecraft.world.item.context.BlockPlaceContext;
+import net.minecraft.world.level.BlockAndTintGetter;
 import net.minecraft.world.level.BlockGetter;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.entity.BlockEntityType;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.block.state.StateDefinition;
 import net.minecraft.world.level.block.state.properties.BlockStateProperties;
+import net.minecraft.world.level.block.state.properties.BooleanProperty;
 import net.minecraft.world.level.block.state.properties.DirectionProperty;
 import net.minecraft.world.phys.shapes.CollisionContext;
 import net.minecraft.world.phys.shapes.VoxelShape;
@@ -19,12 +23,34 @@ import net.ziftech.copycats_extended.client.TEST.model.TEST_CopycatBlock_Geometr
 import net.ziftech.copycats_extended.registry.ModBlockEntities;
 import org.jetbrains.annotations.NotNull;
 
+import java.util.EnumMap;
+import java.util.Map;
+
+
+import net.ziftech.copycats_extended.client.TEST.model.TEST_CopycatBlock_Geometry;
+import org.jetbrains.annotations.Nullable;
+
 public class TEST_CopycatBlock extends CCWaterloggedCopycatBlock {
 
+  public static final BooleanProperty ENHANCED = BooleanProperty.create("enhanced");
   public static final DirectionProperty FACING = BlockStateProperties.FACING;
 
-  public TEST_CopycatBlock(Properties pProperties) {
-    super(pProperties);
+  private static final Map<Direction, VoxelShape> SHAPES = new EnumMap<>(Direction.class);
+
+
+
+  static {
+    for (Direction direction : Direction.values()) {
+      SHAPES.put(direction, TEST_CopycatBlock_Geometry.createShape(direction));
+    }
+  }
+
+  public TEST_CopycatBlock(Properties properties) {
+    super(properties);
+
+    registerDefaultState(defaultBlockState()
+      .setValue(ENHANCED, false)
+    );
   }
 
   @Override
@@ -32,10 +58,13 @@ public class TEST_CopycatBlock extends CCWaterloggedCopycatBlock {
     return null;
   }
 
+  @Override
   protected void createBlockStateDefinition(
     StateDefinition.Builder<Block, BlockState> builder
   ) {
-    super.createBlockStateDefinition(builder.add(FACING));
+    super.createBlockStateDefinition(
+      builder.add(FACING, ENHANCED)
+    );
   }
 
   @Override
@@ -56,9 +85,7 @@ public class TEST_CopycatBlock extends CCWaterloggedCopycatBlock {
     @NotNull BlockPos pos,
     @NotNull CollisionContext context
   ) {
-    return TEST_CopycatBlock_Geometry.createShape(
-      state.getValue(FACING)
-    );
+    return SHAPES.get(state.getValue(FACING));
   }
 
   @Override
@@ -79,5 +106,51 @@ public class TEST_CopycatBlock extends CCWaterloggedCopycatBlock {
   @Override
   public @NotNull BlockEntityType<? extends CCCopycatBlockEntity> getBlockEntityType() {
     return ModBlockEntities.TEST_COPYCAT_BLOCK.get();
+  }
+
+  @Override
+  public boolean canConnectTexturesToward(
+    BlockAndTintGetter reader,
+    BlockPos fromPos,
+    BlockPos toPos,
+    BlockState state
+  ) {
+    if (!isCTEnabled(state, reader, fromPos))
+      return false;
+
+    return super.canConnectTexturesToward(reader, fromPos, toPos, state);
+  }
+
+  @Override
+  public boolean isIgnoredConnectivitySide(
+    BlockAndTintGetter reader,
+    BlockState state,
+    Direction face,
+    BlockPos fromPos,
+    @Nullable BlockPos toPos,
+    @Nullable BlockState toState
+  ) {
+    if (!isCTEnabled(state, reader, fromPos))
+      return true;
+
+    return super.isIgnoredConnectivitySide(
+      reader, state, face, fromPos, toPos, toState
+    );
+  }
+
+  public boolean supportsExternalFaceHiding(BlockState state) {
+    return true;
+  }
+
+  public boolean hidesNeighborFace(
+    BlockGetter level,
+    BlockPos pos,
+    BlockState state,
+    BlockState neighborState,
+    Direction dir
+  ) {
+    return ICopycatBlock.hidesNeighborFace(
+      level, pos, state, neighborState, dir
+    );
   }
 }
