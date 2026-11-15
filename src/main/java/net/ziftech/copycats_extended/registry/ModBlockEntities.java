@@ -15,7 +15,10 @@ import net.neoforged.neoforge.registries.DeferredRegister;
 import net.ziftech.copycats_extended.CopycatsExtended;
 import net.ziftech.copycats_extended.block.CopycatAdvSlopeBlockEntity;
 import net.ziftech.copycats_extended.block.CopycatAdvSlopeLayerBlockEntity;
+import net.ziftech.copycats_extended.block.CopycatPyramid_Entity;
+import net.ziftech.copycats_extended.block.TEST.DoubleCopycatBlockEntity;
 import net.ziftech.copycats_extended.block.TEST.TEST_CopycatBlock_Entity;
+import com.copycatsplus.copycats.foundation.copycat.multistate.MultiStateCopycatBlockEntity;
 
 public final class ModBlockEntities {
 
@@ -70,6 +73,20 @@ public final class ModBlockEntities {
     "test_copycat_block",
     TEST_CopycatBlock_Entity::new,
     ModBlocks.TEST_COPYCAT_BLOCK
+  );
+
+  public static final DeferredHolder<BlockEntityType<?>, BlockEntityType<CopycatPyramid_Entity>>
+    COPYCAT_PYRAMID = registerBlockEntity(
+    "copycat_pyramid",
+    CopycatPyramid_Entity::new,
+    ModBlocks.COPYCAT_PYRAMID
+  );
+
+  public static final DeferredHolder<BlockEntityType<?>, BlockEntityType<DoubleCopycatBlockEntity>>
+    DOUBLE_COPYCAT = registerBlockEntity(
+    "double_copycat",
+    DoubleCopycatBlockEntity::new,
+    ModBlocks.DOUBLE_COPYCAT
   );
 
 }

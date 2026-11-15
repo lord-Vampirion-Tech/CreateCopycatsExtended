@@ -66,6 +66,12 @@ public final class ModLanguageProvider extends LanguageProvider {
   @Override
   protected void addTranslations() {
 
+    add(
+      "itemGroup.copycats_extended.main",
+      RU("Copycat+ | Расширенный"),
+      EN("Copycats+ | Extended")
+    );
+
     // Block names
 
     add(
@@ -90,6 +96,25 @@ public final class ModLanguageProvider extends LanguageProvider {
       "block.copycats_extended.test_copycat_block",
       RU("Тестовый копикат-блок"),
       EN("Test Copycat Block")
+    );
+
+    add(
+      "block.copycats_extended.copycat_pyramid",
+      RU("Слепок Пирамиды"),
+      EN("Copycat Pyramid")
+    );
+
+
+    add(
+      "block.copycats_extended.double_copycat",
+      RU("Двойной Блок"),
+      EN("Double Block")
+    );
+
+    add(
+      "item.copycats_extended.copycat_key",
+      RU("Ключ Copycat"),
+      EN("Copycat Key")
     );
 
     // Characteristics

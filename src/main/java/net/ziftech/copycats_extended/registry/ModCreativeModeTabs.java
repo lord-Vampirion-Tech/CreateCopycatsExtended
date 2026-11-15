@@ -23,10 +23,17 @@ public class ModCreativeModeTabs {
       .title(Component.translatable("itemGroup.copycats_extended.main"))
       .icon(() -> new ItemStack(ModItems.COPYCAT_ADV_SLOPE.get()))
       .displayItems((parameters, output) -> {
+        // ITEM's
+        output.accept(ModItems.COPYCAT_KEY.get());
+        // BLOCK's
         output.accept(ModItems.COPYCAT_ADV_SLOPE.get());
         output.accept(ModItems.COPYCAT_ADV_SLOPE_LAYER.get());
         output.accept(ModItems.BASE_BLOCK.get());
         output.accept(ModItems.TEST_COPYCAT_BLOCK.get());
+
+        output.accept(ModItems.COPYCAT_PYRAMID.get());
+        output.accept(ModItems.DOUBLE_COPYCAT.get());
+
       })
       .build()
     );

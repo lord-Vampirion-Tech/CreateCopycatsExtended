@@ -1,8 +1,9 @@
+
 package net.ziftech.copycats_extended.registry.tooltip;
 
 import com.copycatsplus.copycats.foundation.tooltip.CopycatDescription;
-import com.copycatsplus.copycats.utility.TooltipUtils;
 import com.simibubi.create.foundation.item.ItemDescription;
+import com.simibubi.create.foundation.item.KineticStats;
 import com.simibubi.create.foundation.item.TooltipHelper;
 import com.simibubi.create.foundation.item.TooltipModifier;
 
@@ -14,86 +15,75 @@ import net.minecraft.locale.Language;
 import net.minecraft.network.chat.Component;
 import net.minecraft.world.item.Item;
 
-import net.neoforged.api.distmarker.Dist;
-import net.neoforged.bus.api.SubscribeEvent;
-import net.neoforged.fml.common.EventBusSubscriber;
-import net.neoforged.neoforge.event.entity.player.ItemTooltipEvent;
-
-import net.ziftech.copycats_extended.CopycatsExtended;
-
 import java.util.ArrayList;
-import java.util.HashMap;
+import java.util.Arrays;
 import java.util.List;
-import java.util.Map;
 import java.util.function.Supplier;
 
-@EventBusSubscriber(
-  modid = CopycatsExtended.MOD_ID,
-  value = Dist.CLIENT
-)
 public final class CopycatSlopeTooltip {
 
-//  private static final Map<Item, TooltipModifier> MODIFIERS = new HashMap<>();
-
-  @SubscribeEvent
-  public static void onItemTooltip(ItemTooltipEvent event) {
-    Item item = event.getItemStack().getItem();
-
-    if (!ModCharacteristics.has(item)) {
-      return;
-    }
-
-    appendModCharacteristics(event, item);
+  public static void register(Item item) {
+    TooltipModifier.REGISTRY.register(
+      item,
+      createModCharacteristicsModifier(item)
+        .andThen(CopycatDescription.create(item))
+        .andThen(
+          new ItemDescription.Modifier(
+            item,
+            FontHelper.Palette.STANDARD_CREATE
+          )
+        )
+        .andThen(
+          TooltipModifier.mapNull(KineticStats.create(item))
+        )
+    );
   }
 
-//  private static TooltipModifier createModifier(Item item) {
-//    boolean hasCopycatCharacteristics = CopycatDescription.ITEM_CHARACTERISTICS.containsKey(item);
-//
-//    if (hasCopycatCharacteristics) {
-//      return TooltipUtils.sequential(
-//        CopycatDescription.create(item),
-//        new ItemDescription.Modifier(item, FontHelper.Palette.STANDARD_CREATE)
-//      );
-//    }
-//
-//    return new ItemDescription.Modifier(item, FontHelper.Palette.STANDARD_CREATE);
-//  }
+  private static TooltipModifier createModCharacteristicsModifier(Item item) {
+    return event -> {
+      List<ModCharacteristics> characteristics =
+        ModCharacteristics.get(item);
 
-  private static void appendModCharacteristics(
-    ItemTooltipEvent event,
-    Item item
-  ) {
-    List<ModCharacteristics> characteristics =
-      ModCharacteristics.get(item);
-
-    if (characteristics.isEmpty()) {
-      return;
-    }
-
-    Language language = Language.getInstance();
-    List<Component> lines = new ArrayList<>();
-
-    for (ModCharacteristics characteristic : characteristics) {
-      String titleKey = characteristic.getTitleKey();
-      String descriptionKey = characteristic.getDescriptionKey();
-
-      if (!language.has(titleKey) || !language.has(descriptionKey)) {
-        continue;
+      if (characteristics.isEmpty()) {
+        return;
       }
 
-      lines.add(Component.literal("- " + language.getOrDefault(titleKey)).withStyle(ChatFormatting.GRAY));
+      Language language = Language.getInstance();
+      List<Component> lines = new ArrayList<>();
 
-      if (Screen.hasShiftDown()) {
-        Object[] args = java.util.Arrays.stream(characteristic.getArgs())
-          .map(Supplier::get)
-          .toArray();
+      for (ModCharacteristics characteristic : characteristics) {
+        String titleKey = characteristic.getTitleKey();
+        String descriptionKey = characteristic.getDescriptionKey();
 
-        String description = String.format(language.getOrDefault(descriptionKey), args);
+        if (!language.has(titleKey) || !language.has(descriptionKey)) {
+          continue;
+        }
 
-        lines.addAll(TooltipHelper.cutStringTextComponent(description, FontHelper.Palette.STANDARD_CREATE));
+        lines.add(
+          Component.literal("- " + language.getOrDefault(titleKey))
+            .withStyle(ChatFormatting.GRAY)
+        );
+
+        if (Screen.hasShiftDown()) {
+          Object[] args = Arrays.stream(characteristic.getArgs())
+            .map(Supplier::get)
+            .toArray();
+
+          String description = String.format(
+            language.getOrDefault(descriptionKey),
+            args
+          );
+
+          lines.addAll(
+            TooltipHelper.cutStringTextComponent(
+              description,
+              FontHelper.Palette.STANDARD_CREATE
+            )
+          );
+        }
       }
-    }
 
-    event.getToolTip().addAll(1, lines);
+      event.getToolTip().addAll(1, lines);
+    };
   }
 }

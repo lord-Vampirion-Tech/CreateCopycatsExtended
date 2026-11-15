@@ -16,6 +16,7 @@ import net.minecraft.world.level.block.state.StateDefinition;
 import net.minecraft.world.level.block.state.properties.BlockStateProperties;
 import net.minecraft.world.level.block.state.properties.BooleanProperty;
 import net.minecraft.world.level.block.state.properties.DirectionProperty;
+import net.minecraft.world.level.block.state.properties.IntegerProperty;
 import net.minecraft.world.phys.shapes.CollisionContext;
 import net.minecraft.world.phys.shapes.VoxelShape;
 import net.ziftech.copycats_extended.block.base.ModBlockPlacement;
@@ -37,7 +38,8 @@ public class TEST_CopycatBlock extends CCWaterloggedCopycatBlock {
 
   private static final Map<Direction, VoxelShape> SHAPES = new EnumMap<>(Direction.class);
 
-
+  //public static final IntegerProperty TEST_VALUE_X = IntegerProperty.create("test_value_x", 0, 16);
+  //public static final IntegerProperty TEST_VALUE_Z = IntegerProperty.create("test_value_z", 0, 16);
 
   static {
     for (Direction direction : Direction.values()) {
@@ -50,6 +52,8 @@ public class TEST_CopycatBlock extends CCWaterloggedCopycatBlock {
 
     registerDefaultState(defaultBlockState()
       .setValue(ENHANCED, false)
+      //.setValue(TEST_VALUE_X, 8)
+      //.setValue(TEST_VALUE_Z, 8)
     );
   }
 
@@ -63,7 +67,7 @@ public class TEST_CopycatBlock extends CCWaterloggedCopycatBlock {
     StateDefinition.Builder<Block, BlockState> builder
   ) {
     super.createBlockStateDefinition(
-      builder.add(FACING, ENHANCED)
+      builder.add(FACING, ENHANCED/*, TEST_VALUE_X,TEST_VALUE_Z*/)
     );
   }
 

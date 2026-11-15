@@ -3,6 +3,7 @@ package net.ziftech.copycats_extended.client;
 import com.copycatsplus.copycats.foundation.copycat.ICopycatBlock;
 import com.copycatsplus.copycats.foundation.copycat.model.CopycatModelCore;
 
+import com.copycatsplus.copycats.foundation.copycat.multistate.IMultiStateCopycatBlock;
 import net.minecraft.client.renderer.block.BlockModelShaper;
 import net.minecraft.world.level.block.Block;
 
@@ -14,8 +15,7 @@ import net.neoforged.neoforge.client.event.RegisterColorHandlersEvent;
 
 import net.ziftech.copycats_extended.CopycatsExtended;
 import net.ziftech.copycats_extended.client.TEST.model.TEST_CopycatBlock_ModelCore;
-import net.ziftech.copycats_extended.client.model.CopycatAdvSlopeModelCore;
-import net.ziftech.copycats_extended.client.model.CopycatAdvSlopeLayerModelCore;
+import net.ziftech.copycats_extended.client.model.*;
 import net.ziftech.copycats_extended.registry.ModBlocks;
 
 @EventBusSubscriber(
@@ -44,6 +44,18 @@ public final class CopycatsExtendedClientEvents {
       new TEST_CopycatBlock_ModelCore()
     );
 
+    registerModel(
+      event,
+      ModBlocks.COPYCAT_PYRAMID.get(),
+      new CopycatPyramid_ModelCore()
+    );
+
+    registerModel(
+      event,
+      ModBlocks.DOUBLE_COPYCAT.get(),
+      new DoubleCopycat_ModelCore()
+    );
+
   }
 
   private static void registerModel(
@@ -70,7 +82,15 @@ public final class CopycatsExtendedClientEvents {
       ICopycatBlock.wrappedColor(),
       ModBlocks.COPYCAT_ADV_SLOPE.get(),
       ModBlocks.COPYCAT_ADV_SLOPE_LAYER.get(),
-      ModBlocks.TEST_COPYCAT_BLOCK.get()
+      ModBlocks.TEST_COPYCAT_BLOCK.get(),
+      ModBlocks.COPYCAT_PYRAMID.get(),
+      ModBlocks.DOUBLE_COPYCAT.get()
+    );
+
+    // MultiState Copycat-блоки
+    event.register(
+      IMultiStateCopycatBlock.wrappedColor(),
+      ModBlocks.DOUBLE_COPYCAT.get()
     );
   }
 }

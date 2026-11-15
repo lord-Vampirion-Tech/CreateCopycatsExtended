@@ -1,4 +1,5 @@
-// 1.21.1	2026-11-06T19:25:11.0322124	Loot Tables
+// 1.21.1	2026-11-15T01:19:00.775793	Loot Tables
 05a988dbf4453fcf64ded303025991205b8ded8f data/copycats_extended/loot_table/blocks/copycat_adv_slope.json
 ecde2254cc5322a2c5774406c7e5e7e024497c89 data/copycats_extended/loot_table/blocks/copycat_adv_slope_layer.json
+c67b243d645a585d16f92449f32d7785e6cf9520 data/copycats_extended/loot_table/blocks/copycat_pyramid.json
 ba8df70b70ae09d308323ba55e7c2ab77a72a733 data/copycats_extended/loot_table/blocks/test_copycat_block.json

@@ -24,6 +24,7 @@ public final class ModBlockStateProvider extends BlockStateProvider {
     registerAirState(ModBlocks.COPYCAT_ADV_SLOPE.get());
     registerAirState(ModBlocks.COPYCAT_ADV_SLOPE_LAYER.get());
     registerAirState(ModBlocks.TEST_COPYCAT_BLOCK.get());
+    registerAirState(ModBlocks.COPYCAT_PYRAMID.get());
   }
 
   private void registerAirState(Block block) {

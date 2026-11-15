@@ -16,6 +16,8 @@ import net.neoforged.neoforge.registries.DeferredRegister;
 import net.neoforged.neoforge.registries.DeferredItem;
 
 import net.ziftech.copycats_extended.CopycatsExtended;
+import net.ziftech.copycats_extended.item.CopycatKeyItem;
+import net.ziftech.copycats_extended.registry.tooltip.CopycatSlopeTooltip;
 import net.ziftech.copycats_extended.registry.tooltip.ModCharacteristics;
 
 public final class ModItems {
@@ -47,19 +49,23 @@ public final class ModItems {
         }
       }
 
-      if (!copycatCharacteristics.isEmpty()) {
+
+      if (!copycatCharacteristics.isEmpty() || !modCharacteristics.isEmpty()) {
+        if (!modCharacteristics.isEmpty()) {
+          ModCharacteristics.register(
+            item,
+            modCharacteristics.toArray(new ModCharacteristics[0])
+          );
+        }
+
         CopycatDescription.register(
           item,
           copycatCharacteristics.toArray(new CopycatCharacteristics[0])
         );
+
+        CopycatSlopeTooltip.register(item);
       }
 
-      if (!modCharacteristics.isEmpty()) {
-        ModCharacteristics.register(
-          item,
-          modCharacteristics.toArray(new ModCharacteristics[0])
-        );
-      }
 
       return item;
     });
@@ -93,5 +99,30 @@ public final class ModItems {
       CopycatCharacteristics.CT_TOGGLE,
       ModCharacteristics.TEST_INFO,
       ModCharacteristics.TEST_KEY
+    );
+
+  public static final DeferredItem<BlockItem> COPYCAT_PYRAMID =
+    newItem(
+      "copycat_pyramid",
+      ModBlocks.COPYCAT_PYRAMID,
+      ModCharacteristics.TEST_INFO
+    );
+
+  public static final DeferredItem<BlockItem> DOUBLE_COPYCAT =
+    newItem(
+      "double_copycat",
+      ModBlocks.DOUBLE_COPYCAT,
+      CopycatCharacteristics.COPYCAT,
+      CopycatCharacteristics.CT_TOGGLE
+    );
+
+
+
+  // ITEM'S
+
+  public static final DeferredItem<CopycatKeyItem> COPYCAT_KEY =
+    ITEMS.register(
+      "copycat_key",
+      () -> new CopycatKeyItem(new Item.Properties())
     );
 }

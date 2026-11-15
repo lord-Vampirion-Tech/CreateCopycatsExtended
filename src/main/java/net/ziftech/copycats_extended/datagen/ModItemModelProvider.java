@@ -29,6 +29,7 @@ public final class ModItemModelProvider extends ItemModelProvider {
     registerBlockItem(ModBlocks.COPYCAT_ADV_SLOPE.get());
     registerBlockItem(ModBlocks.COPYCAT_ADV_SLOPE_LAYER.get());
     registerBlockItem(ModBlocks.TEST_COPYCAT_BLOCK.get());
+    registerBlockItem(ModBlocks.COPYCAT_PYRAMID.get());
   }
 
   private void registerBlockItem(Block block) {

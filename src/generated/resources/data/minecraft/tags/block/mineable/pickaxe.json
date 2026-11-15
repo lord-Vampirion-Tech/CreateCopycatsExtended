@@ -3,6 +3,7 @@
     "copycats_extended:copycat_adv_slope",
     "copycats_extended:copycat_adv_slope_layer",
     "copycats_extended:base_block",
-    "copycats_extended:test_copycat_block"
+    "copycats_extended:test_copycat_block",
+    "copycats_extended:copycat_pyramid"
   ]
 }
