@@ -66,44 +66,43 @@ public final class ModLanguageProvider extends LanguageProvider {
   @Override
   protected void addTranslations() {
 
-    add(
-      "itemGroup.copycats_extended.main",
-      RU("Copycat+ | Расширенный"),
-      EN("Copycats+ | Extended")
-    );
-
-    // Block names
-
+    //// Block's
     add(
       "block.copycats_extended.base_block",
-      RU("Базовый Блок"),
-      EN("Base Block")
+      RU("Тестовый Блок"),
+      EN("Test Block")
     );
 
-    add(
-      "block.copycats_extended.copycat_adv_slope",
-      RU("Продвинутый скос"),
-      EN("Advanced Copycat Slope")
-    );
-
-    add(
-      "block.copycats_extended.copycat_adv_slope_layer",
-      RU("Продвинутый слой скоса"),
-      EN("Advanced Copycat Slope Layer")
-    );
-
-    add(
-      "block.copycats_extended.test_copycat_block",
-      RU("Тестовый копикат-блок"),
-      EN("Test Copycat Block")
-    );
-
+    // Pyramid's
     add(
       "block.copycats_extended.copycat_pyramid",
-      RU("Слепок Пирамиды"),
-      EN("Copycat Pyramid")
+      RU("Пирамида"),
+      EN("Pyramid")
     );
 
+    add(
+      "block.copycats_extended.copycat_pyramid_corner",
+      RU("Угловая пирамида"),
+      EN("Corner Pyramid")
+    );
+
+    add(
+      "block.copycats_extended.copycat_pyramid_opposite",
+      RU("Двусторонняя пирамида"),
+      EN("Opposite Pyramid")
+    );
+
+    add(
+      "block.copycats_extended.copycat_pyramid_quad",
+      RU("Четырёхсторонняя пирамида"),
+      EN("Four-Sided Pyramid")
+    );
+
+    add(
+      "block.copycats_extended.copycat_pyramid_triple",
+      RU("Трёхсторонняя пирамида"),
+      EN("Three-Sided Pyramid")
+    );
 
     add(
       "block.copycats_extended.double_copycat",
@@ -111,6 +110,7 @@ public final class ModLanguageProvider extends LanguageProvider {
       EN("Double Block")
     );
 
+    // Item's
     add(
       "item.copycats_extended.copycat_key",
       RU("Ключ Copycat"),
@@ -118,29 +118,34 @@ public final class ModLanguageProvider extends LanguageProvider {
     );
 
     // Characteristics
-
     add(
-      "tooltip.copycats_extended.characteristics.test_info.title",
-      RU("Тестовая информация"),
-      EN("Test Info")
+      "itemGroup.copycats_extended.main",
+      RU("Copycat+ | Расширенный"),
+      EN("Copycats+ | Extended")
     );
 
-    add(
-      "tooltip.copycats_extended.characteristics.test_info.description",
-      RU("Это тестовая характеристика."),
-      EN("This is a test characteristic.")
-    );
-
-    add(
-      "tooltip.copycats_extended.characteristics.test_key.title",
-      RU("Тестовая клавиша"),
-      EN("Test Key")
-    );
-
-    add(
-      "tooltip.copycats_extended.characteristics.test_key.description",
-      RU("Нажмите _%s_, чтобы активировать функцию."),
-      EN("Press _%s_ to activate the feature.")
-    );
+//    add(
+//      "tooltip.copycats_extended.characteristics.test_info.title",
+//      RU("Тестовая информация"),
+//      EN("Test Info")
+//    );
+//
+//    add(
+//      "tooltip.copycats_extended.characteristics.test_info.description",
+//      RU("Это тестовая характеристика."),
+//      EN("This is a test characteristic.")
+//    );
+//
+//    add(
+//      "tooltip.copycats_extended.characteristics.test_key.title",
+//      RU("Тестовая клавиша"),
+//      EN("Test Key")
+//    );
+//
+//    add(
+//      "tooltip.copycats_extended.characteristics.test_key.description",
+//      RU("Нажмите _%s_, чтобы активировать функцию."),
+//      EN("Press _%s_ to activate the feature.")
+//    );
   }
 }

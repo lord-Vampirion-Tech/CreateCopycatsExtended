@@ -9,11 +9,8 @@ import net.neoforged.neoforge.registries.DeferredBlock;
 import net.neoforged.neoforge.registries.DeferredRegister;
 
 import net.ziftech.copycats_extended.CopycatsExtended;
-import net.ziftech.copycats_extended.block.CopycatAdvSlopeBlock;
-import net.ziftech.copycats_extended.block.CopycatAdvSlopeLayerBlock;
-import net.ziftech.copycats_extended.block.CopycatPyramid;
-import net.ziftech.copycats_extended.block.TEST.DoubleCopycatBlock;
-import net.ziftech.copycats_extended.block.TEST.TEST_CopycatBlock;
+import net.ziftech.copycats_extended.block.Pyramids.*;
+import net.ziftech.copycats_extended.block.DoubleBlock;
 
 public class ModBlocks {
 
@@ -26,10 +23,7 @@ public class ModBlocks {
   ) {
     return BLOCKS.register(
       name,
-      () -> factory.apply(
-        BlockBehaviour.Properties.of()
-          .strength(1.5F, 6.0F)
-      )
+      () -> factory.apply(BlockBehaviour.Properties.of().strength(1.5F, 6.0F))
     );
   }
 
@@ -40,9 +34,7 @@ public class ModBlocks {
     return BLOCKS.register(
       name,
       () -> factory.apply(
-        BlockBehaviour.Properties.of()
-          .strength(1.5F, 6.0F)
-          .noOcclusion()
+        BlockBehaviour.Properties.of().strength(1.5F, 6.0F).noOcclusion()
       )
     );
   }
@@ -51,18 +43,26 @@ public class ModBlocks {
   public static final DeferredBlock<Block> BASE_BLOCK =
     registerBlock("base_block", Block::new);
 
-  public static final DeferredBlock<CopycatAdvSlopeBlock> COPYCAT_ADV_SLOPE =
-    registerCopycatBlock("copycat_adv_slope", CopycatAdvSlopeBlock::new);
+//  public static final DeferredBlock<CopycatAdvSlopeBlock> COPYCAT_ADV_SLOPE =
+//    registerCopycatBlock("copycat_adv_slope", CopycatAdvSlopeBlock::new);
+//
+//  public static final DeferredBlock<CopycatAdvSlopeLayerBlock> COPYCAT_ADV_SLOPE_LAYER =
+//    registerCopycatBlock("copycat_adv_slope_layer", CopycatAdvSlopeLayerBlock::new);
+//
+//  public static final DeferredBlock<TEST_CopycatBlock> TEST_COPYCAT_BLOCK =
+//    registerCopycatBlock("test_copycat_block", TEST_CopycatBlock::new);
 
-  public static final DeferredBlock<CopycatAdvSlopeLayerBlock> COPYCAT_ADV_SLOPE_LAYER =
-    registerCopycatBlock("copycat_adv_slope_layer", CopycatAdvSlopeLayerBlock::new);
-
-  public static final DeferredBlock<TEST_CopycatBlock> TEST_COPYCAT_BLOCK =
-    registerCopycatBlock("test_copycat_block", TEST_CopycatBlock::new);
-
-  public static final DeferredBlock<CopycatPyramid> COPYCAT_PYRAMID =
+  public static final DeferredBlock<BASE_CopycatPyramidBlock> COPYCAT_PYRAMID =
     registerCopycatBlock("copycat_pyramid", CopycatPyramid::new);
+  public static final DeferredBlock<BASE_CopycatPyramidBlock> COPYCAT_PYRAMID_CORNER =
+    registerCopycatBlock("copycat_pyramid_corner", CopycatPyramidCorner::new);
+  public static final DeferredBlock<BASE_CopycatPyramidBlock> COPYCAT_PYRAMID_OPPOSITE =
+    registerCopycatBlock("copycat_pyramid_opposite", CopycatPyramidOpposite::new);
+  public static final DeferredBlock<BASE_CopycatPyramidBlock> COPYCAT_PYRAMID_QUAD =
+    registerCopycatBlock("copycat_pyramid_quad", CopycatPyramidQuad::new);
+  public static final DeferredBlock<BASE_CopycatPyramidBlock> COPYCAT_PYRAMID_TRIPLE =
+    registerCopycatBlock("copycat_pyramid_triple", CopycatPyramidTriple::new);
 
-  public static final DeferredBlock<DoubleCopycatBlock> DOUBLE_COPYCAT =
-    registerCopycatBlock("double_copycat", DoubleCopycatBlock::new);
+  public static final DeferredBlock<DoubleBlock> DOUBLE_BLOCK =
+    registerCopycatBlock("double_copycat", DoubleBlock::new);
 }

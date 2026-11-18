@@ -7,7 +7,6 @@ import java.util.Set;
 import net.minecraft.core.HolderLookup;
 import net.minecraft.data.PackOutput;
 import net.minecraft.world.flag.FeatureFlags;
-import net.minecraft.world.item.Items;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.storage.loot.parameters.LootContextParamSets;
 
@@ -44,19 +43,21 @@ public final class ModLootTableProvider extends LootTableProvider {
 
     @Override
     protected void generate() {
-      dropSelf(ModBlocks.COPYCAT_ADV_SLOPE.get());
-      dropSelf(ModBlocks.COPYCAT_ADV_SLOPE_LAYER.get());
-      dropSelf(ModBlocks.TEST_COPYCAT_BLOCK.get());
+      //dropSelf(ModBlocks.COPYCAT_ADV_SLOPE.get());
+      //dropSelf(ModBlocks.COPYCAT_ADV_SLOPE_LAYER.get());
+      //dropSelf(ModBlocks.TEST_COPYCAT_BLOCK.get());
       dropSelf(ModBlocks.COPYCAT_PYRAMID.get());
+      dropSelf(ModBlocks.DOUBLE_BLOCK.get());
     }
 
     @Override
     protected @NotNull Iterable<Block> getKnownBlocks() {
       return List.of(
-        ModBlocks.COPYCAT_ADV_SLOPE.get(),
-        ModBlocks.COPYCAT_ADV_SLOPE_LAYER.get(),
-        ModBlocks.TEST_COPYCAT_BLOCK.get(),
-        ModBlocks.COPYCAT_PYRAMID.get()
+        //ModBlocks.COPYCAT_ADV_SLOPE.get(),
+        //ModBlocks.COPYCAT_ADV_SLOPE_LAYER.get(),
+        //ModBlocks.TEST_COPYCAT_BLOCK.get(),
+        ModBlocks.COPYCAT_PYRAMID.get(),
+        ModBlocks.DOUBLE_BLOCK.get()
       );
     }
   }

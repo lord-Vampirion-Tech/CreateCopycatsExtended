@@ -1,5 +1,7 @@
-// 1.21.1	2026-11-15T01:19:00.7721797	Item Models: copycats_extended
-3280c4d56c585269fc08783797399f886bb3c135 assets/copycats_extended/models/item/copycat_adv_slope.json
-3280c4d56c585269fc08783797399f886bb3c135 assets/copycats_extended/models/item/copycat_adv_slope_layer.json
+// 1.21.1	2026-11-18T02:07:57.7497313	Item Models: copycats_extended
 3280c4d56c585269fc08783797399f886bb3c135 assets/copycats_extended/models/item/copycat_pyramid.json
-3280c4d56c585269fc08783797399f886bb3c135 assets/copycats_extended/models/item/test_copycat_block.json
+3280c4d56c585269fc08783797399f886bb3c135 assets/copycats_extended/models/item/copycat_pyramid_corner.json
+3280c4d56c585269fc08783797399f886bb3c135 assets/copycats_extended/models/item/copycat_pyramid_opposite.json
+3280c4d56c585269fc08783797399f886bb3c135 assets/copycats_extended/models/item/copycat_pyramid_quad.json
+3280c4d56c585269fc08783797399f886bb3c135 assets/copycats_extended/models/item/copycat_pyramid_triple.json
+3280c4d56c585269fc08783797399f886bb3c135 assets/copycats_extended/models/item/double_copycat.json

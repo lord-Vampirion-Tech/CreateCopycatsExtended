@@ -1,14 +1,11 @@
 {
-  "block.copycats_extended.base_block": "Базовый Блок",
-  "block.copycats_extended.copycat_adv_slope": "Продвинутый скос",
-  "block.copycats_extended.copycat_adv_slope_layer": "Продвинутый слой скоса",
-  "block.copycats_extended.copycat_pyramid": "Слепок Пирамиды",
+  "block.copycats_extended.base_block": "Тестовый Блок",
+  "block.copycats_extended.copycat_pyramid": "Пирамида",
+  "block.copycats_extended.copycat_pyramid_corner": "Угловая пирамида",
+  "block.copycats_extended.copycat_pyramid_opposite": "Двусторонняя пирамида",
+  "block.copycats_extended.copycat_pyramid_quad": "Четырёхсторонняя пирамида",
+  "block.copycats_extended.copycat_pyramid_triple": "Трёхсторонняя пирамида",
   "block.copycats_extended.double_copycat": "Двойной Блок",
-  "block.copycats_extended.test_copycat_block": "Тестовый копикат-блок",
   "item.copycats_extended.copycat_key": "Ключ Copycat",
-  "itemGroup.copycats_extended.main": "Copycat+ | Расширенный",
-  "tooltip.copycats_extended.characteristics.test_info.description": "Это тестовая характеристика.",
-  "tooltip.copycats_extended.characteristics.test_info.title": "Тестовая информация",
-  "tooltip.copycats_extended.characteristics.test_key.description": "Нажмите _%s_, чтобы активировать функцию.",
-  "tooltip.copycats_extended.characteristics.test_key.title": "Тестовая клавиша"
+  "itemGroup.copycats_extended.main": "Copycat+ | Расширенный"
 }

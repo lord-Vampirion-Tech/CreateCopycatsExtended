@@ -1,14 +1,11 @@
 {
-  "block.copycats_extended.base_block": "Base Block",
-  "block.copycats_extended.copycat_adv_slope": "Advanced Copycat Slope",
-  "block.copycats_extended.copycat_adv_slope_layer": "Advanced Copycat Slope Layer",
-  "block.copycats_extended.copycat_pyramid": "Copycat Pyramid",
+  "block.copycats_extended.base_block": "Test Block",
+  "block.copycats_extended.copycat_pyramid": "Pyramid",
+  "block.copycats_extended.copycat_pyramid_corner": "Corner Pyramid",
+  "block.copycats_extended.copycat_pyramid_opposite": "Opposite Pyramid",
+  "block.copycats_extended.copycat_pyramid_quad": "Four-Sided Pyramid",
+  "block.copycats_extended.copycat_pyramid_triple": "Three-Sided Pyramid",
   "block.copycats_extended.double_copycat": "Double Block",
-  "block.copycats_extended.test_copycat_block": "Test Copycat Block",
   "item.copycats_extended.copycat_key": "Copycat Key",
-  "itemGroup.copycats_extended.main": "Copycats+ | Extended",
-  "tooltip.copycats_extended.characteristics.test_info.description": "This is a test characteristic.",
-  "tooltip.copycats_extended.characteristics.test_info.title": "Test Info",
-  "tooltip.copycats_extended.characteristics.test_key.description": "Press _%s_ to activate the feature.",
-  "tooltip.copycats_extended.characteristics.test_key.title": "Test Key"
+  "itemGroup.copycats_extended.main": "Copycats+ | Extended"
 }

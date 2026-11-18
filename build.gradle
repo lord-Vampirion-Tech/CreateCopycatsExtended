@@ -77,9 +77,13 @@ dependencies {
     runtimeOnly("maven.modrinth:AANobbMI:Pb3OXVqC") // Sodium 0.6.13
     runtimeOnly("maven.modrinth:YL57xq9U:t3ruzodq") // Iris 1.8.12
 
+    // WorldEdit development dependency
+    runtimeOnly("maven.modrinth:1u6JkXh5:WTAFvuRx") // WorldEdit 7.3.8
+
     // Copycats+ development/runtime dependency from Modrinth Maven.
     // Version page: https://modrinth.com/mod/copycats/version/bPYeUWZx
     implementation("maven.modrinth:UT2M39wf:${copycats_modrinth_version_id}")
+
 }
 
 tasks.withType(ProcessResources).configureEach {

@@ -5,10 +5,8 @@ import net.neoforged.bus.api.IEventBus;
 import net.neoforged.fml.common.Mod;
 
 import net.ziftech.copycats_extended.datagen.ModDataGenerators;
-import net.ziftech.copycats_extended.registry.ModBlockEntities;
-import net.ziftech.copycats_extended.registry.ModBlocks;
-import net.ziftech.copycats_extended.registry.ModCreativeModeTabs;
-import net.ziftech.copycats_extended.registry.ModItems;
+import net.ziftech.copycats_extended.network.ModPayloads;
+import net.ziftech.copycats_extended.registry.*;
 
 @Mod(CopycatsExtended.MOD_ID)
 public final class CopycatsExtended {
@@ -20,6 +18,8 @@ public final class CopycatsExtended {
         ModItems.ITEMS.register(modEventBus);
         ModCreativeModeTabs.TABS.register(modEventBus);
         ModBlockEntities.BLOCK_ENTITIES.register(modEventBus);
+
+        ModPayloads.register(modEventBus);
 
         modEventBus.addListener(ModDataGenerators::gatherData);
     }

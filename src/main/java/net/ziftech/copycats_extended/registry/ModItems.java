@@ -75,54 +75,81 @@ public final class ModItems {
   public static final DeferredItem<BlockItem> BASE_BLOCK =
     newItem("base_block", ModBlocks.BASE_BLOCK);
 
-  public static final DeferredItem<BlockItem> COPYCAT_ADV_SLOPE =
-    newItem(
-      "copycat_adv_slope",
-      ModBlocks.COPYCAT_ADV_SLOPE,
-      CopycatCharacteristics.COPYCAT,
-      CopycatCharacteristics.CT_TOGGLE
-    );
-
-  public static final DeferredItem<BlockItem> COPYCAT_ADV_SLOPE_LAYER =
-    newItem(
-      "copycat_adv_slope_layer",
-      ModBlocks.COPYCAT_ADV_SLOPE_LAYER,
-      CopycatCharacteristics.COPYCAT,
-      CopycatCharacteristics.CT_TOGGLE,
-      CopycatCharacteristics.STACKABLE
-    );
-
-  public static final DeferredItem<BlockItem> TEST_COPYCAT_BLOCK =
-    newItem(
-      "test_copycat_block",
-      ModBlocks.TEST_COPYCAT_BLOCK,
-      CopycatCharacteristics.CT_TOGGLE,
-      ModCharacteristics.TEST_INFO,
-      ModCharacteristics.TEST_KEY
-    );
+//  public static final DeferredItem<BlockItem> COPYCAT_ADV_SLOPE =
+//    newItem(
+//      "copycat_adv_slope",
+//      ModBlocks.COPYCAT_ADV_SLOPE,
+//      CopycatCharacteristics.COPYCAT,
+//      CopycatCharacteristics.CT_TOGGLE
+//    );
+//
+//  public static final DeferredItem<BlockItem> COPYCAT_ADV_SLOPE_LAYER =
+//    newItem(
+//      "copycat_adv_slope_layer",
+//      ModBlocks.COPYCAT_ADV_SLOPE_LAYER,
+//      CopycatCharacteristics.COPYCAT,
+//      CopycatCharacteristics.CT_TOGGLE,
+//      CopycatCharacteristics.STACKABLE
+//    );
+//
+//  public static final DeferredItem<BlockItem> TEST_COPYCAT_BLOCK =
+//    newItem(
+//      "test_copycat_block",
+//      ModBlocks.TEST_COPYCAT_BLOCK,
+//      CopycatCharacteristics.CT_TOGGLE,
+//      ModCharacteristics.TEST_INFO,
+//      ModCharacteristics.TEST_KEY
+//    );
 
   public static final DeferredItem<BlockItem> COPYCAT_PYRAMID =
     newItem(
       "copycat_pyramid",
       ModBlocks.COPYCAT_PYRAMID,
-      ModCharacteristics.TEST_INFO
+      CopycatCharacteristics.COPYCAT,
+      CopycatCharacteristics.CT_TOGGLE
+    );
+  public static final DeferredItem<BlockItem> COPYCAT_PYRAMID_CORNER =
+    newItem(
+      "copycat_pyramid_corner",
+      ModBlocks.COPYCAT_PYRAMID_CORNER,
+      CopycatCharacteristics.COPYCAT,
+      CopycatCharacteristics.CT_TOGGLE
+    );
+  public static final DeferredItem<BlockItem> COPYCAT_PYRAMID_OPPOSITE =
+    newItem(
+      "copycat_pyramid_opposite",
+      ModBlocks.COPYCAT_PYRAMID_OPPOSITE,
+      CopycatCharacteristics.COPYCAT,
+      CopycatCharacteristics.CT_TOGGLE
+    );
+  public static final DeferredItem<BlockItem> COPYCAT_PYRAMID_QUAD =
+    newItem(
+      "copycat_pyramid_quad",
+      ModBlocks.COPYCAT_PYRAMID_QUAD,
+      CopycatCharacteristics.COPYCAT,
+      CopycatCharacteristics.CT_TOGGLE
+    );
+  public static final DeferredItem<BlockItem> COPYCAT_PYRAMID_TRIPLE =
+    newItem(
+      "copycat_pyramid_triple",
+      ModBlocks.COPYCAT_PYRAMID_TRIPLE,
+      CopycatCharacteristics.COPYCAT,
+      CopycatCharacteristics.CT_TOGGLE
     );
 
   public static final DeferredItem<BlockItem> DOUBLE_COPYCAT =
     newItem(
       "double_copycat",
-      ModBlocks.DOUBLE_COPYCAT,
+      ModBlocks.DOUBLE_BLOCK,
       CopycatCharacteristics.COPYCAT,
       CopycatCharacteristics.CT_TOGGLE
     );
 
 
-
   // ITEM'S
-
   public static final DeferredItem<CopycatKeyItem> COPYCAT_KEY =
     ITEMS.register(
       "copycat_key",
-      () -> new CopycatKeyItem(new Item.Properties())
+      () -> new CopycatKeyItem(new Item.Properties().stacksTo(1))
     );
 }

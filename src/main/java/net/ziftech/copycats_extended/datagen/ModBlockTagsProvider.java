@@ -36,11 +36,16 @@ public final class ModBlockTagsProvider extends BlockTagsProvider {
   protected void addTags(HolderLookup.@NotNull Provider provider) {
     // Blocks requiring an iron pickaxe or better
     List<Block> pickaxeBlocks = List.of(
-      ModBlocks.COPYCAT_ADV_SLOPE.get(),
-      ModBlocks.COPYCAT_ADV_SLOPE_LAYER.get(),
-      ModBlocks.BASE_BLOCK.get(),
-      ModBlocks.TEST_COPYCAT_BLOCK.get(),
-      ModBlocks.COPYCAT_PYRAMID.get()
+      //ModBlocks.COPYCAT_ADV_SLOPE.get(),
+      //ModBlocks.COPYCAT_ADV_SLOPE_LAYER.get(),
+      //ModBlocks.BASE_BLOCK.get(),
+      //ModBlocks.TEST_COPYCAT_BLOCK.get(),
+      ModBlocks.COPYCAT_PYRAMID.get(),
+      ModBlocks.COPYCAT_PYRAMID_CORNER.get(),
+      ModBlocks.COPYCAT_PYRAMID_OPPOSITE.get(),
+      ModBlocks.COPYCAT_PYRAMID_QUAD.get(),
+      ModBlocks.COPYCAT_PYRAMID_TRIPLE.get(),
+      ModBlocks.DOUBLE_BLOCK.get()
     );
 
     var pickaxeTag = tag(BlockTags.MINEABLE_WITH_PICKAXE);

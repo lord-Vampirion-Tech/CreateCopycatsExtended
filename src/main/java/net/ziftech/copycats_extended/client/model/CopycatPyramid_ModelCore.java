@@ -3,65 +3,60 @@ package net.ziftech.copycats_extended.client.model;
 import com.copycatsplus.copycats.foundation.copycat.model.CopycatModelCore;
 import com.copycatsplus.copycats.foundation.copycat.model.assembly.AssemblyTransform;
 import com.copycatsplus.copycats.foundation.copycat.model.assembly.CopycatRenderContext;
-import com.copycatsplus.copycats.foundation.copycat.model.assembly.MutableAABB;
-import com.copycatsplus.copycats.foundation.copycat.model.assembly.MutableCullFace;
-import com.copycatsplus.copycats.foundation.copycat.model.assembly.MutableVec3;
-import com.copycatsplus.copycats.foundation.copycat.model.assembly.quad.QuadTransform;
 
+import com.copycatsplus.copycats.foundation.copycat.model.assembly.quad.QuadScale;
 import net.minecraft.core.Direction;
 import net.minecraft.core.Direction.Axis;
 import net.minecraft.world.level.block.state.BlockState;
-import net.ziftech.copycats_extended.block.CopycatPyramid;
+
+import net.ziftech.copycats_extended.block.Pyramids.BASE_CopycatPyramidBlock;
+import net.ziftech.copycats_extended.block.Pyramids.CopycatPyramidOpposite;
 
 import static com.copycatsplus.copycats.foundation.copycat.model.assembly.CopycatRenderContext.*;
-import static net.ziftech.copycats_extended.client.TEST.CustomQuadTransform.symmetricSlope;
-
+import static net.ziftech.copycats_extended.client.model.CustomQuadTransform.*;
 
 public class CopycatPyramid_ModelCore extends CopycatModelCore {
 
   private static final AssemblyTransform[] TRANSFORMS = {
     t -> t.rotateX(180), // DOWN
-    AssemblyTransform.IDENTITY, // UP
-    t -> t.rotateX(90), // NORTH
+    t -> {
+    },             // UP
+    t -> t.rotateX(90),  // NORTH
     t -> t.rotateX(270), // SOUTH
     t -> t.rotateZ(270), // WEST
-    t -> t.rotateZ(90) // EAST
+    t -> t.rotateZ(90)   // EAST
   };
 
-  private static final QuadTransform[] NORMAL_TRANSFORMS = {
-    updateUV(
-      symmetricSlope(Axis.Z, (x, y) -> 16 - y),
-      symmetricSlope(Axis.X, (y, z) -> 16 - y)
-    )
-  };
+  private static final AssemblyTransform[] OPPOSITE_TRANSFORMS = {
+    t -> t.rotateX(180),
+    t -> {},
+    t -> t.rotateX(90),
+    t -> t.rotateX(270),
+    t -> t.rotateZ(270),
+    t -> t.rotateZ(90),
 
-  private static final ThreadLocal<CopycatPyramid_ModelCore.Scratch> SCRATCH =
-    ThreadLocal.withInitial(CopycatPyramid_ModelCore.Scratch::new);
-
-  private static final class Scratch {
-
-    final MutableVec3 offset = new MutableVec3(0, 0, 0);
-    final MutableAABB selection = new MutableAABB(1, 1, 1);
-    final MutableCullFace cull = new MutableCullFace(0);
-
-    void reset(boolean cullUp) {
-      offset.set(0, 0, 0);
-
-      selection.set(
-        0, 0, 0,
-        1, 1, 1
-      );
-
-      cull.set(
-        cullUp,
-        false,
-        false,
-        false,
-        false,
-        false
-      );
+    t -> {
+      t.rotateY(90);
+      t.rotateX(180);
+    },
+    t -> t.rotateY(90),
+    t -> {
+      t.rotateY(90);
+      t.rotateX(90);
+    },
+    t -> {
+      t.rotateY(90);
+      t.rotateX(270);
+    },
+    t -> {
+      t.rotateY(90);
+      t.rotateZ(270);
+    },
+    t -> {
+      t.rotateY(90);
+      t.rotateZ(90);
     }
-  }
+  };
 
   @Override
   public void emitCopycatQuads(
@@ -70,17 +65,72 @@ public class CopycatPyramid_ModelCore extends CopycatModelCore {
     CopycatRenderContext context,
     BlockState material
   ) {
-    Direction facing = state.getValue(CopycatPyramid.FACING);
+    Direction facing = state.getValue(BASE_CopycatPyramidBlock.FACING);
 
-    CopycatPyramid_ModelCore.Scratch scratch = SCRATCH.get();
-    scratch.reset(true);
+    double x = state.getValue(BASE_CopycatPyramidBlock.TOP_POINT_X);
+    double z = state.getValue(BASE_CopycatPyramidBlock.TOP_POINT_Z);
+    double y = state.getValue(BASE_CopycatPyramidBlock.TOP_POINT_Y);
 
-    context.assemblePiece(
-      TRANSFORMS[facing.ordinal()],
-      scratch.offset,
-      scratch.selection,
-      scratch.cull,
-      NORMAL_TRANSFORMS
+    QuadScale Scale = scale(
+      pivot(.5f, 0, .5f),
+      scale(1, ((float) y / 8), 1)
     );
+
+    switch (((BASE_CopycatPyramidBlock) state.getBlock()).getShapeType()) {
+      case PYRAMID -> context.assemblePiece(
+        TRANSFORMS[facing.ordinal()],
+        vec3(0, 0, 0),
+        aabb(16, 16, 16),
+        cull(0),
+        updateUV(
+          symmetricSlope(Axis.X, (a, b) -> 16 - a, x / 8),
+          symmetricSlope(Axis.Z, (a, b) -> 16 - b, z / 8)
+        ),
+        Scale
+      );
+      case CORNER -> context.assemblePiece(
+        TRANSFORMS[facing.ordinal()],
+        vec3(0, 0, 0),
+        aabb(16, 16, 16),
+        cull(0),
+
+        Scale
+      );
+      case OPPOSITE -> {
+        int rotation = state.getValue(CopycatPyramidOpposite.ROTATION);
+
+        context.assemblePiece(
+          OPPOSITE_TRANSFORMS[facing.ordinal() + rotation * 6],
+          vec3(0, 0, 0),
+          aabb(16, 16, 16),
+          cull(0),
+          updateUV(
+            symmetricSlope(Axis.X, (a, b) -> 16 - a, x / 8)
+          ),
+          Scale
+        );
+      }
+      case QUAD -> context.assemblePiece(
+        TRANSFORMS[facing.ordinal()],
+        vec3(0, 0, 0),
+        aabb(16, 16, 16),
+        cull(0),
+        Scale
+      );
+      case TRIPLE -> context.assemblePiece(
+        TRANSFORMS[facing.ordinal()],
+        vec3(0, 0, 0),
+        aabb(16, 16, 16),
+        cull(0),
+        Scale
+      );
+    }
+
+
   }
 }
+;
+
+
+
+

@@ -1,9 +1,10 @@
 {
   "values": [
-    "copycats_extended:copycat_adv_slope",
-    "copycats_extended:copycat_adv_slope_layer",
-    "copycats_extended:base_block",
-    "copycats_extended:test_copycat_block",
-    "copycats_extended:copycat_pyramid"
+    "copycats_extended:copycat_pyramid",
+    "copycats_extended:copycat_pyramid_corner",
+    "copycats_extended:copycat_pyramid_opposite",
+    "copycats_extended:copycat_pyramid_quad",
+    "copycats_extended:copycat_pyramid_triple",
+    "copycats_extended:double_copycat"
   ]
 }

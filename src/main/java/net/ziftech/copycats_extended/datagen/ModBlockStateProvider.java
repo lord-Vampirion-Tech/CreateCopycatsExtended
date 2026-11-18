@@ -21,10 +21,15 @@ public final class ModBlockStateProvider extends BlockStateProvider {
 
   @Override
   protected void registerStatesAndModels() {
-    registerAirState(ModBlocks.COPYCAT_ADV_SLOPE.get());
-    registerAirState(ModBlocks.COPYCAT_ADV_SLOPE_LAYER.get());
-    registerAirState(ModBlocks.TEST_COPYCAT_BLOCK.get());
+    //registerAirState(ModBlocks.COPYCAT_ADV_SLOPE.get());
+    //registerAirState(ModBlocks.COPYCAT_ADV_SLOPE_LAYER.get());
+    //registerAirState(ModBlocks.TEST_COPYCAT_BLOCK.get());
     registerAirState(ModBlocks.COPYCAT_PYRAMID.get());
+    registerAirState(ModBlocks.COPYCAT_PYRAMID_CORNER.get());
+    registerAirState(ModBlocks.COPYCAT_PYRAMID_OPPOSITE.get());
+    registerAirState(ModBlocks.COPYCAT_PYRAMID_QUAD.get());
+    registerAirState(ModBlocks.COPYCAT_PYRAMID_TRIPLE.get());
+    registerAirState(ModBlocks.DOUBLE_BLOCK.get());
   }
 
   private void registerAirState(Block block) {

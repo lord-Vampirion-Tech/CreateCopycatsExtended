@@ -14,7 +14,6 @@ import net.neoforged.neoforge.client.event.ModelEvent;
 import net.neoforged.neoforge.client.event.RegisterColorHandlersEvent;
 
 import net.ziftech.copycats_extended.CopycatsExtended;
-import net.ziftech.copycats_extended.client.TEST.model.TEST_CopycatBlock_ModelCore;
 import net.ziftech.copycats_extended.client.model.*;
 import net.ziftech.copycats_extended.registry.ModBlocks;
 
@@ -26,35 +25,33 @@ public final class CopycatsExtendedClientEvents {
 
   @SubscribeEvent
   public static void modifyBakingResult(ModelEvent.ModifyBakingResult event) {
-    registerModel(
-      event,
-      ModBlocks.COPYCAT_ADV_SLOPE.get(),
-      new CopycatAdvSlopeModelCore()
-    );
+//    registerModel(
+//      event,
+//      ModBlocks.COPYCAT_ADV_SLOPE.get(),
+//      new CopycatAdvSlopeModelCore()
+//    );
+//
+//    registerModel(
+//      event,
+//      ModBlocks.COPYCAT_ADV_SLOPE_LAYER.get(),
+//      new CopycatAdvSlopeLayerModelCore()
+//    );
+//
+//    registerModel(
+//      event,
+//      ModBlocks.TEST_COPYCAT_BLOCK.get(),
+//      new TEST_CopycatBlock_ModelCore()
+//    );
 
-    registerModel(
-      event,
-      ModBlocks.COPYCAT_ADV_SLOPE_LAYER.get(),
-      new CopycatAdvSlopeLayerModelCore()
-    );
+    CopycatModelCore pyramidModel = new CopycatPyramid_ModelCore();
+    registerModel(event, ModBlocks.COPYCAT_PYRAMID.get(), pyramidModel);
+    registerModel(event, ModBlocks.COPYCAT_PYRAMID_CORNER.get(), pyramidModel);
+    registerModel(event, ModBlocks.COPYCAT_PYRAMID_OPPOSITE.get(), pyramidModel);
+    registerModel(event, ModBlocks.COPYCAT_PYRAMID_QUAD.get(), pyramidModel);
+    registerModel(event, ModBlocks.COPYCAT_PYRAMID_TRIPLE.get(), pyramidModel);
 
-    registerModel(
-      event,
-      ModBlocks.TEST_COPYCAT_BLOCK.get(),
-      new TEST_CopycatBlock_ModelCore()
-    );
 
-    registerModel(
-      event,
-      ModBlocks.COPYCAT_PYRAMID.get(),
-      new CopycatPyramid_ModelCore()
-    );
-
-    registerModel(
-      event,
-      ModBlocks.DOUBLE_COPYCAT.get(),
-      new DoubleCopycat_ModelCore()
-    );
+    registerModel(event, ModBlocks.DOUBLE_BLOCK.get(), new DoubleBlock_ModelCore());
 
   }
 
@@ -80,17 +77,20 @@ public final class CopycatsExtendedClientEvents {
   ) {
     event.register(
       ICopycatBlock.wrappedColor(),
-      ModBlocks.COPYCAT_ADV_SLOPE.get(),
-      ModBlocks.COPYCAT_ADV_SLOPE_LAYER.get(),
-      ModBlocks.TEST_COPYCAT_BLOCK.get(),
+//      ModBlocks.COPYCAT_ADV_SLOPE.get(),
+//      ModBlocks.COPYCAT_ADV_SLOPE_LAYER.get(),
+//      ModBlocks.TEST_COPYCAT_BLOCK.get(),
       ModBlocks.COPYCAT_PYRAMID.get(),
-      ModBlocks.DOUBLE_COPYCAT.get()
+      ModBlocks.COPYCAT_PYRAMID_CORNER.get(),
+      ModBlocks.COPYCAT_PYRAMID_OPPOSITE.get(),
+      ModBlocks.COPYCAT_PYRAMID_QUAD.get(),
+      ModBlocks.COPYCAT_PYRAMID_TRIPLE.get()
     );
 
     // MultiState Copycat-блоки
     event.register(
       IMultiStateCopycatBlock.wrappedColor(),
-      ModBlocks.DOUBLE_COPYCAT.get()
+      ModBlocks.DOUBLE_BLOCK.get()
     );
   }
 }
