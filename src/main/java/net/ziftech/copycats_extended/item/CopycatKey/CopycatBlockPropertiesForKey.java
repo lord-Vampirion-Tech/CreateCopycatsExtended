@@ -3,18 +3,9 @@ package net.ziftech.copycats_extended.item.CopycatKey;
 
 import net.minecraft.core.BlockPos;
 import net.minecraft.world.level.Level;
-import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.block.state.properties.Property;
-
-import net.ziftech.copycats_extended.block.DoubleBlock;
-import net.ziftech.copycats_extended.block.Pyramids.BASE_CopycatPyramidBlock;
-import net.ziftech.copycats_extended.block.Pyramids.CopycatPyramidOpposite;
-import net.ziftech.copycats_extended.block.Pyramids.CopycatPyramid_Entity;
-
-import java.util.LinkedHashMap;
 import java.util.List;
-import java.util.Map;
 import java.util.function.BiFunction;
 import java.util.function.Function;
 import java.util.function.ObjIntConsumer;
@@ -30,6 +21,8 @@ public class CopycatBlockPropertiesForKey {
     private final BiFunction<Level, BlockPos, String> entityReader;
     private final BiFunction<BlockState, Boolean, BlockState> stateCycler;
     private final EntityCycler entityCycler;
+
+
 
     private KeyProperty(
       String name,
@@ -49,6 +42,9 @@ public class CopycatBlockPropertiesForKey {
 
     public String name() {
       return name;
+    }
+    public Property<?> stateProperty() {
+      return stateProperty;
     }
 
     public static <T extends Comparable<T>> KeyProperty state(Property<T> property) {

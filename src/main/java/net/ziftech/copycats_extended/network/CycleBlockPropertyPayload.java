@@ -15,6 +15,7 @@ import net.minecraft.world.phys.Vec3;
 import net.neoforged.neoforge.network.handling.IPayloadContext;
 
 import net.ziftech.copycats_extended.CopycatsExtended;
+import net.ziftech.copycats_extended.item.CopycatKey.CopycatKeyBlockList;
 import net.ziftech.copycats_extended.registry.ModItems;
 import net.ziftech.copycats_extended.item.CopycatKey.CopycatBlockPropertiesForKey;
 import net.ziftech.copycats_extended.item.CopycatKey.CopycatBlockPropertiesForKey.KeyProperty;
@@ -70,8 +71,7 @@ public record CycleBlockPropertyPayload(
 
     BlockState state = level.getBlockState(pos);
 
-    List<KeyProperty> properties =
-      CopycatBlockPropertiesForKey.getProperties(state.getBlock());
+    List<KeyProperty> properties = CopycatKeyBlockList.getProperties(state.getBlock());
 
     KeyProperty selectedProperty = properties.stream()
       .filter(property -> property.name().equals(payload.propertyName()))

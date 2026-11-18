@@ -21,6 +21,7 @@ import net.neoforged.neoforge.client.gui.VanillaGuiLayers;
 import net.neoforged.neoforge.network.PacketDistributor;
 
 import net.ziftech.copycats_extended.CopycatsExtended;
+import net.ziftech.copycats_extended.item.CopycatKey.CopycatKeyBlockList;
 import net.ziftech.copycats_extended.network.CycleBlockPropertyPayload;
 import net.ziftech.copycats_extended.item.CopycatKey.CopycatBlockPropertiesForKey;
 import net.ziftech.copycats_extended.registry.ModItems;
@@ -75,7 +76,6 @@ public class CopycatKeyOverlay implements LayeredDraw.Layer {
   private static boolean leftAltDown;
   private static int selectedIndex;
 
-  private static BlockPos lastTargetPos;
   private static Block lastTargetBlock;
   private static BlockState lastTargetState;
   private static List<KeyProperty> lastTargetProperties = List.of();
@@ -137,15 +137,14 @@ public class CopycatKeyOverlay implements LayeredDraw.Layer {
     assert mc.level != null;
     BlockState state = mc.level.getBlockState(pos);
 
-    List<KeyProperty> properties =
-      CopycatBlockPropertiesForKey.getProperties(state.getBlock());
+    List<KeyProperty> properties = CopycatKeyBlockList.getProperties(state.getBlock());
 
     if (properties.isEmpty()) {
       resetTarget();
       return;
     }
 
-    updateTarget(pos, state, properties);
+    updateTarget(state, properties);
     selectedIndex = Math.floorMod(selectedIndex, lastTargetProperties.size());
     renderPanel(graphics, mc, pos, lastTargetState, lastTargetProperties);
   }
@@ -169,11 +168,10 @@ public class CopycatKeyOverlay implements LayeredDraw.Layer {
     assert mc.level != null;
     BlockState state = mc.level.getBlockState(pos);
 
-    List<KeyProperty> properties =
-      CopycatBlockPropertiesForKey.getProperties(state.getBlock());
+    List<KeyProperty> properties = CopycatKeyBlockList.getProperties(state.getBlock());
 
     if (!properties.isEmpty())
-      updateTarget(pos, state, properties);
+      updateTarget(state, properties);
 
     return properties;
   }
@@ -267,7 +265,6 @@ public class CopycatKeyOverlay implements LayeredDraw.Layer {
 
   // Целевой блок
   private static void updateTarget(
-    BlockPos pos,
     BlockState state,
     List<KeyProperty> properties
   ) {
@@ -277,14 +274,12 @@ public class CopycatKeyOverlay implements LayeredDraw.Layer {
       selectedIndex = 0;
     }
 
-    lastTargetPos = pos.immutable();
     lastTargetBlock = block;
     lastTargetState = state;
     lastTargetProperties = List.copyOf(properties);
   }
 
   private static void resetTarget() {
-    lastTargetPos = null;
     lastTargetBlock = null;
     lastTargetState = null;
     lastTargetProperties = List.of();
@@ -303,13 +298,12 @@ public class CopycatKeyOverlay implements LayeredDraw.Layer {
 
     BlockPos pos = context.getClickedPos();
     BlockState state = context.getLevel().getBlockState(pos);
-    List<KeyProperty> properties =
-      CopycatBlockPropertiesForKey.getProperties(state.getBlock());
+    List<KeyProperty> properties = CopycatKeyBlockList.getProperties(state.getBlock());
 
     if (properties.isEmpty())
       return;
 
-    updateTarget(pos, state, properties);
+    updateTarget(state, properties);
     selectedIndex = Math.floorMod(selectedIndex, properties.size());
 
     KeyProperty selectedProperty = properties.get(selectedIndex);

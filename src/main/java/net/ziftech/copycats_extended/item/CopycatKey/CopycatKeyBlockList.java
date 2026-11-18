@@ -1,3 +1,4 @@
+
 package net.ziftech.copycats_extended.item.CopycatKey;
 
 import net.minecraft.world.level.block.Block;
@@ -17,16 +18,16 @@ public final class CopycatKeyBlockList {
   static {
     register(
       DoubleBlock.class,
-      CopycatBlockPropertiesForKey.state(DoubleBlock.AXIS),
-      CopycatBlockPropertiesForKey.state(DoubleBlock.SLICE_Y),
-      CopycatBlockPropertiesForKey.state(DoubleBlock.CONNECT_HALF)
+      CopycatBlockPropertiesForKey.KeyProperty.state(DoubleBlock.AXIS),
+      CopycatBlockPropertiesForKey.KeyProperty.state(DoubleBlock.SLICE_Y),
+      CopycatBlockPropertiesForKey.KeyProperty.state(DoubleBlock.CONNECT_HALF)
     );
 
     register(
       BASE_CopycatPyramidBlock.class,
-      CopycatBlockPropertiesForKey.state(BASE_CopycatPyramidBlock.FACING),
+      CopycatBlockPropertiesForKey.KeyProperty.state(BASE_CopycatPyramidBlock.FACING),
 
-      CopycatBlockPropertiesForKey.entityInt(
+      CopycatBlockPropertiesForKey.KeyProperty.entityInt(
         "top_point_x",
         CopycatPyramid_Entity.class,
         CopycatPyramid_Entity::getTopPointX,
@@ -38,7 +39,7 @@ public final class CopycatKeyBlockList {
         0, 8
       ),
 
-      CopycatBlockPropertiesForKey.entityInt(
+      CopycatBlockPropertiesForKey.KeyProperty.entityInt(
         "top_point_y",
         CopycatPyramid_Entity.class,
         CopycatPyramid_Entity::getTopPointY,
@@ -50,7 +51,7 @@ public final class CopycatKeyBlockList {
         1, 8
       ),
 
-      CopycatBlockPropertiesForKey.entityInt(
+      CopycatBlockPropertiesForKey.KeyProperty.entityInt(
         "top_point_z",
         CopycatPyramid_Entity.class,
         CopycatPyramid_Entity::getTopPointZ,
@@ -65,7 +66,7 @@ public final class CopycatKeyBlockList {
 
     register(
       CopycatPyramidOpposite.class,
-      CopycatBlockPropertiesForKey.state(CopycatPyramidOpposite.ROTATION)
+      CopycatBlockPropertiesForKey.KeyProperty.state(CopycatPyramidOpposite.ROTATION)
     );
   }
 
