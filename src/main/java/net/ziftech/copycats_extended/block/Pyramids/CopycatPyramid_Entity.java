@@ -43,6 +43,7 @@ public class CopycatPyramid_Entity extends CCCopycatBlockEntity {
     topPointZ = z;
 
     setChanged();
+    requestModelDataUpdate();
     notifyUpdate();
   }
 
@@ -57,6 +58,8 @@ public class CopycatPyramid_Entity extends CCCopycatBlockEntity {
     topPointX = Mth.clamp(tag.getInt("TopPointX"), 0, 8);
     topPointY = Mth.clamp(tag.getInt("TopPointY"), 1, 8);
     topPointZ = Mth.clamp(tag.getInt("TopPointZ"), 0, 8);
+
+    requestModelDataUpdate();
   }
 
   @Override

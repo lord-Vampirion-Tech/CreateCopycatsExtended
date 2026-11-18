@@ -10,7 +10,6 @@ import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.context.UseOnContext;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.state.BlockState;
-import net.minecraft.world.level.block.state.properties.Property;
 import net.minecraft.world.phys.BlockHitResult;
 
 import net.neoforged.api.distmarker.Dist;
@@ -23,7 +22,7 @@ import net.neoforged.neoforge.network.PacketDistributor;
 
 import net.ziftech.copycats_extended.CopycatsExtended;
 import net.ziftech.copycats_extended.network.CycleBlockPropertyPayload;
-import net.ziftech.copycats_extended.registry.CopycatBlockPropertiesForKey;
+import net.ziftech.copycats_extended.item.CopycatKey.CopycatBlockPropertiesForKey;
 import net.ziftech.copycats_extended.registry.ModItems;
 
 import org.jetbrains.annotations.NotNull;
@@ -32,7 +31,7 @@ import org.lwjgl.glfw.GLFW;
 import java.util.ArrayList;
 import java.util.List;
 
-import net.ziftech.copycats_extended.registry.CopycatBlockPropertiesForKey.KeyProperty;
+import net.ziftech.copycats_extended.item.CopycatKey.CopycatBlockPropertiesForKey.KeyProperty;
 
 @EventBusSubscriber(
   modid = CopycatsExtended.MOD_ID,

@@ -181,11 +181,11 @@ public class CopycatPyramid_Geometry {
 
     return switch (facing) {
       case UP -> new Vec3(x, y, z);
-      case DOWN -> new Vec3(x, 16 - y, 16 - z);
-      case NORTH -> new Vec3(x, 16 - z, y);
-      case SOUTH -> new Vec3(x, z, 16 - y);
-      case WEST -> new Vec3(16 - y, x, z);
-      case EAST -> new Vec3(y, 16 - x, z);
+      case DOWN -> new Vec3(x, 1 - y, 1 - z);
+      case NORTH -> new Vec3(x, 1 - z, y);
+      case SOUTH -> new Vec3(x, z, 1 - y);
+      case WEST -> new Vec3(1 - y, x, z);
+      case EAST -> new Vec3(y, 1 - x, z);
     };
   }
 
@@ -197,14 +197,14 @@ public class CopycatPyramid_Geometry {
 
     for (AABB box : shape.toAabbs()) {
       Vec3[] corners = {
-        new Vec3(box.minX * 16, box.minY * 16, box.minZ * 16),
-        new Vec3(box.minX * 16, box.minY * 16, box.maxZ * 16),
-        new Vec3(box.minX * 16, box.maxY * 16, box.minZ * 16),
-        new Vec3(box.minX * 16, box.maxY * 16, box.maxZ * 16),
-        new Vec3(box.maxX * 16, box.minY * 16, box.minZ * 16),
-        new Vec3(box.maxX * 16, box.minY * 16, box.maxZ * 16),
-        new Vec3(box.maxX * 16, box.maxY * 16, box.minZ * 16),
-        new Vec3(box.maxX * 16, box.maxY * 16, box.maxZ * 16)
+        new Vec3(box.minX, box.minY, box.minZ),
+        new Vec3(box.minX, box.minY, box.maxZ),
+        new Vec3(box.minX, box.maxY, box.minZ),
+        new Vec3(box.minX, box.maxY, box.maxZ),
+        new Vec3(box.maxX, box.minY, box.minZ),
+        new Vec3(box.maxX, box.minY, box.maxZ),
+        new Vec3(box.maxX, box.maxY, box.minZ),
+        new Vec3(box.maxX, box.maxY, box.maxZ)
       };
 
       double minX = Double.POSITIVE_INFINITY;
@@ -220,6 +220,7 @@ public class CopycatPyramid_Geometry {
         minX = Math.min(minX, rotated.x);
         minY = Math.min(minY, rotated.y);
         minZ = Math.min(minZ, rotated.z);
+
         maxX = Math.max(maxX, rotated.x);
         maxY = Math.max(maxY, rotated.y);
         maxZ = Math.max(maxZ, rotated.z);
@@ -227,14 +228,7 @@ public class CopycatPyramid_Geometry {
 
       result = Shapes.or(
         result,
-        Shapes.box(
-          minX / 16.0,
-          minY / 16.0,
-          minZ / 16.0,
-          maxX / 16.0,
-          maxY / 16.0,
-          maxZ / 16.0
-        )
+        Shapes.box(minX, minY, minZ, maxX, maxY, maxZ)
       );
     }
 

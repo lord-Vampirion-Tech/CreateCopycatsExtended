@@ -1,5 +1,5 @@
 
-package net.ziftech.copycats_extended.registry;
+package net.ziftech.copycats_extended.item.CopycatKey;
 
 import net.minecraft.core.BlockPos;
 import net.minecraft.world.level.Level;
@@ -124,77 +124,6 @@ public class CopycatBlockPropertiesForKey {
     void cycle(Level level, BlockPos pos, boolean reverse);
   }
 
-  private static final Map<Class<?>, List<KeyProperty>> PROPERTIES = new LinkedHashMap<>();
-
-  static {
-    register(
-      DoubleBlock.class,
-      KeyProperty.state(DoubleBlock.AXIS),
-      KeyProperty.state(DoubleBlock.SLICE_Y),
-      KeyProperty.state(DoubleBlock.CONNECT_HALF)
-    );
-
-    register(
-      BASE_CopycatPyramidBlock.class,
-      KeyProperty.state(BASE_CopycatPyramidBlock.FACING),
-
-      KeyProperty.entityInt(
-        "top_point_x",
-        CopycatPyramid_Entity.class,
-        CopycatPyramid_Entity::getTopPointX,
-        (entity, value) -> entity.setTopPoint(
-          value,
-          entity.getTopPointY(),
-          entity.getTopPointZ()
-        ),
-        0, 8
-      ),
-
-      KeyProperty.entityInt(
-        "top_point_y",
-        CopycatPyramid_Entity.class,
-        CopycatPyramid_Entity::getTopPointY,
-        (entity, value) -> entity.setTopPoint(
-          entity.getTopPointX(),
-          value,
-          entity.getTopPointZ()
-        ),
-        1, 8
-      ),
-
-      KeyProperty.entityInt(
-        "top_point_z",
-        CopycatPyramid_Entity.class,
-        CopycatPyramid_Entity::getTopPointZ,
-        (entity, value) -> entity.setTopPoint(
-          entity.getTopPointX(),
-          entity.getTopPointY(),
-          value
-        ),
-        0, 8
-      )
-    );
-
-    register(
-      CopycatPyramidOpposite.class,
-      KeyProperty.state(CopycatPyramidOpposite.ROTATION)
-    );
-  }
-
-  public static void register(Class<?> blockClass, KeyProperty... properties) {
-    PROPERTIES.put(blockClass, List.of(properties));
-  }
-
-  public static List<KeyProperty> getProperties(Block block) {
-    return PROPERTIES.entrySet().stream()
-      .filter(entry -> entry.getKey().isInstance(block))
-      .flatMap(entry -> entry.getValue().stream())
-      .filter(property ->
-        property.stateProperty == null
-          || block.getStateDefinition().getProperties().contains(property.stateProperty)
-      )
-      .toList();
-  }
 
   public static String getPropertyText(
     Level level,

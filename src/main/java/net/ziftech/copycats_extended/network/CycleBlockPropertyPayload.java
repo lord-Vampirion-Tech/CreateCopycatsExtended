@@ -16,8 +16,8 @@ import net.neoforged.neoforge.network.handling.IPayloadContext;
 
 import net.ziftech.copycats_extended.CopycatsExtended;
 import net.ziftech.copycats_extended.registry.ModItems;
-import net.ziftech.copycats_extended.registry.CopycatBlockPropertiesForKey;
-import net.ziftech.copycats_extended.registry.CopycatBlockPropertiesForKey.KeyProperty;
+import net.ziftech.copycats_extended.item.CopycatKey.CopycatBlockPropertiesForKey;
+import net.ziftech.copycats_extended.item.CopycatKey.CopycatBlockPropertiesForKey.KeyProperty;
 
 import java.util.List;
 
