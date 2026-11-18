@@ -36,11 +36,13 @@ public class CopycatPyramidTriple extends BASE_CopycatPyramidBlock {
     @NotNull BlockPos pos,
     @NotNull CollisionContext context
   ) {
+    int[] data = getPyramidData(level, pos);
+
     return CopycatPyramid_Geometry.createShape(
+      ShapeType.PYRAMID,
       state.getValue(FACING),
-      state.getValue(TOP_POINT_X),
-      state.getValue(TOP_POINT_Y),
-      state.getValue(TOP_POINT_Z)
+      state.getValue(ROTATION),
+      data[0], data[1], data[2]
     );
   }
 

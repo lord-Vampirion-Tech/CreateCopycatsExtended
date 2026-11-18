@@ -50,9 +50,28 @@ public final class CopycatsExtendedClientEvents {
     registerModel(event, ModBlocks.COPYCAT_PYRAMID_QUAD.get(), pyramidModel);
     registerModel(event, ModBlocks.COPYCAT_PYRAMID_TRIPLE.get(), pyramidModel);
 
-
     registerModel(event, ModBlocks.DOUBLE_BLOCK.get(), new DoubleBlock_ModelCore());
 
+  }
+
+  private static void registerTestModel(
+    ModelEvent.ModifyBakingResult event,
+    Block block,
+    CopycatModelCore modelCore
+  ) {
+    for (var state : block.getStateDefinition().getPossibleStates()) {
+      var modelLocation = BlockModelShaper.stateToModelLocation(state);
+
+      event.getModels().computeIfPresent(
+        modelLocation,
+        (location, originalModel) ->
+          new CopycatPyramidModelNeoForge(
+            originalModel,
+            modelCore,
+            false
+          )
+      );
+    }
   }
 
   private static void registerModel(

@@ -3,19 +3,18 @@ package net.ziftech.copycats_extended.client.model;
 import com.copycatsplus.copycats.foundation.copycat.model.CopycatModelCore;
 import com.copycatsplus.copycats.foundation.copycat.model.assembly.AssemblyTransform;
 import com.copycatsplus.copycats.foundation.copycat.model.assembly.CopycatRenderContext;
-
 import com.copycatsplus.copycats.foundation.copycat.model.assembly.quad.QuadScale;
 import net.minecraft.core.Direction;
-import net.minecraft.core.Direction.Axis;
 import net.minecraft.world.level.block.state.BlockState;
-
 import net.ziftech.copycats_extended.block.Pyramids.BASE_CopycatPyramidBlock;
 import net.ziftech.copycats_extended.block.Pyramids.CopycatPyramidOpposite;
+import net.ziftech.copycats_extended.block.Pyramids.PyramidModelData;
 
 import static com.copycatsplus.copycats.foundation.copycat.model.assembly.CopycatRenderContext.*;
-import static net.ziftech.copycats_extended.client.model.CustomQuadTransform.*;
+import static com.copycatsplus.copycats.foundation.copycat.model.assembly.CopycatRenderContext.updateUV;
+import static net.ziftech.copycats_extended.client.model.CustomQuadTransform.symmetricSlope;
 
-public class CopycatPyramid_ModelCore extends CopycatModelCore {
+public class CopycatPyramid_ModelCore extends CopycatModelCore.WithData<PyramidModelData> {
 
   private static final AssemblyTransform[] TRANSFORMS = {
     t -> t.rotateX(180), // DOWN
@@ -65,11 +64,16 @@ public class CopycatPyramid_ModelCore extends CopycatModelCore {
     CopycatRenderContext context,
     BlockState material
   ) {
-    Direction facing = state.getValue(BASE_CopycatPyramidBlock.FACING);
+    PyramidModelData data = getData();
 
-    double x = state.getValue(BASE_CopycatPyramidBlock.TOP_POINT_X);
-    double z = state.getValue(BASE_CopycatPyramidBlock.TOP_POINT_Z);
-    double y = state.getValue(BASE_CopycatPyramidBlock.TOP_POINT_Y);
+    if (data == null)
+      return;
+
+    double x = data.x();
+    double y = data.y();
+    double z = data.z();
+
+    Direction facing = state.getValue(BASE_CopycatPyramidBlock.FACING);
 
     QuadScale Scale = scale(
       pivot(.5f, 0, .5f),
@@ -83,8 +87,8 @@ public class CopycatPyramid_ModelCore extends CopycatModelCore {
         aabb(16, 16, 16),
         cull(0),
         updateUV(
-          symmetricSlope(Axis.X, (a, b) -> 16 - a, x / 8),
-          symmetricSlope(Axis.Z, (a, b) -> 16 - b, z / 8)
+          symmetricSlope(Direction.Axis.X, (a, b) -> 16 - a, x / 8),
+          symmetricSlope(Direction.Axis.Z, (a, b) -> 16 - b, z / 8)
         ),
         Scale
       );
@@ -105,7 +109,7 @@ public class CopycatPyramid_ModelCore extends CopycatModelCore {
           aabb(16, 16, 16),
           cull(0),
           updateUV(
-            symmetricSlope(Axis.X, (a, b) -> 16 - a, x / 8)
+            symmetricSlope(Direction.Axis.X, (a, b) -> 16 - a, x / 8)
           ),
           Scale
         );
@@ -125,12 +129,5 @@ public class CopycatPyramid_ModelCore extends CopycatModelCore {
         Scale
       );
     }
-
-
   }
 }
-;
-
-
-
-

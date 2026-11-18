@@ -32,6 +32,8 @@ import org.lwjgl.glfw.GLFW;
 import java.util.ArrayList;
 import java.util.List;
 
+import net.ziftech.copycats_extended.registry.CopycatBlockPropertiesForKey.KeyProperty;
+
 @EventBusSubscriber(
   modid = CopycatsExtended.MOD_ID,
   value = Dist.CLIENT
@@ -77,7 +79,7 @@ public class CopycatKeyOverlay implements LayeredDraw.Layer {
   private static BlockPos lastTargetPos;
   private static Block lastTargetBlock;
   private static BlockState lastTargetState;
-  private static List<Property<?>> lastTargetProperties = List.of();
+  private static List<KeyProperty> lastTargetProperties = List.of();
 
   private static ResourceLocation texture(String name) {
     return ResourceLocation.fromNamespaceAndPath(CopycatsExtended.MOD_ID, "copycat_key/" + name);
@@ -102,7 +104,7 @@ public class CopycatKeyOverlay implements LayeredDraw.Layer {
     if (!leftAltDown)
       return;
 
-    List<Property<?>> properties = getTargetProperties(Minecraft.getInstance());
+    List<KeyProperty> properties = getTargetProperties(Minecraft.getInstance());
 
     if (properties.isEmpty())
       return;
@@ -136,7 +138,8 @@ public class CopycatKeyOverlay implements LayeredDraw.Layer {
     assert mc.level != null;
     BlockState state = mc.level.getBlockState(pos);
 
-    List<Property<?>> properties = CopycatBlockPropertiesForKey.getProperties(state.getBlock());
+    List<KeyProperty> properties =
+      CopycatBlockPropertiesForKey.getProperties(state.getBlock());
 
     if (properties.isEmpty()) {
       resetTarget();
@@ -145,7 +148,7 @@ public class CopycatKeyOverlay implements LayeredDraw.Layer {
 
     updateTarget(pos, state, properties);
     selectedIndex = Math.floorMod(selectedIndex, lastTargetProperties.size());
-    renderPanel(graphics, mc, lastTargetState, lastTargetProperties);
+    renderPanel(graphics, mc, pos, lastTargetState, lastTargetProperties);
   }
 
   private static boolean isOverlayAvailable(Minecraft mc) {
@@ -156,7 +159,7 @@ public class CopycatKeyOverlay implements LayeredDraw.Layer {
       || !mc.player.getMainHandItem().is(ModItems.COPYCAT_KEY.get());
   }
 
-  private static List<Property<?>> getTargetProperties(Minecraft mc) {
+  private static List<KeyProperty> getTargetProperties(Minecraft mc) {
     if (isOverlayAvailable(mc))
       return List.of();
 
@@ -167,7 +170,8 @@ public class CopycatKeyOverlay implements LayeredDraw.Layer {
     assert mc.level != null;
     BlockState state = mc.level.getBlockState(pos);
 
-    List<Property<?>> properties = CopycatBlockPropertiesForKey.getProperties(state.getBlock());
+    List<KeyProperty> properties =
+      CopycatBlockPropertiesForKey.getProperties(state.getBlock());
 
     if (!properties.isEmpty())
       updateTarget(pos, state, properties);
@@ -178,8 +182,9 @@ public class CopycatKeyOverlay implements LayeredDraw.Layer {
   private static void renderPanel(
     GuiGraphics graphics,
     Minecraft mc,
+    BlockPos pos,
     BlockState state,
-    List<Property<?>> properties
+    List<KeyProperty> properties
   ) {
     int screenWidth = mc.getWindow().getGuiScaledWidth();
     int screenHeight = mc.getWindow().getGuiScaledHeight();
@@ -189,8 +194,13 @@ public class CopycatKeyOverlay implements LayeredDraw.Layer {
     List<String> propertyTexts = new ArrayList<>(properties.size());
     int contentWidth = 0;
 
-    for (Property<?> property : properties) {
-      String text = getPropertyText(state, property);
+    for (KeyProperty property : properties) {
+      String text = CopycatBlockPropertiesForKey.getPropertyText(
+        mc.level,
+        pos,
+        state,
+        property
+      );
 
       propertyTexts.add(text);
       contentWidth += mc.font.width(text) + CELL_PADDING * 2;
@@ -260,7 +270,7 @@ public class CopycatKeyOverlay implements LayeredDraw.Layer {
   private static void updateTarget(
     BlockPos pos,
     BlockState state,
-    List<Property<?>> properties
+    List<KeyProperty> properties
   ) {
     Block block = state.getBlock();
 
@@ -282,19 +292,6 @@ public class CopycatKeyOverlay implements LayeredDraw.Layer {
     selectedIndex = 0;
   }
 
-  // Свойства блока
-  private static <T extends Comparable<T>> String getPropertyText(
-    BlockState state,
-    Property<T> property
-  ) {
-    String name = property.getName().replace('_', ' ');
-
-    if (!state.hasProperty(property))
-      return name + ": ?";
-
-    return name + ": " + property.getName(state.getValue(property));
-  }
-
   // Использование ключа
   public static void handleKeyUse(UseOnContext context) {
     Minecraft mc = Minecraft.getInstance();
@@ -307,7 +304,8 @@ public class CopycatKeyOverlay implements LayeredDraw.Layer {
 
     BlockPos pos = context.getClickedPos();
     BlockState state = context.getLevel().getBlockState(pos);
-    List<Property<?>> properties = CopycatBlockPropertiesForKey.getProperties(state.getBlock());
+    List<KeyProperty> properties =
+      CopycatBlockPropertiesForKey.getProperties(state.getBlock());
 
     if (properties.isEmpty())
       return;
@@ -315,8 +313,17 @@ public class CopycatKeyOverlay implements LayeredDraw.Layer {
     updateTarget(pos, state, properties);
     selectedIndex = Math.floorMod(selectedIndex, properties.size());
 
-    Property<?> selectedProperty = properties.get(selectedIndex);
-    boolean reverse = context.getPlayer() != null && context.getPlayer().isShiftKeyDown();
-    PacketDistributor.sendToServer(new CycleBlockPropertyPayload(pos, selectedProperty.getName(), reverse));
+    KeyProperty selectedProperty = properties.get(selectedIndex);
+
+    boolean reverse =
+      context.getPlayer() != null && context.getPlayer().isShiftKeyDown();
+
+    PacketDistributor.sendToServer(
+      new CycleBlockPropertyPayload(
+        pos,
+        selectedProperty.name(),
+        reverse
+      )
+    );
   }
 }

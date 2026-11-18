@@ -13,20 +13,10 @@ import org.jetbrains.annotations.NotNull;
 
 public class CopycatPyramidQuad extends BASE_CopycatPyramidBlock {
 
-  public static final IntegerProperty ROTATION =
-    IntegerProperty.create("rotation", 0, 1);
-
   public CopycatPyramidQuad(Properties properties) {
     super(properties);
-    registerDefaultState(defaultBlockState()
-      .setValue(ROTATION, 0));
   }
 
-  @Override
-  protected void createBlockStateDefinition(StateDefinition.Builder<Block, BlockState> builder) {
-    super.createBlockStateDefinition(builder);
-    builder.add(ROTATION);
-  }
 
   @Override
   public @NotNull VoxelShape getShape(
@@ -35,11 +25,13 @@ public class CopycatPyramidQuad extends BASE_CopycatPyramidBlock {
     @NotNull BlockPos pos,
     @NotNull CollisionContext context
   ) {
+    int[] data = getPyramidData(level, pos);
+
     return CopycatPyramid_Geometry.createShape(
+      ShapeType.PYRAMID,
       state.getValue(FACING),
-      state.getValue(TOP_POINT_X),
-      state.getValue(TOP_POINT_Y),
-      state.getValue(TOP_POINT_Z)
+      0,
+      data[0], data[1], data[2]
     );
   }
 

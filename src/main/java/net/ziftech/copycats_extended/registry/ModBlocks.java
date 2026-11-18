@@ -65,4 +65,5 @@ public class ModBlocks {
 
   public static final DeferredBlock<DoubleBlock> DOUBLE_BLOCK =
     registerCopycatBlock("double_copycat", DoubleBlock::new);
+
 }
