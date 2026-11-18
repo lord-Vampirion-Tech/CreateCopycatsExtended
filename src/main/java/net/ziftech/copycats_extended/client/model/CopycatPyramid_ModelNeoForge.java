@@ -2,23 +2,27 @@ package net.ziftech.copycats_extended.client.model;
 
 import com.copycatsplus.copycats.foundation.copycat.model.CopycatModelCore;
 import com.copycatsplus.copycats.foundation.copycat.model.neoforge.CopycatModelNeoForge;
+
 import net.minecraft.client.resources.model.BakedModel;
 import net.minecraft.core.BlockPos;
 import net.minecraft.util.RandomSource;
 import net.minecraft.world.level.BlockAndTintGetter;
-import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.state.BlockState;
+
 import net.neoforged.neoforge.client.model.data.ModelData;
 import net.neoforged.neoforge.client.model.data.ModelProperty;
-import net.ziftech.copycats_extended.block.Pyramids.PyramidModelData;
+
 import net.ziftech.copycats_extended.block.Pyramids.CopycatPyramid_Entity;
+import net.ziftech.copycats_extended.block.Pyramids.PyramidModelData;
 
-public class CopycatPyramidModelNeoForge extends CopycatModelNeoForge {
+import org.jetbrains.annotations.NotNull;
 
-  private static final ModelProperty<PyramidModelData> PYRAMID_PROPERTY =
+public class CopycatPyramid_ModelNeoForge extends CopycatModelNeoForge {
+
+  private static final ModelProperty<PyramidModelData> PYRAMID_DATA =
     new ModelProperty<>();
 
-  public CopycatPyramidModelNeoForge(
+  public CopycatPyramid_ModelNeoForge(
     BakedModel originalModel,
     CopycatModelCore core,
     boolean disableAO
@@ -36,37 +40,38 @@ public class CopycatPyramidModelNeoForge extends CopycatModelNeoForge {
   ) {
     super.gatherModelData(builder, world, pos, state, blockEntityData);
 
-    BlockEntity blockEntity = world.getBlockEntity(pos);
+    if (world.getBlockEntity(pos) instanceof CopycatPyramid_Entity pyramid) {
+      builder.with(
+        PYRAMID_DATA,
+        new PyramidModelData(
+          pyramid.getTopPointX(),
+          pyramid.getTopPointY(),
+          pyramid.getTopPointZ()
+        )
+      );
+    }
 
-    PyramidModelData pyramidData =
-      blockEntity instanceof CopycatPyramid_Entity entity
-        ? new PyramidModelData(
-        entity.getTopPointX(),
-        entity.getTopPointY(),
-        entity.getTopPointZ()
-      )
-        : new PyramidModelData(4, 8, 4);
-
-    return builder.with(PYRAMID_PROPERTY, pyramidData);
+    return builder;
   }
 
   @Override
   protected void prepareModelCore(
-    BlockState state,
-    RandomSource rand,
-    ModelData data
+    @NotNull BlockState state,
+    @NotNull RandomSource rand,
+    @NotNull ModelData data
   ) {
     super.prepareModelCore(state, rand, data);
 
-    if (core instanceof CopycatModelCore.WithData<?> dataCore) {
+    if (core instanceof CopycatModelCore.WithData<?> rawCore) {
       @SuppressWarnings("unchecked")
       CopycatModelCore.WithData<PyramidModelData> pyramidCore =
-        (CopycatModelCore.WithData<PyramidModelData>) dataCore;
+        (CopycatModelCore.WithData<PyramidModelData>) rawCore;
 
-      PyramidModelData pyramidData = data.get(PYRAMID_PROPERTY);
+      PyramidModelData pyramidData = data.get(PYRAMID_DATA);
 
-      if (pyramidData == null)
+      if (pyramidData == null) {
         pyramidData = new PyramidModelData(4, 8, 4);
+      }
 
       pyramidCore.setData(pyramidData);
     }

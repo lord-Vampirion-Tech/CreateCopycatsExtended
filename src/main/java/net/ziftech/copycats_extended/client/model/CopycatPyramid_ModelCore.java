@@ -66,9 +66,6 @@ public class CopycatPyramid_ModelCore extends CopycatModelCore.WithData<PyramidM
   ) {
     PyramidModelData data = getData();
 
-    if (data == null)
-      return;
-
     double x = data.x();
     double y = data.y();
     double z = data.z();
@@ -77,7 +74,7 @@ public class CopycatPyramid_ModelCore extends CopycatModelCore.WithData<PyramidM
 
     QuadScale Scale = scale(
       pivot(.5f, 0, .5f),
-      scale(1, ((float) y / 8), 1)
+      scale(1, 1, 1)
     );
 
     switch (((BASE_CopycatPyramidBlock) state.getBlock()).getShapeType()) {
