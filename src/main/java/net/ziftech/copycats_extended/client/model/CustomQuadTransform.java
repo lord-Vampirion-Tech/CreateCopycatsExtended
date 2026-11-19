@@ -64,23 +64,6 @@ public class CustomQuadTransform {
     };
   }
 
-  public static QuadTransform debugVertices(String name) {
-    return (quad, sprite) -> {
-      System.out.println("=== " + name + " ===");
-
-      for (int i = 0; i < 4; i++) {
-        MutableVec3 v = quad.vertices.get(i).xyz;
-
-        System.out.printf(
-          "Vertex %d: X=%.3f Y=%.3f Z=%.3f%n",
-          i, v.x * 16, v.y * 16, v.z * 16
-        );
-      }
-
-      return true;
-    };
-  }
-
   public static MutableVec3.AsAngle X(double angle) {
     return new MutableVec3.AsAngle(angle, 0, 0);
   }
@@ -93,24 +76,4 @@ public class CustomQuadTransform {
     return new MutableVec3.AsAngle(0, 0, angle);
   }
 
-  public static QuadTransform axisRot(
-    MutableVec3.AsPivot pivot,
-    MutableVec3.AsAngle... rotations
-  ) {
-    return (quad, sprite) -> {
-      for (int i = 0; i < 4; i++) {
-        MutableVec3 vertex = ((MutableVertex) quad.vertices.get(i)).xyz;
-
-        vertex.subtract(pivot);
-
-        for (MutableVec3.AsAngle rotation : rotations) {
-          vertex.rotate(rotation);
-        }
-
-        vertex.add(pivot);
-      }
-
-      return true;
-    };
-  }
 }

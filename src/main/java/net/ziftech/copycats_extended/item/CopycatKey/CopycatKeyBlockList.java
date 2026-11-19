@@ -25,43 +25,7 @@ public final class CopycatKeyBlockList {
 
     register(
       BASE_CopycatPyramidBlock.class,
-      CopycatBlockPropertiesForKey.KeyProperty.state(BASE_CopycatPyramidBlock.FACING),
-
-      CopycatBlockPropertiesForKey.KeyProperty.entityInt(
-        "top_point_x",
-        CopycatPyramid_Entity.class,
-        CopycatPyramid_Entity::getTopPointX,
-        (entity, value) -> entity.setTopPoint(
-          value,
-          entity.getTopPointY(),
-          entity.getTopPointZ()
-        ),
-        0, 8
-      ),
-
-      CopycatBlockPropertiesForKey.KeyProperty.entityInt(
-        "top_point_y",
-        CopycatPyramid_Entity.class,
-        CopycatPyramid_Entity::getTopPointY,
-        (entity, value) -> entity.setTopPoint(
-          entity.getTopPointX(),
-          value,
-          entity.getTopPointZ()
-        ),
-        1, 8
-      ),
-
-      CopycatBlockPropertiesForKey.KeyProperty.entityInt(
-        "top_point_z",
-        CopycatPyramid_Entity.class,
-        CopycatPyramid_Entity::getTopPointZ,
-        (entity, value) -> entity.setTopPoint(
-          entity.getTopPointX(),
-          entity.getTopPointY(),
-          value
-        ),
-        0, 8
-      )
+      CopycatBlockPropertiesForKey.KeyProperty.state(BASE_CopycatPyramidBlock.FACING)
     );
 
     register(

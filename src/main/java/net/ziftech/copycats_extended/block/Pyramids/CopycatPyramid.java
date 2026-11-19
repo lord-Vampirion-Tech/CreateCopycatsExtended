@@ -21,13 +21,10 @@ public class CopycatPyramid extends BASE_CopycatPyramidBlock {
     @NotNull BlockPos pos,
     @NotNull CollisionContext context
   ) {
-    int[] data = getPyramidData(level, pos);
-
     return CopycatPyramid_Geometry.createShape(
       ShapeType.PYRAMID,
       state.getValue(FACING),
-      0,
-      data[0], data[1], data[2]
+      0
     );
   }
 

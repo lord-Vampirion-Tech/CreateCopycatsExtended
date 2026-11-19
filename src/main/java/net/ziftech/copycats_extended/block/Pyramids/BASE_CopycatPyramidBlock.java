@@ -17,9 +17,7 @@ import net.minecraft.world.level.block.state.StateDefinition;
 import net.minecraft.world.level.block.state.properties.BlockStateProperties;
 import net.minecraft.world.level.block.state.properties.DirectionProperty;
 import net.minecraft.world.phys.shapes.CollisionContext;
-import net.minecraft.world.phys.shapes.Shapes;
 import net.minecraft.world.phys.shapes.VoxelShape;
-import net.ziftech.copycats_extended.block.Pyramids.CopycatPyramid_Entity;
 import net.ziftech.copycats_extended.block.base.ModBlockPlacement;
 import net.ziftech.copycats_extended.registry.ModBlockEntities;
 import org.jetbrains.annotations.NotNull;
@@ -46,18 +44,6 @@ public abstract class BASE_CopycatPyramidBlock extends CCWaterloggedCopycatBlock
   }
 
   public abstract ShapeType getShapeType();
-
-  protected int[] getPyramidData(BlockGetter level, BlockPos pos) {
-    if (level.getBlockEntity(pos) instanceof CopycatPyramid_Entity entity) {
-      return new int[] {
-        entity.getTopPointX(),
-        entity.getTopPointY(),
-        entity.getTopPointZ()
-      };
-    }
-
-    return new int[] {4, 8, 4};
-  }
 
   @Override
   public BlockState transform(BlockState blockState, StructureTransform structureTransform) {
@@ -98,11 +84,6 @@ public abstract class BASE_CopycatPyramidBlock extends CCWaterloggedCopycatBlock
     @NotNull CollisionContext context
   ) {
     return getShape(state, level, pos, context);
-  }
-
-  @Override
-  public @NotNull Class<CCCopycatBlockEntity> getBlockEntityClass() {
-    return CCCopycatBlockEntity.class;
   }
 
   @Override
@@ -151,23 +132,9 @@ public abstract class BASE_CopycatPyramidBlock extends CCWaterloggedCopycatBlock
     BlockGetter level,
     BlockPos pos
   ) {
-    VoxelShape shape = getCollisionShape(
+    return getCollisionShape(
       state, level, pos, CollisionContext.empty()
     );
-
-    BlockPos neighborPos = pos.relative(Direction.WEST);
-    BlockState neighborState = level.getBlockState(neighborPos);
-
-    VoxelShape ownFace = shape.getFaceShape(Direction.WEST);
-    VoxelShape neighborFace = neighborState.getFaceOcclusionShape(
-      level, neighborPos, Direction.EAST
-    );
-
-    System.out.println("=== PYRAMID OCCLUSION ===");
-    System.out.println("Own WEST: " + ownFace.toAabbs());
-    System.out.println("Neighbor EAST: " + neighborFace.toAabbs());
-
-    return shape;
   }
 
   @Override

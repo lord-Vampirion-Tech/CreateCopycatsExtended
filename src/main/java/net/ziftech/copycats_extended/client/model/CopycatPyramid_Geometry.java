@@ -14,13 +14,14 @@ import java.util.concurrent.ConcurrentHashMap;
 
 public class CopycatPyramid_Geometry {
 
+  private static final int TOP_X = 8;
+  private static final int TOP_Y = 16;
+  private static final int TOP_Z = 8;
+
   private record ShapeKey(
     BASE_CopycatPyramidBlock.ShapeType type,
     Direction facing,
-    int rotation,
-    int x,
-    int y,
-    int z
+    int rotation
   ) {
   }
 
@@ -30,22 +31,16 @@ public class CopycatPyramid_Geometry {
   public static OutlinedVoxelShape createShape(
     BASE_CopycatPyramidBlock.ShapeType type,
     Direction facing,
-    int rotation,
-    int x,
-    int y,
-    int z
+    int rotation
   ) {
-    ShapeKey key = new ShapeKey(type, facing, rotation, x, y, z);
+    ShapeKey key = new ShapeKey(type, facing, rotation);
 
     return CACHE.computeIfAbsent(
       key,
       k -> createOutlinedShape(
         k.type(),
         k.facing(),
-        k.rotation(),
-        k.x(),
-        k.y(),
-        k.z()
+        k.rotation()
       )
     );
   }
@@ -53,25 +48,22 @@ public class CopycatPyramid_Geometry {
   private static OutlinedVoxelShape createOutlinedShape(
     BASE_CopycatPyramidBlock.ShapeType shapeType,
     Direction facing,
-    int rotation,
-    int x,
-    int y,
-    int z
+    int rotation
   ) {
     VoxelShape collision = switch (shapeType) {
-      case PYRAMID -> createPyramidCollision(x, y, z, facing);
-      case CORNER -> createCornerCollision(x, y, z, facing);
-      case OPPOSITE -> createOppositeCollision(x, y, z, facing);
-      case QUAD -> createQuadCollision(x, y, z, facing);
-      case TRIPLE -> createTripleCollision(x, y, z, facing);
+      case PYRAMID -> createPyramidCollision();
+      case CORNER -> createCornerCollision();
+      case OPPOSITE -> createOppositeCollision();
+      case QUAD -> createQuadCollision();
+      case TRIPLE -> createTripleCollision();
     };
 
     Vec3[] points = switch (shapeType) {
-      case PYRAMID -> createPyramidPoints(x, y, z, facing);
-      case CORNER -> createCornerPoints(x, y, z, facing);
-      case OPPOSITE -> createOppositePoints(x, y, z, facing);
-      case QUAD -> createQuadPoints(x, y, z, facing);
-      case TRIPLE -> createTriplePoints(x, y, z, facing);
+      case PYRAMID -> createPyramidPoints();
+      case CORNER -> createCornerPoints();
+      case OPPOSITE -> createOppositePoints();
+      case QUAD -> createQuadPoints();
+      case TRIPLE -> createTriplePoints();
     };
 
     int[][] connections = switch (shapeType) {
@@ -149,26 +141,26 @@ public class CopycatPyramid_Geometry {
 
   // PYRAMID
 
-  private static Vec3[] createPyramidPoints(int x, int y, int z, Direction facing) {
+  private static Vec3[] createPyramidPoints() {
     return new Vec3[]{
       new Vec3(0, 0, 0),
       new Vec3(1, 0, 0),
       new Vec3(1, 0, 1),
       new Vec3(0, 0, 1),
-      new Vec3(x / 8.0, y / 8.0, z / 8.0)
+      new Vec3(.5, 1, .5)
     };
   }
 
-  private static VoxelShape createPyramidCollision(int x, int y, int z, Direction facing) {
+  private static VoxelShape createPyramidCollision() {
     VoxelShape shape = Shapes.empty();
 
-    for (int i = 0; i < y; i++) {
-      double t = i / (double) y;
+    for (int i = 0; i < TOP_Y / 2; i++) {
+      double t = i / (double) (TOP_Y / 2);
 
-      double minX = lerp(0, x * 2, t);
-      double maxX = lerp(16, x * 2, t);
-      double minZ = lerp(0, z * 2, t);
-      double maxZ = lerp(16, z * 2, t);
+      double minX = lerp(0, TOP_X, t);
+      double maxX = lerp(16, TOP_X, t);
+      double minZ = lerp(0, TOP_Z, t);
+      double maxZ = lerp(16, TOP_Z, t);
 
       VoxelShape section = Shapes.box(
         minX / 16.0,
@@ -187,38 +179,38 @@ public class CopycatPyramid_Geometry {
 
   // CORNER
 
-  private static Vec3[] createCornerPoints(int x, int y, int z, Direction facing) {
-    return createPyramidPoints(x, y, z, facing);
+  private static Vec3[] createCornerPoints() {
+    return createPyramidPoints();
   }
 
-  private static VoxelShape createCornerCollision(int x, int y, int z, Direction facing) {
-    return createPyramidCollision(x, y, z, facing);
+  private static VoxelShape createCornerCollision() {
+    return createPyramidCollision();
   }
 
   // OPPOSITE
 
-  private static Vec3[] createOppositePoints(int x, int y, int z, Direction facing) {
+  private static Vec3[] createOppositePoints() {
     return new Vec3[]{
       new Vec3(0, 0, 0),
       new Vec3(1, 0, 0),
       new Vec3(1, 0, 1),
       new Vec3(0, 0, 1),
-      new Vec3(0, y / 8.0, z / 8.0),
-      new Vec3(1, y / 8.0, z / 8.0)
+      new Vec3(0, 1, .5),
+      new Vec3(1, 1, .5)
     };
   }
 
-  private static VoxelShape createOppositeCollision(int x, int y, int z, Direction facing) {
+  private static VoxelShape createOppositeCollision() {
     VoxelShape shape = Shapes.empty();
 
-    for (int i = 0; i < y; i++) {
-      double t = i / (double) y;
+    for (int i = 0; i < TOP_Y; i++) {
+      double t = i / (double) TOP_Y;
 
       double minX = lerp(0, 0, t);
       double maxX = lerp(16, 16, t);
 
-      double minZ = lerp(0, z * 2, t);
-      double maxZ = lerp(16, z * 2, t);
+      double minZ = lerp(0, 0, t);
+      double maxZ = lerp(16, 16 * 2, t);
 
       VoxelShape section = Shapes.box(
         minX / 16.0,
@@ -237,22 +229,22 @@ public class CopycatPyramid_Geometry {
 
   // QUAD
 
-  private static Vec3[] createQuadPoints(int x, int y, int z, Direction facing) {
-    return createPyramidPoints(x, y, z, facing);
+  private static Vec3[] createQuadPoints() {
+    return createPyramidPoints();
   }
 
-  private static VoxelShape createQuadCollision(int x, int y, int z, Direction facing) {
-    return createPyramidCollision(x, y, z, facing);
+  private static VoxelShape createQuadCollision() {
+    return createPyramidCollision();
   }
 
   // TRIPLE
 
-  private static Vec3[] createTriplePoints(int x, int y, int z, Direction facing) {
-    return createPyramidPoints(x, y, z, facing);
+  private static Vec3[] createTriplePoints() {
+    return createPyramidPoints();
   }
 
-  private static VoxelShape createTripleCollision(int x, int y, int z, Direction facing) {
-    return createPyramidCollision(x, y, z, facing);
+  private static VoxelShape createTripleCollision() {
+    return createPyramidCollision();
   }
 
   // TRANSFORMS

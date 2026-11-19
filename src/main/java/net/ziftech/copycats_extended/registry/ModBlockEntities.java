@@ -63,10 +63,10 @@ public final class ModBlockEntities {
 //    ModBlocks.TEST_COPYCAT_BLOCK
 //  );
 
-  public static final DeferredHolder<BlockEntityType<?>, BlockEntityType<net.ziftech.copycats_extended.block.Pyramids.CopycatPyramid_Entity>>
+  public static final DeferredHolder<BlockEntityType<?>, BlockEntityType<CopycatPyramid_Entity>>
     COPYCAT_PYRAMID = registerBlockEntity(
     "copycat_pyramid",
-    net.ziftech.copycats_extended.block.Pyramids.CopycatPyramid_Entity::new,
+    CopycatPyramid_Entity::new,
     ModBlocks.COPYCAT_PYRAMID,
     ModBlocks.COPYCAT_PYRAMID_CORNER,
     ModBlocks.COPYCAT_PYRAMID_OPPOSITE,

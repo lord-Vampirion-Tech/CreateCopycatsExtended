@@ -45,35 +45,14 @@ public final class CopycatsExtendedClientEvents {
 
     CopycatModelCore pyramidModel = new CopycatPyramid_ModelCore();
 
-    registerPyramidModel(event, ModBlocks.COPYCAT_PYRAMID.get(), pyramidModel);
-    registerPyramidModel(event, ModBlocks.COPYCAT_PYRAMID_CORNER.get(), pyramidModel);
-    registerPyramidModel(event, ModBlocks.COPYCAT_PYRAMID_OPPOSITE.get(), pyramidModel);
-    registerPyramidModel(event, ModBlocks.COPYCAT_PYRAMID_QUAD.get(), pyramidModel);
-    registerPyramidModel(event, ModBlocks.COPYCAT_PYRAMID_TRIPLE.get(), pyramidModel);
+    registerModel(event, ModBlocks.COPYCAT_PYRAMID.get(), pyramidModel);
+    registerModel(event, ModBlocks.COPYCAT_PYRAMID_CORNER.get(), pyramidModel);
+    registerModel(event, ModBlocks.COPYCAT_PYRAMID_OPPOSITE.get(), pyramidModel);
+    registerModel(event, ModBlocks.COPYCAT_PYRAMID_QUAD.get(), pyramidModel);
+    registerModel(event, ModBlocks.COPYCAT_PYRAMID_TRIPLE.get(), pyramidModel);
 
     registerModel(event, ModBlocks.DOUBLE_BLOCK.get(), new DoubleBlock_ModelCore());
 
-  }
-
-
-  private static void registerPyramidModel(
-    ModelEvent.ModifyBakingResult event,
-    Block block,
-    CopycatModelCore modelCore
-  ) {
-    for (var state : block.getStateDefinition().getPossibleStates()) {
-      var modelLocation = BlockModelShaper.stateToModelLocation(state);
-
-      event.getModels().computeIfPresent(
-        modelLocation,
-        (location, originalModel) ->
-          new CopycatPyramid_ModelNeoForge(
-            originalModel,
-            modelCore,
-            false
-          )
-      );
-    }
   }
 
   private static void registerModel(

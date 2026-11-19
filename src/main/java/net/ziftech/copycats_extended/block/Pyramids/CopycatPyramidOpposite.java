@@ -47,13 +47,10 @@ public class CopycatPyramidOpposite extends BASE_CopycatPyramidBlock {
     @NotNull BlockPos pos,
     @NotNull CollisionContext context
   ) {
-    int[] data = getPyramidData(level, pos);
-
     return CopycatPyramid_Geometry.createShape(
       ShapeType.OPPOSITE,
       state.getValue(FACING),
-      state.getValue(ROTATION),
-      data[0], data[1], data[2]
+      state.getValue(ROTATION)
     );
   }
 

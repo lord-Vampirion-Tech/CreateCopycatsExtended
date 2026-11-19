@@ -81,18 +81,7 @@ public class CopycatPyramid_ModelCore extends CopycatModelCore.WithData<PyramidM
     CopycatRenderContext context,
     BlockState material
   ) {
-    PyramidModelData data = getData();
-
-    double x = data.x();
-    double y = data.y();
-    double z = data.z();
-
     Direction facing = state.getValue(BASE_CopycatPyramidBlock.FACING);
-
-    QuadScale Scale = scale(
-      pivot(.5f, 0, .5f),
-      scale(1, y / 8, 1)
-    );
 
     switch (((BASE_CopycatPyramidBlock) state.getBlock()).getShapeType()) {
       case PYRAMID -> context.assemblePiece(
@@ -101,27 +90,15 @@ public class CopycatPyramid_ModelCore extends CopycatModelCore.WithData<PyramidM
         aabb(16, 16, 16),
         cull(0),
         updateUV(
-          symmetricSlope(Direction.Axis.X, (a, b) -> 16 - a, x / 8),
-          symmetricSlope(Direction.Axis.Z, (a, b) -> 16 - b, z / 8)
-        ),
-        Scale,
-        debugVertices("PYRAMID"),
-        manualCull((lightFace, cullFace) -> {
-          if (x == 0 && lightFace == Direction.WEST) return null;
-          if (x == 8 && lightFace == Direction.EAST) return null;
-          if (z == 0 && lightFace == Direction.NORTH) return null;
-          if (z == 8 && lightFace == Direction.SOUTH) return null;
-
-          return cullFace;
-        })
+          symmetricSlope(Direction.Axis.X, (a, b) -> 16 - a),
+          symmetricSlope(Direction.Axis.Z, (a, b) -> 16 - b)
+        )
       );
       case CORNER -> context.assemblePiece(
         TRANSFORMS[facing.ordinal()],
         vec3(0, 0, 0),
         aabb(16, 16, 16),
-        cull(0),
-
-        Scale
+        cull(0)
       );
       case OPPOSITE -> {
         int rotation = state.getValue(CopycatPyramidOpposite.ROTATION);
@@ -132,24 +109,21 @@ public class CopycatPyramid_ModelCore extends CopycatModelCore.WithData<PyramidM
           aabb(16, 16, 16),
           cull(0),
           updateUV(
-            symmetricSlope(Direction.Axis.X, (a, b) -> 16 - a, x / 8)
-          ),
-          Scale
+            symmetricSlope(Direction.Axis.X, (a, b) -> 16 - a)
+          )
         );
       }
       case QUAD -> context.assemblePiece(
         TRANSFORMS[facing.ordinal()],
         vec3(0, 0, 0),
         aabb(16, 16, 16),
-        cull(0),
-        Scale
+        cull(0)
       );
       case TRIPLE -> context.assemblePiece(
         TRANSFORMS[facing.ordinal()],
         vec3(0, 0, 0),
         aabb(16, 16, 16),
-        cull(0),
-        Scale
+        cull(0)
       );
     }
   }
