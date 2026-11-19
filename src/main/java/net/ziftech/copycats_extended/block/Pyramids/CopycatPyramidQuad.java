@@ -28,7 +28,7 @@ public class CopycatPyramidQuad extends BASE_CopycatPyramidBlock {
     int[] data = getPyramidData(level, pos);
 
     return CopycatPyramid_Geometry.createShape(
-      ShapeType.PYRAMID,
+      ShapeType.QUAD,
       state.getValue(FACING),
       0,
       data[0], data[1], data[2]

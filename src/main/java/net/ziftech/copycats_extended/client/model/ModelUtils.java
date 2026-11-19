@@ -41,4 +41,19 @@ public class ModelUtils {
 
     return new OutlinedVoxelShape(collision, outline);
   }
+
+  public static OutlinedVoxelShape createCollisionOutline(VoxelShape collision) {
+    List<Pair<Vec3, Vec3>> outline = new ArrayList<>();
+
+    collision.forAllEdges((x1, y1, z1, x2, y2, z2) ->
+      outline.add(
+        Pair.of(
+          new Vec3(x1, y1, z1),
+          new Vec3(x2, y2, z2)
+        )
+      )
+    );
+
+    return new OutlinedVoxelShape(collision, outline);
+  }
 }

@@ -12,44 +12,61 @@ import net.ziftech.copycats_extended.block.Pyramids.PyramidModelData;
 
 import static com.copycatsplus.copycats.foundation.copycat.model.assembly.CopycatRenderContext.*;
 import static com.copycatsplus.copycats.foundation.copycat.model.assembly.CopycatRenderContext.updateUV;
-import static net.ziftech.copycats_extended.client.model.CustomQuadTransform.symmetricSlope;
+import static net.ziftech.copycats_extended.client.model.CustomQuadTransform.*;
 
 public class CopycatPyramid_ModelCore extends CopycatModelCore.WithData<PyramidModelData> {
 
   private static final AssemblyTransform[] TRANSFORMS = {
-    t -> t.rotateX(180), // DOWN
+    t -> t.flipY(true), // DOWN
     t -> {
-    },             // UP
-    t -> t.rotateX(90),  // NORTH
-    t -> t.rotateX(270), // SOUTH
-    t -> t.rotateZ(270), // WEST
-    t -> t.rotateZ(90)   // EAST
+    }, // UP
+    t -> {
+      t.rotateX(90);
+      t.flipX(true);
+    }, // NORTH
+    t -> {
+      t.rotateX(90);
+      t.flipZ(true);
+    }, // SOUTH
+    t -> {
+      t.rotateX(90);
+      t.rotateY(90);
+      t.flipX(true);
+    }, // WEST
+    t -> {
+      t.rotateX(90);
+      t.rotateY(90);
+      t.flipZ(true);
+    } // EAST
   };
 
-  private static final AssemblyTransform[] OPPOSITE_TRANSFORMS = {
-    t -> t.rotateX(180),
-    t -> {},
-    t -> t.rotateX(90),
-    t -> t.rotateX(270),
-    t -> t.rotateZ(270),
-    t -> t.rotateZ(90),
-
+  private static final AssemblyTransform[] OPPOSITE_TRANSFORMS = new AssemblyTransform[]{
+    // Index 0
     t -> {
-      t.rotateY(90);
-      t.rotateX(180);
+      t.flipY(true);
+      t.rotateY(270);
     },
     t -> t.rotateY(90),
     t -> {
-      t.rotateY(90);
       t.rotateX(90);
+      t.rotateZ(90);
     },
     t -> {
-      t.rotateY(90);
       t.rotateX(270);
+      t.rotateZ(90);
     },
+    t -> t.rotateZ(270),
+    t -> t.rotateZ(90),
+
+    // Index 1
+    t -> t.flipY(true),
     t -> {
-      t.rotateY(90);
+    },
+    t -> t.rotateX(90),
+    t -> t.rotateX(270),
+    t -> {
       t.rotateZ(270);
+      t.rotateX(90);
     },
     t -> {
       t.rotateY(90);
@@ -74,7 +91,7 @@ public class CopycatPyramid_ModelCore extends CopycatModelCore.WithData<PyramidM
 
     QuadScale Scale = scale(
       pivot(.5f, 0, .5f),
-      scale(1, 1, 1)
+      scale(1, y / 8, 1)
     );
 
     switch (((BASE_CopycatPyramidBlock) state.getBlock()).getShapeType()) {
@@ -87,7 +104,16 @@ public class CopycatPyramid_ModelCore extends CopycatModelCore.WithData<PyramidM
           symmetricSlope(Direction.Axis.X, (a, b) -> 16 - a, x / 8),
           symmetricSlope(Direction.Axis.Z, (a, b) -> 16 - b, z / 8)
         ),
-        Scale
+        Scale,
+        debugVertices("PYRAMID"),
+        manualCull((lightFace, cullFace) -> {
+          if (x == 0 && lightFace == Direction.WEST) return null;
+          if (x == 8 && lightFace == Direction.EAST) return null;
+          if (z == 0 && lightFace == Direction.NORTH) return null;
+          if (z == 8 && lightFace == Direction.SOUTH) return null;
+
+          return cullFace;
+        })
       );
       case CORNER -> context.assemblePiece(
         TRANSFORMS[facing.ordinal()],

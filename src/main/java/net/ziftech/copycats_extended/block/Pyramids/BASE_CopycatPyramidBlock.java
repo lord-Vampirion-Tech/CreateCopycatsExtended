@@ -17,6 +17,7 @@ import net.minecraft.world.level.block.state.StateDefinition;
 import net.minecraft.world.level.block.state.properties.BlockStateProperties;
 import net.minecraft.world.level.block.state.properties.DirectionProperty;
 import net.minecraft.world.phys.shapes.CollisionContext;
+import net.minecraft.world.phys.shapes.Shapes;
 import net.minecraft.world.phys.shapes.VoxelShape;
 import net.ziftech.copycats_extended.block.Pyramids.CopycatPyramid_Entity;
 import net.ziftech.copycats_extended.block.base.ModBlockPlacement;
@@ -142,6 +143,31 @@ public abstract class BASE_CopycatPyramidBlock extends CCWaterloggedCopycatBlock
   @Override
   public boolean supportsExternalFaceHiding(BlockState state) {
     return true;
+  }
+
+  @Override
+  public VoxelShape getOcclusionShape(
+    BlockState state,
+    BlockGetter level,
+    BlockPos pos
+  ) {
+    VoxelShape shape = getCollisionShape(
+      state, level, pos, CollisionContext.empty()
+    );
+
+    BlockPos neighborPos = pos.relative(Direction.WEST);
+    BlockState neighborState = level.getBlockState(neighborPos);
+
+    VoxelShape ownFace = shape.getFaceShape(Direction.WEST);
+    VoxelShape neighborFace = neighborState.getFaceOcclusionShape(
+      level, neighborPos, Direction.EAST
+    );
+
+    System.out.println("=== PYRAMID OCCLUSION ===");
+    System.out.println("Own WEST: " + ownFace.toAabbs());
+    System.out.println("Neighbor EAST: " + neighborFace.toAabbs());
+
+    return shape;
   }
 
   @Override
