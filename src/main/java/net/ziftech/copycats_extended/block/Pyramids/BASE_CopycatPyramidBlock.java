@@ -20,6 +20,7 @@ import net.minecraft.world.phys.shapes.CollisionContext;
 import net.minecraft.world.phys.shapes.VoxelShape;
 import net.ziftech.copycats_extended.block.base.ModBlockPlacement;
 import net.ziftech.copycats_extended.registry.ModBlockEntities;
+import net.ziftech.copycats_extended.utility.BlockTransformHelper;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
@@ -44,17 +45,6 @@ public abstract class BASE_CopycatPyramidBlock extends CCWaterloggedCopycatBlock
   }
 
   public abstract ShapeType getShapeType();
-
-  @Override
-  public BlockState transform(BlockState blockState, StructureTransform structureTransform) {
-    if (structureTransform.rotationAxis == null)
-      return blockState;
-
-    return blockState.setValue(
-      FACING,
-      structureTransform.rotateFacing(blockState.getValue(FACING))
-    );
-  }
 
   @Override
   protected void createBlockStateDefinition(StateDefinition.Builder<Block, BlockState> builder) {
@@ -91,18 +81,15 @@ public abstract class BASE_CopycatPyramidBlock extends CCWaterloggedCopycatBlock
     return ModBlockEntities.COPYCAT_PYRAMID.get();
   }
 
-  @Override
-  public boolean canConnectTexturesToward(
-    BlockAndTintGetter reader,
-    BlockPos fromPos,
-    BlockPos toPos,
-    BlockState state
-  ) {
-    if (!isCTEnabled(state, reader, fromPos))
-      return false;
-
-    return super.canConnectTexturesToward(reader, fromPos, toPos, state);
-  }
+//  @Override
+//  public boolean canConnectTexturesToward(
+//    BlockAndTintGetter reader,
+//    BlockPos fromPos,
+//    BlockPos toPos,
+//    BlockState state
+//  ) {
+//    return true;
+//  }
 
   @Override
   public boolean isIgnoredConnectivitySide(
@@ -113,12 +100,7 @@ public abstract class BASE_CopycatPyramidBlock extends CCWaterloggedCopycatBlock
     @Nullable BlockPos toPos,
     @Nullable BlockState toState
   ) {
-    if (!isCTEnabled(state, reader, fromPos))
-      return true;
-
-    return super.isIgnoredConnectivitySide(
-      reader, state, face, fromPos, toPos, toState
-    );
+    return !isCTEnabled(state, reader, fromPos);
   }
 
   @Override

@@ -27,11 +27,6 @@ public final class CopycatKeyBlockList {
       BASE_CopycatPyramidBlock.class,
       CopycatBlockPropertiesForKey.KeyProperty.state(BASE_CopycatPyramidBlock.FACING)
     );
-
-    register(
-      CopycatPyramidOpposite.class,
-      CopycatBlockPropertiesForKey.KeyProperty.state(CopycatPyramidOpposite.ROTATION)
-    );
   }
 
   private static void register(

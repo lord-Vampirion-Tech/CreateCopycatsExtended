@@ -5,6 +5,7 @@ import com.copycatsplus.copycats.foundation.copycat.model.CopycatModelCore;
 
 import com.copycatsplus.copycats.foundation.copycat.multistate.IMultiStateCopycatBlock;
 import net.minecraft.client.renderer.block.BlockModelShaper;
+import net.minecraft.client.resources.model.BakedModel;
 import net.minecraft.world.level.block.Block;
 
 import net.neoforged.api.distmarker.Dist;
@@ -43,15 +44,17 @@ public final class CopycatsExtendedClientEvents {
 //      new TEST_CopycatBlock_ModelCore()
 //    );
 
-    CopycatModelCore pyramidModel = new CopycatPyramid_ModelCore();
-
-    registerModel(event, ModBlocks.COPYCAT_PYRAMID.get(), pyramidModel);
-    registerModel(event, ModBlocks.COPYCAT_PYRAMID_CORNER.get(), pyramidModel);
-    registerModel(event, ModBlocks.COPYCAT_PYRAMID_OPPOSITE.get(), pyramidModel);
-    registerModel(event, ModBlocks.COPYCAT_PYRAMID_QUAD.get(), pyramidModel);
-    registerModel(event, ModBlocks.COPYCAT_PYRAMID_TRIPLE.get(), pyramidModel);
+//    registerModel(event, ModBlocks.COPYCAT_PYRAMID_OPPOSITE.get(), pyramidModel);
+//    registerModel(event, ModBlocks.COPYCAT_PYRAMID_QUAD.get(), pyramidModel);
+//    registerModel(event, ModBlocks.COPYCAT_PYRAMID_TRIPLE.get(), pyramidModel);
 
     registerModel(event, ModBlocks.DOUBLE_BLOCK.get(), new DoubleBlock_ModelCore());
+
+
+    CopycatModelCore pyramidModel = new CopycatPyramid_ModelCore();
+
+    registerModel(event, ModBlocks.COPYCAT_PYRAMID.get(), pyramidModel, true);
+    registerModel(event, ModBlocks.COPYCAT_PYRAMID_CORNER.get(), pyramidModel, true);
 
   }
 
@@ -71,6 +74,31 @@ public final class CopycatsExtendedClientEvents {
     }
   }
 
+  private static void registerModel(
+    ModelEvent.ModifyBakingResult event,
+    Block block,
+    CopycatModelCore modelCore,
+    boolean adjustSlopeAO
+  ) {
+    for (var state : block.getStateDefinition().getPossibleStates()) {
+      var modelLocation = BlockModelShaper.stateToModelLocation(state);
+
+      event.getModels().computeIfPresent(
+        modelLocation,
+        (location, originalModel) -> {
+          BakedModel model = CopycatModelCore.createModel(originalModel, modelCore);
+
+          if (adjustSlopeAO) {
+            model = new PyramidAmbientOcclusionModel(model);
+            model = new QuadDebugModel(model);
+          }
+
+          return model;
+        }
+      );
+    }
+  }
+
   @SubscribeEvent
   public static void registerBlockColors(
     RegisterColorHandlersEvent.Block event
@@ -81,10 +109,10 @@ public final class CopycatsExtendedClientEvents {
 //      ModBlocks.COPYCAT_ADV_SLOPE_LAYER.get(),
 //      ModBlocks.TEST_COPYCAT_BLOCK.get(),
       ModBlocks.COPYCAT_PYRAMID.get(),
-      ModBlocks.COPYCAT_PYRAMID_CORNER.get(),
-      ModBlocks.COPYCAT_PYRAMID_OPPOSITE.get(),
-      ModBlocks.COPYCAT_PYRAMID_QUAD.get(),
-      ModBlocks.COPYCAT_PYRAMID_TRIPLE.get()
+      ModBlocks.COPYCAT_PYRAMID_CORNER.get()
+//      ModBlocks.COPYCAT_PYRAMID_OPPOSITE.get(),
+//      ModBlocks.COPYCAT_PYRAMID_QUAD.get(),
+//      ModBlocks.COPYCAT_PYRAMID_TRIPLE.get()
     );
 
     // MultiState Copycat-блоки

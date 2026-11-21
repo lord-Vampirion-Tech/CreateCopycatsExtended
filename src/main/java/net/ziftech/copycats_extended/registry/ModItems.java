@@ -115,27 +115,27 @@ public final class ModItems {
       CopycatCharacteristics.COPYCAT,
       CopycatCharacteristics.CT_TOGGLE
     );
-  public static final DeferredItem<BlockItem> COPYCAT_PYRAMID_OPPOSITE =
-    newItem(
-      "copycat_pyramid_opposite",
-      ModBlocks.COPYCAT_PYRAMID_OPPOSITE,
-      CopycatCharacteristics.COPYCAT,
-      CopycatCharacteristics.CT_TOGGLE
-    );
-  public static final DeferredItem<BlockItem> COPYCAT_PYRAMID_QUAD =
-    newItem(
-      "copycat_pyramid_quad",
-      ModBlocks.COPYCAT_PYRAMID_QUAD,
-      CopycatCharacteristics.COPYCAT,
-      CopycatCharacteristics.CT_TOGGLE
-    );
-  public static final DeferredItem<BlockItem> COPYCAT_PYRAMID_TRIPLE =
-    newItem(
-      "copycat_pyramid_triple",
-      ModBlocks.COPYCAT_PYRAMID_TRIPLE,
-      CopycatCharacteristics.COPYCAT,
-      CopycatCharacteristics.CT_TOGGLE
-    );
+//  public static final DeferredItem<BlockItem> COPYCAT_PYRAMID_OPPOSITE =
+//    newItem(
+//      "copycat_pyramid_opposite",
+//      ModBlocks.COPYCAT_PYRAMID_OPPOSITE,
+//      CopycatCharacteristics.COPYCAT,
+//      CopycatCharacteristics.CT_TOGGLE
+//    );
+//  public static final DeferredItem<BlockItem> COPYCAT_PYRAMID_QUAD =
+//    newItem(
+//      "copycat_pyramid_quad",
+//      ModBlocks.COPYCAT_PYRAMID_QUAD,
+//      CopycatCharacteristics.COPYCAT,
+//      CopycatCharacteristics.CT_TOGGLE
+//    );
+//  public static final DeferredItem<BlockItem> COPYCAT_PYRAMID_TRIPLE =
+//    newItem(
+//      "copycat_pyramid_triple",
+//      ModBlocks.COPYCAT_PYRAMID_TRIPLE,
+//      CopycatCharacteristics.COPYCAT,
+//      CopycatCharacteristics.CT_TOGGLE
+//    );
 
   public static final DeferredItem<BlockItem> DOUBLE_COPYCAT =
     newItem(

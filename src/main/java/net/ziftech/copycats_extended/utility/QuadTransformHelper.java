@@ -1,13 +1,12 @@
-package net.ziftech.copycats_extended.client.model;
+package net.ziftech.copycats_extended.utility;
 
 import com.copycatsplus.copycats.foundation.copycat.model.assembly.MutableVec3;
-import com.copycatsplus.copycats.foundation.copycat.model.assembly.MutableVertex;
 import com.copycatsplus.copycats.foundation.copycat.model.assembly.quad.QuadSlope;
 import com.copycatsplus.copycats.foundation.copycat.model.assembly.quad.QuadTransform;
 
 import net.minecraft.core.Direction.Axis;
 
-public class CustomQuadTransform {
+public class QuadTransformHelper {
 
   public static final double DEFAULT_OFFSET = 0.5;
 
@@ -62,6 +61,27 @@ public class CustomQuadTransform {
 
       return true;
     };
+  }
+
+  public static QuadTransform roundCoordinates() {
+    return (quad, sprite) -> {
+      for (int i = 0; i < 4; i++) {
+        MutableVec3 vertex = quad.vertices.get(i).xyz;
+
+        vertex.x = roundEdge(vertex.x);
+        vertex.y = roundEdge(vertex.y);
+        vertex.z = roundEdge(vertex.z);
+      }
+
+      return true;
+    };
+  }
+
+  private static double roundEdge(double value) {
+    if (Math.abs(value) < 0.002) return 0.0;
+    if (Math.abs(value - 1.0) < 0.002) return 1.0;
+
+    return value;
   }
 
   public static MutableVec3.AsAngle X(double angle) {

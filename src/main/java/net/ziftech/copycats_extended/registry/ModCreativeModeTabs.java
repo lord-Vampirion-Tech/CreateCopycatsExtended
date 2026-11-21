@@ -33,9 +33,9 @@ public class ModCreativeModeTabs {
 
         output.accept(ModItems.COPYCAT_PYRAMID.get());
         output.accept(ModItems.COPYCAT_PYRAMID_CORNER.get());
-        output.accept(ModItems.COPYCAT_PYRAMID_OPPOSITE.get());
-        output.accept(ModItems.COPYCAT_PYRAMID_QUAD.get());
-        output.accept(ModItems.COPYCAT_PYRAMID_TRIPLE.get());
+//        output.accept(ModItems.COPYCAT_PYRAMID_OPPOSITE.get());
+//        output.accept(ModItems.COPYCAT_PYRAMID_QUAD.get());
+//        output.accept(ModItems.COPYCAT_PYRAMID_TRIPLE.get());
         output.accept(ModItems.DOUBLE_COPYCAT.get());
 
       })

@@ -68,10 +68,10 @@ public final class ModBlockEntities {
     "copycat_pyramid",
     CopycatPyramid_Entity::new,
     ModBlocks.COPYCAT_PYRAMID,
-    ModBlocks.COPYCAT_PYRAMID_CORNER,
-    ModBlocks.COPYCAT_PYRAMID_OPPOSITE,
-    ModBlocks.COPYCAT_PYRAMID_QUAD,
-    ModBlocks.COPYCAT_PYRAMID_TRIPLE
+    ModBlocks.COPYCAT_PYRAMID_CORNER
+//    ModBlocks.COPYCAT_PYRAMID_OPPOSITE,
+//    ModBlocks.COPYCAT_PYRAMID_QUAD,
+//    ModBlocks.COPYCAT_PYRAMID_TRIPLE
   );
 
   public static final DeferredHolder<BlockEntityType<?>, BlockEntityType<DoubleBlock_Entity>>

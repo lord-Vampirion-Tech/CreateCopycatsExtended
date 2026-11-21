@@ -53,15 +53,15 @@ public class ModBlocks {
 //    registerCopycatBlock("test_copycat_block", TEST_CopycatBlock::new);
 
   public static final DeferredBlock<BASE_CopycatPyramidBlock> COPYCAT_PYRAMID =
-    registerCopycatBlock("copycat_pyramid", CopycatPyramid::new);
+    registerCopycatBlock("copycat_pyramid", CopycatPyramidBase::new);
   public static final DeferredBlock<BASE_CopycatPyramidBlock> COPYCAT_PYRAMID_CORNER =
     registerCopycatBlock("copycat_pyramid_corner", CopycatPyramidCorner::new);
-  public static final DeferredBlock<BASE_CopycatPyramidBlock> COPYCAT_PYRAMID_OPPOSITE =
-    registerCopycatBlock("copycat_pyramid_opposite", CopycatPyramidOpposite::new);
-  public static final DeferredBlock<BASE_CopycatPyramidBlock> COPYCAT_PYRAMID_QUAD =
-    registerCopycatBlock("copycat_pyramid_quad", CopycatPyramidQuad::new);
-  public static final DeferredBlock<BASE_CopycatPyramidBlock> COPYCAT_PYRAMID_TRIPLE =
-    registerCopycatBlock("copycat_pyramid_triple", CopycatPyramidTriple::new);
+//  public static final DeferredBlock<BASE_CopycatPyramidBlock> COPYCAT_PYRAMID_OPPOSITE =
+//    registerCopycatBlock("copycat_pyramid_opposite", CopycatPyramidOpposite::new);
+//  public static final DeferredBlock<BASE_CopycatPyramidBlock> COPYCAT_PYRAMID_QUAD =
+//    registerCopycatBlock("copycat_pyramid_quad", CopycatPyramidQuad::new);
+//  public static final DeferredBlock<BASE_CopycatPyramidBlock> COPYCAT_PYRAMID_TRIPLE =
+//    registerCopycatBlock("copycat_pyramid_triple", CopycatPyramidTriple::new);
 
   public static final DeferredBlock<DoubleBlock> DOUBLE_BLOCK =
     registerCopycatBlock("double_copycat", DoubleBlock::new);

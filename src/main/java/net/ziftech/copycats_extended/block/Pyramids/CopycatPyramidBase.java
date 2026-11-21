@@ -1,17 +1,29 @@
 package net.ziftech.copycats_extended.block.Pyramids;
 
+import com.simibubi.create.content.contraptions.StructureTransform;
 import net.minecraft.core.BlockPos;
+import net.minecraft.core.Direction;
 import net.minecraft.world.level.BlockGetter;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.phys.shapes.CollisionContext;
 import net.minecraft.world.phys.shapes.VoxelShape;
 import net.ziftech.copycats_extended.client.model.CopycatPyramid_Geometry;
+import net.ziftech.copycats_extended.utility.BlockTransformHelper;
 import org.jetbrains.annotations.NotNull;
 
-public class CopycatPyramid extends BASE_CopycatPyramidBlock {
+public class CopycatPyramidBase extends BASE_CopycatPyramidBlock {
 
-  public CopycatPyramid(Properties properties) {
+  public CopycatPyramidBase(Properties properties) {
     super(properties);
+  }
+
+  @Override
+  public BlockState transform(BlockState state, StructureTransform transform) {
+    return BlockTransformHelper.transform(
+      state,
+      transform,
+      FACING
+    );
   }
 
   @Override
@@ -24,7 +36,7 @@ public class CopycatPyramid extends BASE_CopycatPyramidBlock {
     return CopycatPyramid_Geometry.createShape(
       ShapeType.PYRAMID,
       state.getValue(FACING),
-      0
+      Direction.SOUTH
     );
   }
 

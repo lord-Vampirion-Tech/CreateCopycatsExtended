@@ -3,76 +3,96 @@ package net.ziftech.copycats_extended.client.model;
 import com.copycatsplus.copycats.foundation.copycat.model.CopycatModelCore;
 import com.copycatsplus.copycats.foundation.copycat.model.assembly.AssemblyTransform;
 import com.copycatsplus.copycats.foundation.copycat.model.assembly.CopycatRenderContext;
-import com.copycatsplus.copycats.foundation.copycat.model.assembly.quad.QuadScale;
 import net.minecraft.core.Direction;
 import net.minecraft.world.level.block.state.BlockState;
 import net.ziftech.copycats_extended.block.Pyramids.BASE_CopycatPyramidBlock;
-import net.ziftech.copycats_extended.block.Pyramids.CopycatPyramidOpposite;
-import net.ziftech.copycats_extended.block.Pyramids.PyramidModelData;
+import net.ziftech.copycats_extended.block.Pyramids.CopycatPyramidCorner;
 
 import static com.copycatsplus.copycats.foundation.copycat.model.assembly.CopycatRenderContext.*;
-import static com.copycatsplus.copycats.foundation.copycat.model.assembly.CopycatRenderContext.updateUV;
-import static net.ziftech.copycats_extended.client.model.CustomQuadTransform.*;
+import static net.minecraft.core.Direction.*;
+import static net.ziftech.copycats_extended.utility.QuadTransformHelper.*;
 
-public class CopycatPyramid_ModelCore extends CopycatModelCore.WithData<PyramidModelData> {
+public class CopycatPyramid_ModelCore extends CopycatModelCore {
 
   private static final AssemblyTransform[] TRANSFORMS = {
     t -> t.flipY(true), // DOWN
     t -> {
     }, // UP
+    t -> t.rotateX(90), // NORTH
     t -> {
-      t.rotateX(90);
-      t.flipX(true);
-    }, // NORTH
-    t -> {
-      t.rotateX(90);
-      t.flipZ(true);
+      t.rotateX(-90);
+      t.rotateZ(180);
     }, // SOUTH
     t -> {
+      t.rotateZ(-90);
       t.rotateX(90);
-      t.rotateY(90);
-      t.flipX(true);
+
     }, // WEST
     t -> {
+      t.rotateZ(90);
       t.rotateX(90);
-      t.rotateY(90);
-      t.flipZ(true);
     } // EAST
   };
 
-  private static final AssemblyTransform[] OPPOSITE_TRANSFORMS = new AssemblyTransform[]{
-    // Index 0
-    t -> {
-      t.flipY(true);
-      t.rotateY(270);
-    },
-    t -> t.rotateY(90),
-    t -> {
-      t.rotateX(90);
-      t.rotateZ(90);
-    },
-    t -> {
-      t.rotateX(270);
-      t.rotateZ(90);
-    },
-    t -> t.rotateZ(270),
-    t -> t.rotateZ(90),
+  private static int getRotationDegrees(Direction rotation) {
+    return switch (rotation) {
+      case SOUTH -> 0;
+      case WEST -> 90;
+      case NORTH -> 180;
+      case EAST -> 270;
+      default -> 0;
+    };
+  }
 
-    // Index 1
-    t -> t.flipY(true),
-    t -> {
-    },
-    t -> t.rotateX(90),
-    t -> t.rotateX(270),
-    t -> {
-      t.rotateZ(270);
-      t.rotateX(90);
-    },
-    t -> {
-      t.rotateY(90);
-      t.rotateZ(90);
-    }
-  };
+
+  private static AssemblyTransform getTransform(Direction facing, Direction rotation) {
+    AssemblyTransform rotate = t -> t.rotateY(getRotationDegrees(rotation));
+
+    AssemblyTransform flip = switch (facing) {
+      case WEST, EAST -> t -> {
+        t.flipZ(true);
+        t.rotateY(180);
+      };
+      case SOUTH, NORTH -> t -> t.flipX(true);
+      default -> t -> {};
+    };
+
+    return rotate.andThen(flip).andThen(TRANSFORMS[facing.ordinal()]);
+  }
+
+//  private static final AssemblyTransform[] OPPOSITE_TRANSFORMS = new AssemblyTransform[]{
+//    // Index 0
+//    t -> {
+//      t.flipY(true);
+//      t.rotateY(270);
+//    },
+//    t -> t.rotateY(90),
+//    t -> {
+//      t.rotateX(90);
+//      t.rotateZ(90);
+//    },
+//    t -> {
+//      t.rotateX(270);
+//      t.rotateZ(90);
+//    },
+//    t -> t.rotateZ(270),
+//    t -> t.rotateZ(90),
+//
+//    // Index 1
+//    t -> t.flipY(true),
+//    t -> {
+//    },
+//    t -> t.rotateX(90),
+//    t -> t.rotateX(270),
+//    t -> {
+//      t.rotateZ(270);
+//      t.rotateX(90);
+//    },
+//    t -> {
+//      t.rotateY(90);
+//      t.rotateZ(90);
+//    }
+//  };
 
   @Override
   public void emitCopycatQuads(
@@ -90,41 +110,80 @@ public class CopycatPyramid_ModelCore extends CopycatModelCore.WithData<PyramidM
         aabb(16, 16, 16),
         cull(0),
         updateUV(
-          symmetricSlope(Direction.Axis.X, (a, b) -> 16 - a),
-          symmetricSlope(Direction.Axis.Z, (a, b) -> 16 - b)
+          symmetricSlope(Axis.X, (a, b) -> 16 - a),
+          symmetricSlope(Axis.Z, (a, b) -> 16 - b)
         )
       );
       case CORNER -> context.assemblePiece(
-        TRANSFORMS[facing.ordinal()],
+        getTransform(
+          facing,
+          state.getValue(CopycatPyramidCorner.ROTATION)
+        ),
         vec3(0, 0, 0),
         aabb(16, 16, 16),
-        cull(0)
+        cull(0),
+        updateUV(
+          slope(EAST, (a, b) -> 16 - a),
+          slope(SOUTH, (a, b) -> 16 - b)
+        )
       );
-      case OPPOSITE -> {
-        int rotation = state.getValue(CopycatPyramidOpposite.ROTATION);
-
-        context.assemblePiece(
-          OPPOSITE_TRANSFORMS[facing.ordinal() + rotation * 6],
-          vec3(0, 0, 0),
-          aabb(16, 16, 16),
-          cull(0),
-          updateUV(
-            symmetricSlope(Direction.Axis.X, (a, b) -> 16 - a)
-          )
-        );
-      }
-      case QUAD -> context.assemblePiece(
-        TRANSFORMS[facing.ordinal()],
-        vec3(0, 0, 0),
-        aabb(16, 16, 16),
-        cull(0)
-      );
-      case TRIPLE -> context.assemblePiece(
-        TRANSFORMS[facing.ordinal()],
-        vec3(0, 0, 0),
-        aabb(16, 16, 16),
-        cull(0)
-      );
+//      case OPPOSITE -> {
+//        context.assemblePiece(
+//          getTransform(
+//            facing,
+//            getOppositeRotation(
+//              state.getValue(CopycatPyramidOpposite.ROTATION)
+//            )
+//          ),
+//          vec3(0, 0, 0),
+//          aabb(16, 16, 16),
+//          cull(0),
+//          updateUV(
+//            symmetricSlope(Direction.Axis.X, (a, b) -> 16 - a)
+//          )
+//        );
+//      }
+//      case QUAD -> {
+//        context.assemblePiece(
+//          TRANSFORMS[facing.ordinal()],
+//          vec3(0, 0, 0),
+//          aabb(16, 16, 16),
+//          cull(0),
+//          updateUV(
+//            symmetricSlope(Axis.X, (a, b) -> 16 - a)
+//          )
+//        );
+//        context.assemblePiece(
+//          TRANSFORMS[facing.ordinal()],
+//          vec3(0, 0, 0),
+//          aabb(16, 16, 16),
+//          cull(0),
+//          updateUV(
+//            symmetricSlope(Axis.Z, (a, b) -> 16 - b)
+//          )
+//        );
+//      }
+//      case TRIPLE -> context.assemblePiece(
+//        getTransform(
+//          facing,
+//          state.getValue(CopycatPyramidTriple.ROTATION)
+//        ),
+//        vec3(0, 0, 0),
+//        aabb(16, 16, 16),
+//        cull(0),
+//        updateUV(
+//          slope(WEST, (a, b) -> 16 - a),
+//          slope(NORTH, (a, b) -> 16 - b)
+//        )
+//      );
     }
   }
+
+//  private static Direction getOppositeRotation(Direction rotation) {
+//    return switch (rotation) {
+//      case SOUTH -> WEST;
+//      case WEST -> SOUTH;
+//      default -> rotation;
+//    };
+//  }
 }

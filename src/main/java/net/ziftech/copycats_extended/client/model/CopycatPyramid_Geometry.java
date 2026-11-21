@@ -9,19 +9,18 @@ import net.minecraft.world.phys.shapes.Shapes;
 import net.minecraft.world.phys.shapes.VoxelShape;
 import net.ziftech.copycats_extended.block.Pyramids.BASE_CopycatPyramidBlock;
 
-import java.util.List;
 import java.util.concurrent.ConcurrentHashMap;
 
 public class CopycatPyramid_Geometry {
 
-  private static final int TOP_X = 8;
-  private static final int TOP_Y = 16;
-  private static final int TOP_Z = 8;
+//  private static final int TOP_X = 8;
+//  private static final int TOP_Y = 16;
+//  private static final int TOP_Z = 8;
 
   private record ShapeKey(
     BASE_CopycatPyramidBlock.ShapeType type,
     Direction facing,
-    int rotation
+    Direction rotation
   ) {
   }
 
@@ -31,7 +30,7 @@ public class CopycatPyramid_Geometry {
   public static OutlinedVoxelShape createShape(
     BASE_CopycatPyramidBlock.ShapeType type,
     Direction facing,
-    int rotation
+    Direction rotation
   ) {
     ShapeKey key = new ShapeKey(type, facing, rotation);
 
@@ -48,7 +47,7 @@ public class CopycatPyramid_Geometry {
   private static OutlinedVoxelShape createOutlinedShape(
     BASE_CopycatPyramidBlock.ShapeType shapeType,
     Direction facing,
-    int rotation
+    Direction rotation
   ) {
     VoxelShape collision = switch (shapeType) {
       case PYRAMID -> createPyramidCollision();
@@ -92,18 +91,13 @@ public class CopycatPyramid_Geometry {
     };
 
     for (int i = 0; i < points.length; i++) {
-      if (shapeType == BASE_CopycatPyramidBlock.ShapeType.OPPOSITE && rotation == 1) {
-        points[i] = rotateY90(points[i]);
-      }
-
+      points[i] = rotatePointsByRotation(points[i], shapeType, rotation);
       points[i] = rotatePoint(points[i], facing);
     }
 
-    if (shapeType == BASE_CopycatPyramidBlock.ShapeType.OPPOSITE && rotation == 1) {
-      collision = rotateShapeY90(collision);
-    }
-
+    collision = rotateShapeByRotation(collision, shapeType, rotation);
     collision = rotateShape(collision, facing);
+
 
     return ModelUtils.createCollisionOutline(collision);
 //    return ModelUtils.createOutlinedShape(
@@ -139,6 +133,50 @@ public class CopycatPyramid_Geometry {
     return result.optimize();
   }
 
+  private static int getRotationTurns(Direction rotation) {
+    return switch (rotation) {
+      case SOUTH -> 0;
+      case WEST -> 1;
+      case NORTH -> 2;
+      case EAST -> 3;
+      default -> 0;
+    };
+  }
+
+  private static VoxelShape rotateShapeByRotation(
+    VoxelShape shape,
+    BASE_CopycatPyramidBlock.ShapeType type,
+    Direction  rotation
+  ) {
+    int turns = switch (type) {
+      case CORNER, TRIPLE, OPPOSITE -> getRotationTurns(rotation);
+      case PYRAMID, QUAD -> 0;
+    };
+
+    for (int i = 0; i < turns; i++) {
+      shape = rotateShapeY90(shape);
+    }
+
+    return shape;
+  }
+
+  private static Vec3 rotatePointsByRotation(
+    Vec3 point,
+    BASE_CopycatPyramidBlock.ShapeType type,
+    Direction  rotation
+  ) {
+    int turns = switch (type) {
+      case CORNER, TRIPLE, OPPOSITE -> getRotationTurns(rotation);
+      case PYRAMID, QUAD -> 0;
+    };
+
+    for (int i = 0; i < turns; i++) {
+      point = rotateY90(point);
+    }
+
+    return point;
+  }
+
   // PYRAMID
 
   private static Vec3[] createPyramidPoints() {
@@ -153,6 +191,10 @@ public class CopycatPyramid_Geometry {
 
   private static VoxelShape createPyramidCollision() {
     VoxelShape shape = Shapes.empty();
+
+    int TOP_X = 8;
+    int TOP_Y = 16;
+    int TOP_Z = 8;
 
     for (int i = 0; i < TOP_Y / 2; i++) {
       double t = i / (double) (TOP_Y / 2);
@@ -180,11 +222,43 @@ public class CopycatPyramid_Geometry {
   // CORNER
 
   private static Vec3[] createCornerPoints() {
-    return createPyramidPoints();
+    return new Vec3[]{
+      new Vec3(0, 0, 0),
+      new Vec3(1, 0, 0),
+      new Vec3(1, 0, 1),
+      new Vec3(0, 0, 1),
+      new Vec3(.5, 1, .5)
+    };
   }
 
   private static VoxelShape createCornerCollision() {
-    return createPyramidCollision();
+    VoxelShape shape = Shapes.empty();
+
+    int TOP_X = 16;
+    int TOP_Y = 16;
+    int TOP_Z = 16;
+
+    for (int i = 0; i < TOP_Y / 2; i++) {
+      double t = i / (double) (TOP_Y / 2);
+
+      double minX = lerp(0, TOP_X, t);
+      double maxX = lerp(16, TOP_X, t);
+      double minZ = lerp(0, TOP_Z, t);
+      double maxZ = lerp(16, TOP_Z, t);
+
+      VoxelShape rotated = Shapes.box(
+        1 - maxX / 16.0,
+        i * 2 / 16.0,
+        1 - maxZ / 16.0,
+        1 - minX / 16.0,
+        (i + 1) * 2 / 16.0,
+        1 - minZ / 16.0
+      );
+
+      shape = Shapes.or(shape, rotated);
+    }
+
+    return shape.optimize();
   }
 
   // OPPOSITE
@@ -203,20 +277,20 @@ public class CopycatPyramid_Geometry {
   private static VoxelShape createOppositeCollision() {
     VoxelShape shape = Shapes.empty();
 
-    for (int i = 0; i < TOP_Y; i++) {
-      double t = i / (double) TOP_Y;
+    int TOP_Y = 16;
+    int TOP_Z = 16;
 
-      double minX = lerp(0, 0, t);
-      double maxX = lerp(16, 16, t);
+    for (int i = 0; i < TOP_Y / 2; i++) {
+      double t = i / (double) (TOP_Y / 2);
 
-      double minZ = lerp(0, 0, t);
-      double maxZ = lerp(16, 16 * 2, t);
+      double minZ = lerp(0, TOP_Z / 2.0, t);
+      double maxZ = lerp(16, TOP_Z / 2.0, t);
 
       VoxelShape section = Shapes.box(
-        minX / 16.0,
+        0,
         i * 2 / 16.0,
         minZ / 16.0,
-        maxX / 16.0,
+        1,
         (i + 1) * 2 / 16.0,
         maxZ / 16.0
       );
@@ -234,7 +308,40 @@ public class CopycatPyramid_Geometry {
   }
 
   private static VoxelShape createQuadCollision() {
-    return createPyramidCollision();
+    VoxelShape shape = Shapes.empty();
+
+    int TOP_Y = 16;
+
+    for (int i = 0; i < TOP_Y / 2; i++) {
+      double t = i / (double) (TOP_Y / 2);
+
+      double min = lerp(0, 8, t);
+      double max = lerp(16, 8, t);
+
+      // Сужение по Z
+      VoxelShape zShape = Shapes.box(
+        0,
+        i * 2 / 16.0,
+        min / 16.0,
+        1,
+        (i + 1) * 2 / 16.0,
+        max / 16.0
+      );
+
+      // Сужение по X
+      VoxelShape xShape = Shapes.box(
+        min / 16.0,
+        i * 2 / 16.0,
+        0,
+        max / 16.0,
+        (i + 1) * 2 / 16.0,
+        1
+      );
+
+      shape = Shapes.or(shape, zShape, xShape);
+    }
+
+    return shape.optimize();
   }
 
   // TRIPLE
@@ -244,7 +351,35 @@ public class CopycatPyramid_Geometry {
   }
 
   private static VoxelShape createTripleCollision() {
-    return createPyramidCollision();
+    VoxelShape shape = Shapes.empty();
+
+    int TOP_Y = 16;
+
+    for (int i = 0; i < TOP_Y / 2; i++) {
+      double t = i / (double) (TOP_Y / 2);
+
+      double min = lerp(0, 8, t);
+      double max = lerp(16, 8, t);
+
+      double y1 = i * 2 / 16.0;
+      double y2 = (i + 1) * 2 / 16.0;
+
+      // Основной скос — через весь блок
+      VoxelShape main = Shapes.box(
+        0, y1, min / 16.0,
+        1, y2, max / 16.0
+      );
+
+      // Дополнительный скос — только половина блока
+      VoxelShape additional = Shapes.box(
+        min / 16.0, y1, 0,
+        max / 16.0, y2, 0.5
+      );
+
+      shape = Shapes.or(shape, main, additional);
+    }
+
+    return shape.optimize();
   }
 
   // TRANSFORMS
