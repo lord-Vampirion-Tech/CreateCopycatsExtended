@@ -28,7 +28,7 @@ public class CopycatPyramidBase extends BASE_CopycatPyramidBlock {
 
   @Override
   public @NotNull VoxelShape getShape(
-    BlockState state,
+    @NotNull BlockState state,
     @NotNull BlockGetter level,
     @NotNull BlockPos pos,
     @NotNull CollisionContext context

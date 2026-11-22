@@ -47,6 +47,8 @@ public final class ModLootTableProvider extends LootTableProvider {
       //dropSelf(ModBlocks.COPYCAT_ADV_SLOPE_LAYER.get());
       //dropSelf(ModBlocks.TEST_COPYCAT_BLOCK.get());
       dropSelf(ModBlocks.COPYCAT_PYRAMID.get());
+      dropSelf(ModBlocks.COPYCAT_PYRAMID_SIDE.get());
+      dropSelf(ModBlocks.COPYCAT_PYRAMID_CORNER.get());
       dropSelf(ModBlocks.DOUBLE_BLOCK.get());
     }
 
@@ -57,6 +59,8 @@ public final class ModLootTableProvider extends LootTableProvider {
         //ModBlocks.COPYCAT_ADV_SLOPE_LAYER.get(),
         //ModBlocks.TEST_COPYCAT_BLOCK.get(),
         ModBlocks.COPYCAT_PYRAMID.get(),
+        ModBlocks.COPYCAT_PYRAMID_SIDE.get(),
+        ModBlocks.COPYCAT_PYRAMID_CORNER.get(),
         ModBlocks.DOUBLE_BLOCK.get()
       );
     }

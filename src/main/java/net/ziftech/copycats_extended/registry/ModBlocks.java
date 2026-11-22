@@ -41,29 +41,16 @@ public class ModBlocks {
 
   // Blocks
   public static final DeferredBlock<Block> BASE_BLOCK =
-    registerBlock("base_block", Block::new);
-
-//  public static final DeferredBlock<CopycatAdvSlopeBlock> COPYCAT_ADV_SLOPE =
-//    registerCopycatBlock("copycat_adv_slope", CopycatAdvSlopeBlock::new);
-//
-//  public static final DeferredBlock<CopycatAdvSlopeLayerBlock> COPYCAT_ADV_SLOPE_LAYER =
-//    registerCopycatBlock("copycat_adv_slope_layer", CopycatAdvSlopeLayerBlock::new);
-//
-//  public static final DeferredBlock<TEST_CopycatBlock> TEST_COPYCAT_BLOCK =
-//    registerCopycatBlock("test_copycat_block", TEST_CopycatBlock::new);
+    registerBlock(ModRegistryNames.BASE_BLOCK, Block::new);
 
   public static final DeferredBlock<BASE_CopycatPyramidBlock> COPYCAT_PYRAMID =
-    registerCopycatBlock("copycat_pyramid", CopycatPyramidBase::new);
+    registerCopycatBlock(ModRegistryNames.COPYCAT_PYRAMID, CopycatPyramidBase::new);
+  public static final DeferredBlock<BASE_CopycatPyramidBlock> COPYCAT_PYRAMID_SIDE =
+    registerCopycatBlock(ModRegistryNames.COPYCAT_PYRAMID_SIDE, CopycatPyramidBase::new);
   public static final DeferredBlock<BASE_CopycatPyramidBlock> COPYCAT_PYRAMID_CORNER =
-    registerCopycatBlock("copycat_pyramid_corner", CopycatPyramidCorner::new);
-//  public static final DeferredBlock<BASE_CopycatPyramidBlock> COPYCAT_PYRAMID_OPPOSITE =
-//    registerCopycatBlock("copycat_pyramid_opposite", CopycatPyramidOpposite::new);
-//  public static final DeferredBlock<BASE_CopycatPyramidBlock> COPYCAT_PYRAMID_QUAD =
-//    registerCopycatBlock("copycat_pyramid_quad", CopycatPyramidQuad::new);
-//  public static final DeferredBlock<BASE_CopycatPyramidBlock> COPYCAT_PYRAMID_TRIPLE =
-//    registerCopycatBlock("copycat_pyramid_triple", CopycatPyramidTriple::new);
+    registerCopycatBlock(ModRegistryNames.COPYCAT_PYRAMID_CORNER, CopycatPyramidSide::new);
 
   public static final DeferredBlock<DoubleBlock> DOUBLE_BLOCK =
-    registerCopycatBlock("double_copycat", DoubleBlock::new);
+    registerCopycatBlock(ModRegistryNames.DOUBLE_COPYCAT, DoubleBlock::new);
 
 }

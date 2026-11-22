@@ -22,7 +22,7 @@ public class PyramidAmbientOcclusionModel extends BakedModelWrapper<BakedModel> 
   private static final int VERTEX_STRIDE =
     DefaultVertexFormat.BLOCK.getVertexSize() / Integer.BYTES;
 
-  private static final double EPSILON = 0.01;
+  private static final double EPSILON = 0.00001;
 
   public PyramidAmbientOcclusionModel(BakedModel originalModel) {
     super(originalModel);

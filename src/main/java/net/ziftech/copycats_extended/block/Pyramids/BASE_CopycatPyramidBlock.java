@@ -4,7 +4,6 @@ package net.ziftech.copycats_extended.block.Pyramids;
 import com.copycatsplus.copycats.foundation.copycat.CCCopycatBlockEntity;
 import com.copycatsplus.copycats.foundation.copycat.CCWaterloggedCopycatBlock;
 import com.copycatsplus.copycats.foundation.copycat.ICopycatBlock;
-import com.simibubi.create.content.contraptions.StructureTransform;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.world.item.context.BlockPlaceContext;
@@ -20,7 +19,6 @@ import net.minecraft.world.phys.shapes.CollisionContext;
 import net.minecraft.world.phys.shapes.VoxelShape;
 import net.ziftech.copycats_extended.block.base.ModBlockPlacement;
 import net.ziftech.copycats_extended.registry.ModBlockEntities;
-import net.ziftech.copycats_extended.utility.BlockTransformHelper;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
@@ -38,7 +36,9 @@ public abstract class BASE_CopycatPyramidBlock extends CCWaterloggedCopycatBlock
 
   public enum ShapeType {
     PYRAMID,
+    SIDE,
     CORNER,
+    SIDE_CORNER,
     OPPOSITE,
     QUAD,
     TRIPLE
@@ -47,20 +47,20 @@ public abstract class BASE_CopycatPyramidBlock extends CCWaterloggedCopycatBlock
   public abstract ShapeType getShapeType();
 
   @Override
-  protected void createBlockStateDefinition(StateDefinition.Builder<Block, BlockState> builder) {
+  protected void createBlockStateDefinition(StateDefinition.@NotNull Builder<Block, BlockState> builder) {
     super.createBlockStateDefinition(builder);
     builder.add(FACING);
   }
 
   @Override
-  public BlockState getStateForPlacement(BlockPlaceContext context) {
+  public @NotNull BlockState getStateForPlacement(@NotNull BlockPlaceContext context) {
     BlockState state = super.getStateForPlacement(context);
     return ModBlockPlacement.placeOnClickedFace(context, state, FACING);
   }
 
   @Override
   public abstract @NotNull VoxelShape getShape(
-    BlockState state,
+    @NotNull BlockState state,
     @NotNull BlockGetter level,
     @NotNull BlockPos pos,
     @NotNull CollisionContext context
@@ -93,27 +93,32 @@ public abstract class BASE_CopycatPyramidBlock extends CCWaterloggedCopycatBlock
 
   @Override
   public boolean isIgnoredConnectivitySide(
-    BlockAndTintGetter reader,
-    BlockState state,
-    Direction face,
-    BlockPos fromPos,
+    @Nullable BlockAndTintGetter reader,
+    @Nullable BlockState state,
+    @Nullable Direction face,
+    @Nullable BlockPos fromPos,
     @Nullable BlockPos toPos,
     @Nullable BlockState toState
   ) {
+    assert state != null;
+    assert reader != null;
     return !isCTEnabled(state, reader, fromPos);
   }
 
   @Override
-  public boolean supportsExternalFaceHiding(BlockState state) {
+  public boolean supportsExternalFaceHiding(@NotNull BlockState state) {
     return true;
   }
 
   @Override
-  public VoxelShape getOcclusionShape(
-    BlockState state,
-    BlockGetter level,
-    BlockPos pos
+  public @NotNull VoxelShape getOcclusionShape(
+    @Nullable BlockState state,
+    @Nullable BlockGetter level,
+    @Nullable BlockPos pos
   ) {
+    assert state != null;
+    assert level != null;
+    assert pos != null;
     return getCollisionShape(
       state, level, pos, CollisionContext.empty()
     );
@@ -121,12 +126,17 @@ public abstract class BASE_CopycatPyramidBlock extends CCWaterloggedCopycatBlock
 
   @Override
   public boolean hidesNeighborFace(
-    BlockGetter level,
-    BlockPos pos,
-    BlockState state,
-    BlockState neighborState,
-    Direction dir
+    @Nullable BlockGetter level,
+    @Nullable BlockPos pos,
+    @Nullable BlockState state,
+    @Nullable BlockState neighborState,
+    @Nullable Direction dir
   ) {
+    assert dir != null;
+    assert neighborState != null;
+    assert state != null;
+    assert pos != null;
+    assert level != null;
     return ICopycatBlock.hidesNeighborFace(
       level, pos, state, neighborState, dir
     );

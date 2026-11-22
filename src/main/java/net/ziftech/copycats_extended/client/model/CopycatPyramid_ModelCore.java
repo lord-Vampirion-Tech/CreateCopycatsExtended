@@ -7,6 +7,7 @@ import net.minecraft.core.Direction;
 import net.minecraft.world.level.block.state.BlockState;
 import net.ziftech.copycats_extended.block.Pyramids.BASE_CopycatPyramidBlock;
 import net.ziftech.copycats_extended.block.Pyramids.CopycatPyramidCorner;
+import net.ziftech.copycats_extended.block.Pyramids.CopycatPyramidSide;
 
 import static com.copycatsplus.copycats.foundation.copycat.model.assembly.CopycatRenderContext.*;
 import static net.minecraft.core.Direction.*;
@@ -36,15 +37,12 @@ public class CopycatPyramid_ModelCore extends CopycatModelCore {
 
   private static int getRotationDegrees(Direction rotation) {
     return switch (rotation) {
-      case SOUTH -> 0;
       case WEST -> 90;
       case NORTH -> 180;
       case EAST -> 270;
       default -> 0;
     };
   }
-
-
   private static AssemblyTransform getTransform(Direction facing, Direction rotation) {
     AssemblyTransform rotate = t -> t.rotateY(getRotationDegrees(rotation));
 
@@ -59,40 +57,6 @@ public class CopycatPyramid_ModelCore extends CopycatModelCore {
 
     return rotate.andThen(flip).andThen(TRANSFORMS[facing.ordinal()]);
   }
-
-//  private static final AssemblyTransform[] OPPOSITE_TRANSFORMS = new AssemblyTransform[]{
-//    // Index 0
-//    t -> {
-//      t.flipY(true);
-//      t.rotateY(270);
-//    },
-//    t -> t.rotateY(90),
-//    t -> {
-//      t.rotateX(90);
-//      t.rotateZ(90);
-//    },
-//    t -> {
-//      t.rotateX(270);
-//      t.rotateZ(90);
-//    },
-//    t -> t.rotateZ(270),
-//    t -> t.rotateZ(90),
-//
-//    // Index 1
-//    t -> t.flipY(true),
-//    t -> {
-//    },
-//    t -> t.rotateX(90),
-//    t -> t.rotateX(270),
-//    t -> {
-//      t.rotateZ(270);
-//      t.rotateX(90);
-//    },
-//    t -> {
-//      t.rotateY(90);
-//      t.rotateZ(90);
-//    }
-//  };
 
   @Override
   public void emitCopycatQuads(
@@ -112,6 +76,19 @@ public class CopycatPyramid_ModelCore extends CopycatModelCore {
         updateUV(
           symmetricSlope(Axis.X, (a, b) -> 16 - a),
           symmetricSlope(Axis.Z, (a, b) -> 16 - b)
+        )
+      );
+      case SIDE -> context.assemblePiece(
+        getTransform(
+          facing,
+          state.getValue(CopycatPyramidSide.ROTATION)
+        ),
+        vec3(0, 0, 0),
+        aabb(16, 16, 16),
+        cull(0),
+        updateUV(
+          symmetricSlope(Axis.X, (a, b) -> 16 - a),
+          symmetricSlope(Axis.Z, (a, b) -> b)
         )
       );
       case CORNER -> context.assemblePiece(
@@ -178,12 +155,4 @@ public class CopycatPyramid_ModelCore extends CopycatModelCore {
 //      );
     }
   }
-
-//  private static Direction getOppositeRotation(Direction rotation) {
-//    return switch (rotation) {
-//      case SOUTH -> WEST;
-//      case WEST -> SOUTH;
-//      default -> rotation;
-//    };
-//  }
 }

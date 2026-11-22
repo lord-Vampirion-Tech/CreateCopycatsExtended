@@ -41,6 +41,7 @@ public final class ModBlockTagsProvider extends BlockTagsProvider {
       //ModBlocks.BASE_BLOCK.get(),
       //ModBlocks.TEST_COPYCAT_BLOCK.get(),
       ModBlocks.COPYCAT_PYRAMID.get(),
+      ModBlocks.COPYCAT_PYRAMID_SIDE.get(),
       ModBlocks.COPYCAT_PYRAMID_CORNER.get(),
 //      ModBlocks.COPYCAT_PYRAMID_OPPOSITE.get(),
 //      ModBlocks.COPYCAT_PYRAMID_QUAD.get(),

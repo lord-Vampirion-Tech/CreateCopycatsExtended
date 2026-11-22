@@ -1,7 +1,5 @@
-// 1.21.1	2026-11-18T02:07:57.7517291	Block States: copycats_extended
+// 1.21.1	2026-11-22T13:22:35.1655342	Block States: copycats_extended
 3dff9e1ec59415779195d2abfa9f07bc17b428a1 assets/copycats_extended/blockstates/copycat_pyramid.json
 3dff9e1ec59415779195d2abfa9f07bc17b428a1 assets/copycats_extended/blockstates/copycat_pyramid_corner.json
-3dff9e1ec59415779195d2abfa9f07bc17b428a1 assets/copycats_extended/blockstates/copycat_pyramid_opposite.json
-3dff9e1ec59415779195d2abfa9f07bc17b428a1 assets/copycats_extended/blockstates/copycat_pyramid_quad.json
-3dff9e1ec59415779195d2abfa9f07bc17b428a1 assets/copycats_extended/blockstates/copycat_pyramid_triple.json
+3dff9e1ec59415779195d2abfa9f07bc17b428a1 assets/copycats_extended/blockstates/copycat_pyramid_side.json
 3dff9e1ec59415779195d2abfa9f07bc17b428a1 assets/copycats_extended/blockstates/double_copycat.json

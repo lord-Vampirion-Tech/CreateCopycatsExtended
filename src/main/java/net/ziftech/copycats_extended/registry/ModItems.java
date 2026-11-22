@@ -72,84 +72,58 @@ public final class ModItems {
   }
 
   // Items
-  public static final DeferredItem<BlockItem> BASE_BLOCK =
-    newItem("base_block", ModBlocks.BASE_BLOCK);
-
-//  public static final DeferredItem<BlockItem> COPYCAT_ADV_SLOPE =
-//    newItem(
-//      "copycat_adv_slope",
-//      ModBlocks.COPYCAT_ADV_SLOPE,
-//      CopycatCharacteristics.COPYCAT,
-//      CopycatCharacteristics.CT_TOGGLE
-//    );
-//
-//  public static final DeferredItem<BlockItem> COPYCAT_ADV_SLOPE_LAYER =
-//    newItem(
-//      "copycat_adv_slope_layer",
-//      ModBlocks.COPYCAT_ADV_SLOPE_LAYER,
-//      CopycatCharacteristics.COPYCAT,
-//      CopycatCharacteristics.CT_TOGGLE,
-//      CopycatCharacteristics.STACKABLE
-//    );
-//
-//  public static final DeferredItem<BlockItem> TEST_COPYCAT_BLOCK =
-//    newItem(
-//      "test_copycat_block",
-//      ModBlocks.TEST_COPYCAT_BLOCK,
-//      CopycatCharacteristics.CT_TOGGLE,
-//      ModCharacteristics.TEST_INFO,
-//      ModCharacteristics.TEST_KEY
-//    );
+  public static final DeferredItem<BlockItem> BASE_BLOCK = newItem(ModRegistryNames.BASE_BLOCK, ModBlocks.BASE_BLOCK);
 
   public static final DeferredItem<BlockItem> COPYCAT_PYRAMID =
     newItem(
-      "copycat_pyramid",
+      ModRegistryNames.COPYCAT_PYRAMID,
       ModBlocks.COPYCAT_PYRAMID,
       CopycatCharacteristics.COPYCAT,
       CopycatCharacteristics.CT_TOGGLE
     );
+
+  public static final DeferredItem<BlockItem> COPYCAT_PYRAMID_SIDE =
+    newItem(
+      ModRegistryNames.COPYCAT_PYRAMID_SIDE,
+      ModBlocks.COPYCAT_PYRAMID_SIDE,
+      CopycatCharacteristics.COPYCAT,
+      CopycatCharacteristics.CT_TOGGLE
+    );
+
   public static final DeferredItem<BlockItem> COPYCAT_PYRAMID_CORNER =
     newItem(
-      "copycat_pyramid_corner",
+      ModRegistryNames.COPYCAT_PYRAMID_CORNER,
       ModBlocks.COPYCAT_PYRAMID_CORNER,
       CopycatCharacteristics.COPYCAT,
       CopycatCharacteristics.CT_TOGGLE
     );
-//  public static final DeferredItem<BlockItem> COPYCAT_PYRAMID_OPPOSITE =
-//    newItem(
-//      "copycat_pyramid_opposite",
-//      ModBlocks.COPYCAT_PYRAMID_OPPOSITE,
-//      CopycatCharacteristics.COPYCAT,
-//      CopycatCharacteristics.CT_TOGGLE
-//    );
-//  public static final DeferredItem<BlockItem> COPYCAT_PYRAMID_QUAD =
-//    newItem(
-//      "copycat_pyramid_quad",
-//      ModBlocks.COPYCAT_PYRAMID_QUAD,
-//      CopycatCharacteristics.COPYCAT,
-//      CopycatCharacteristics.CT_TOGGLE
-//    );
-//  public static final DeferredItem<BlockItem> COPYCAT_PYRAMID_TRIPLE =
-//    newItem(
-//      "copycat_pyramid_triple",
-//      ModBlocks.COPYCAT_PYRAMID_TRIPLE,
-//      CopycatCharacteristics.COPYCAT,
-//      CopycatCharacteristics.CT_TOGGLE
-//    );
 
   public static final DeferredItem<BlockItem> DOUBLE_COPYCAT =
     newItem(
-      "double_copycat",
+      ModRegistryNames.DOUBLE_COPYCAT,
       ModBlocks.DOUBLE_BLOCK,
       CopycatCharacteristics.COPYCAT,
       CopycatCharacteristics.CT_TOGGLE
     );
 
-
   // ITEM'S
   public static final DeferredItem<CopycatKeyItem> COPYCAT_KEY =
     ITEMS.register(
-      "copycat_key",
+      ModRegistryNames.COPYCAT_KEY,
       () -> new CopycatKeyItem(new Item.Properties().stacksTo(1))
     );
+
+  public static List<Item> getCreativeTabItems() {
+    return List.of(
+      COPYCAT_KEY.get(),
+
+      BASE_BLOCK.get(),
+
+      COPYCAT_PYRAMID.get(),
+      COPYCAT_PYRAMID_SIDE.get(),
+      COPYCAT_PYRAMID_CORNER.get(),
+
+      DOUBLE_COPYCAT.get()
+    );
+  }
 }

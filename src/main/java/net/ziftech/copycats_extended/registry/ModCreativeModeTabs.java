@@ -10,6 +10,8 @@ import net.neoforged.neoforge.registries.DeferredRegister;
 
 import net.ziftech.copycats_extended.CopycatsExtended;
 
+import static net.ziftech.copycats_extended.registry.ModRegistryNames.MOD_NAME_MENU;
+
 public class ModCreativeModeTabs {
 
   public static final DeferredRegister<CreativeModeTab> TABS =
@@ -20,24 +22,10 @@ public class ModCreativeModeTabs {
 
   public static final DeferredHolder<CreativeModeTab, CreativeModeTab> MAIN =
     TABS.register("main", () -> CreativeModeTab.builder()
-      .title(Component.translatable("itemGroup.copycats_extended.main"))
+      .title(Component.translatable("itemGroup.copycats_extended." + MOD_NAME_MENU))
       .icon(() -> new ItemStack(ModItems.COPYCAT_KEY.get()))
       .displayItems((parameters, output) -> {
-        // ITEM's
-        output.accept(ModItems.COPYCAT_KEY.get());
-        // BLOCK's
-//        output.accept(ModItems.COPYCAT_ADV_SLOPE.get());
-//        output.accept(ModItems.COPYCAT_ADV_SLOPE_LAYER.get());
-        output.accept(ModItems.BASE_BLOCK.get());
-//        output.accept(ModItems.TEST_COPYCAT_BLOCK.get());
-
-        output.accept(ModItems.COPYCAT_PYRAMID.get());
-        output.accept(ModItems.COPYCAT_PYRAMID_CORNER.get());
-//        output.accept(ModItems.COPYCAT_PYRAMID_OPPOSITE.get());
-//        output.accept(ModItems.COPYCAT_PYRAMID_QUAD.get());
-//        output.accept(ModItems.COPYCAT_PYRAMID_TRIPLE.get());
-        output.accept(ModItems.DOUBLE_COPYCAT.get());
-
+        ModItems.getCreativeTabItems().forEach(output::accept);
       })
       .build()
     );

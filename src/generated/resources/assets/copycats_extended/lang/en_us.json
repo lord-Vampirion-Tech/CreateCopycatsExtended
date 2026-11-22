@@ -4,8 +4,9 @@
   "block.copycats_extended.copycat_pyramid_corner": "Corner Pyramid",
   "block.copycats_extended.copycat_pyramid_opposite": "Opposite Pyramid",
   "block.copycats_extended.copycat_pyramid_quad": "Four-Sided Pyramid",
+  "block.copycats_extended.copycat_pyramid_side": "Pyramid Side",
   "block.copycats_extended.copycat_pyramid_triple": "Three-Sided Pyramid",
   "block.copycats_extended.double_copycat": "Double Block",
   "item.copycats_extended.copycat_key": "Copycat Key",
-  "itemGroup.copycats_extended.main": "Copycats+ | Extended"
+  "itemGroup.copycats_extended.mod_name": "Copycats+ | Extended"
 }

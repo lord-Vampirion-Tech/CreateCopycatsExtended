@@ -9,7 +9,6 @@ import net.minecraft.world.phys.shapes.VoxelShape;
 import java.util.ArrayList;
 import java.util.List;
 
-
 public class ModelUtils {
 
   private ModelUtils() {

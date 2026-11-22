@@ -7,6 +7,9 @@ import net.minecraft.data.PackOutput;
 import net.neoforged.neoforge.common.data.LanguageProvider;
 
 import net.ziftech.copycats_extended.CopycatsExtended;
+import net.ziftech.copycats_extended.registry.ModRegistryNames;
+
+import static net.ziftech.copycats_extended.registry.ModRegistryNames.*;
 
 public final class ModLanguageProvider extends LanguageProvider {
 
@@ -68,58 +71,64 @@ public final class ModLanguageProvider extends LanguageProvider {
 
     //// Block's
     add(
-      "block.copycats_extended.base_block",
+      "block.copycats_extended." + BASE_BLOCK,
       RU("Тестовый Блок"),
       EN("Test Block")
     );
 
     // Pyramid's
     add(
-      "block.copycats_extended.copycat_pyramid",
+      "block.copycats_extended." + COPYCAT_PYRAMID,
       RU("Пирамида"),
       EN("Pyramid")
     );
 
     add(
-      "block.copycats_extended.copycat_pyramid_corner",
+      "block.copycats_extended." + COPYCAT_PYRAMID_SIDE,
+      RU("Боковая Пирамида"),
+      EN("Pyramid Side")
+    );
+
+    add(
+      "block.copycats_extended." + COPYCAT_PYRAMID_CORNER,
       RU("Угловая пирамида"),
       EN("Corner Pyramid")
     );
 
     add(
-      "block.copycats_extended.copycat_pyramid_opposite",
+      "block.copycats_extended."  + COPYCAT_PYRAMID_OPPOSITE,
       RU("Двусторонняя пирамида"),
       EN("Opposite Pyramid")
     );
 
     add(
-      "block.copycats_extended.copycat_pyramid_quad",
+      "block.copycats_extended."  + COPYCAT_PYRAMID_QUAD,
       RU("Четырёхсторонняя пирамида"),
       EN("Four-Sided Pyramid")
     );
 
     add(
-      "block.copycats_extended.copycat_pyramid_triple",
+      "block.copycats_extended." + COPYCAT_PYRAMID_TRIPLE,
       RU("Трёхсторонняя пирамида"),
       EN("Three-Sided Pyramid")
     );
 
     add(
-      "block.copycats_extended.double_copycat",
+      "block.copycats_extended." + DOUBLE_COPYCAT,
       RU("Двойной Блок"),
       EN("Double Block")
     );
 
     // Item's
     add(
-      "item.copycats_extended.copycat_key",
+      "item.copycats_extended." + COPYCAT_KEY,
       RU("Ключ Copycat"),
       EN("Copycat Key")
     );
 
     // Characteristics
     add(
-      "itemGroup.copycats_extended.main",
+      "itemGroup.copycats_extended." + MOD_NAME_MENU,
       RU("Copycat+ | Расширенный"),
       EN("Copycats+ | Extended")
     );

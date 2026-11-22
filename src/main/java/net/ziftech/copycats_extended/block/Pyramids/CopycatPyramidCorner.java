@@ -28,7 +28,7 @@
     }
 
     @Override
-    protected void createBlockStateDefinition(StateDefinition.Builder<Block, BlockState> builder) {
+    protected void createBlockStateDefinition(StateDefinition.@NotNull Builder<Block, BlockState> builder) {
       super.createBlockStateDefinition(builder);
       builder.add(ROTATION);
     }
@@ -45,7 +45,7 @@
 
     @Override
     public @NotNull VoxelShape getShape(
-      BlockState state,
+      @NotNull BlockState state,
       @NotNull BlockGetter level,
       @NotNull BlockPos pos,
       @NotNull CollisionContext context
@@ -63,7 +63,7 @@
     }
 
     @Override
-    public @NotNull BlockState getStateForPlacement(BlockPlaceContext context) {
+    public @NotNull BlockState getStateForPlacement(@NotNull BlockPlaceContext context) {
       BlockState state = super.getStateForPlacement(context);
 
       return state.setValue(

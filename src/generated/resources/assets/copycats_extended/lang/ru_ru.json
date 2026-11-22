@@ -4,8 +4,9 @@
   "block.copycats_extended.copycat_pyramid_corner": "Угловая пирамида",
   "block.copycats_extended.copycat_pyramid_opposite": "Двусторонняя пирамида",
   "block.copycats_extended.copycat_pyramid_quad": "Четырёхсторонняя пирамида",
+  "block.copycats_extended.copycat_pyramid_side": "Боковая Пирамида",
   "block.copycats_extended.copycat_pyramid_triple": "Трёхсторонняя пирамида",
   "block.copycats_extended.double_copycat": "Двойной Блок",
   "item.copycats_extended.copycat_key": "Ключ Copycat",
-  "itemGroup.copycats_extended.main": "Copycat+ | Расширенный"
+  "itemGroup.copycats_extended.mod_name": "Copycat+ | Расширенный"
 }
