@@ -69,7 +69,8 @@ public final class ModBlockEntities {
     CopycatPyramid_Entity::new,
     ModBlocks.COPYCAT_PYRAMID,
     ModBlocks.COPYCAT_PYRAMID_SIDE,
-    ModBlocks.COPYCAT_PYRAMID_CORNER
+    ModBlocks.COPYCAT_PYRAMID_CORNER,
+    ModBlocks.COPYCAT_PYRAMID_SIDE_CORNER
 //    ModBlocks.COPYCAT_PYRAMID_OPPOSITE,
 //    ModBlocks.COPYCAT_PYRAMID_QUAD,
 //    ModBlocks.COPYCAT_PYRAMID_TRIPLE

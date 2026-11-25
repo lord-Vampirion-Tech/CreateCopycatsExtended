@@ -15,7 +15,9 @@ public class CopycatPyramid_Geometry {
 
   private static final int BLOCK_SIZE = 16;
   private static final int CENTER = 8;
-  private static final int SLICE_HEIGHT = 2;
+
+  // Matches Copycats+ CCShapes.SLOPE_SUBDIVISIONS
+  private static final int SUBDIVISIONS = 8;
 
   private record ShapeKey(
     BASE_CopycatPyramidBlock.ShapeType type,
@@ -63,7 +65,8 @@ public class CopycatPyramid_Geometry {
     collision = rotateShapeByRotation(collision, type, rotation);
     collision = rotateShape(collision, facing);
 
-    return ModelUtils.createCollisionOutline(collision );
+    return ModelUtils.createCollisionOutline(collision);
+
 //    return ModelUtils.createOutlinedShape(
 //      collision,
 //      points,
@@ -76,6 +79,7 @@ public class CopycatPyramid_Geometry {
       case PYRAMID -> createPyramidPoints();
       case SIDE -> createSidePoints();
       case CORNER -> createCornerPoints();
+      case SIDE_CORNER -> createSideCornerPoints();
       case OPPOSITE -> createOppositePoints();
       case QUAD -> createQuadPoints();
       case TRIPLE -> createTriplePoints();
@@ -90,13 +94,21 @@ public class CopycatPyramid_Geometry {
         {0, 4}, {1, 4}, {2, 4}, {3, 4}
       };
 
+      case CORNER -> new int[][]{
+        {0, 1}, {1, 2}, {2, 3}, {3, 0},
+        {0, 4}, {1, 4},
+        {0, 5}, {3, 5},
+        {0, 6}, {4, 6}, {5, 6},
+        {2, 6}, {1, 6}
+      };
+
       case OPPOSITE -> new int[][]{
         {0, 1}, {1, 2}, {2, 3}, {3, 0},
         {0, 4}, {3, 4}, {1, 5}, {2, 5},
         {4, 5}
       };
 
-      case SIDE, CORNER, QUAD, TRIPLE -> new int[][]{};
+      case SIDE, SIDE_CORNER, QUAD, TRIPLE -> new int[][]{};
 
       default -> new int[][]{};
     };
@@ -107,6 +119,7 @@ public class CopycatPyramid_Geometry {
       case PYRAMID -> createPyramidCollision();
       case SIDE -> createSideCollision();
       case CORNER -> createCornerCollision();
+      case SIDE_CORNER -> createSideCornerCollision();
       case OPPOSITE -> createOppositeCollision();
       case QUAD -> createQuadCollision();
       case TRIPLE -> createTripleCollision();
@@ -143,36 +156,78 @@ public class CopycatPyramid_Geometry {
   }
 
   private static VoxelShape createSideCollision() {
-    return createCenteredCollision(CENTER, CENTER);
+    return createCenteredCollision(CENTER, 0);
   }
 
   // CORNER
 
   private static Vec3[] createCornerPoints() {
     return new Vec3[]{
+      new Vec3(0, 0, 0),   // 0: um0f
+      new Vec3(1, 0, 0),   // 1: dtfE
+      new Vec3(1, 0, 1),   // 2: 7DTy
+      new Vec3(0, 0, 1),   // 3: cInI
+      new Vec3(.5, 1, 0),  // 4: jCxp
+      new Vec3(0, 1, .5),  // 5: 3FOr
+      new Vec3(.5, 1, .5)  // 6: zQ7O
+    };
+  }
+
+    private static VoxelShape createCornerCollision() {
+      VoxelShape shape = Shapes.empty();
+
+      for (int i = 0; i < SUBDIVISIONS; i++) {
+        double t = i / (double) SUBDIVISIONS;
+
+        double minX = lerp(0, 8, t);
+        double maxX = lerp(BLOCK_SIZE, 8, t);
+
+        double minZ = lerp(0, 8, t);
+        double maxZ = lerp(BLOCK_SIZE, 8, t);
+
+        VoxelShape section = Shapes.box(
+          minX / BLOCK_SIZE,
+          getSliceMin(i),
+          minZ / BLOCK_SIZE,
+          maxX / BLOCK_SIZE,
+          getSliceMax(i),
+          maxZ / BLOCK_SIZE
+        );
+
+        shape = Shapes.or(shape, section);
+      }
+
+      return shape.optimize();
+    }
+
+  // SIDE_CORNER
+
+  private static Vec3[] createSideCornerPoints() {
+    return new Vec3[]{
       new Vec3(0, 0, 0),
       new Vec3(1, 0, 0),
       new Vec3(1, 0, 1),
       new Vec3(0, 0, 1),
-      new Vec3(1, 1, 1)
+      new Vec3(.5, 1, .5),
+      new Vec3(.5, 1, 1)
     };
   }
 
-  private static VoxelShape createCornerCollision() {
+  private static VoxelShape createSideCornerCollision() {
     VoxelShape shape = Shapes.empty();
 
-    for (int i = 0; i < BLOCK_SIZE / SLICE_HEIGHT; i++) {
-      double t = i / (double) (BLOCK_SIZE / SLICE_HEIGHT);
+    for (int i = 0; i < SUBDIVISIONS; i++) {
+      double t = i / (double) SUBDIVISIONS;
 
       double min = lerp(0, BLOCK_SIZE, t);
       double max = BLOCK_SIZE;
 
       VoxelShape section = Shapes.box(
         1 - max / BLOCK_SIZE,
-        i * SLICE_HEIGHT / (double) BLOCK_SIZE,
+        getSliceMin(i),
         1 - max / BLOCK_SIZE,
         1 - min / BLOCK_SIZE,
-        (i + 1) * SLICE_HEIGHT / (double) BLOCK_SIZE,
+        getSliceMax(i),
         1 - min / BLOCK_SIZE
       );
 
@@ -198,18 +253,18 @@ public class CopycatPyramid_Geometry {
   private static VoxelShape createOppositeCollision() {
     VoxelShape shape = Shapes.empty();
 
-    for (int i = 0; i < BLOCK_SIZE / SLICE_HEIGHT; i++) {
-      double t = i / (double) (BLOCK_SIZE / SLICE_HEIGHT);
+    for (int i = 0; i < SUBDIVISIONS; i++) {
+      double t = i / (double) SUBDIVISIONS;
 
       double minZ = lerp(0, CENTER, t);
       double maxZ = lerp(BLOCK_SIZE, CENTER, t);
 
       VoxelShape section = Shapes.box(
         0,
-        i * SLICE_HEIGHT / (double) BLOCK_SIZE,
+        getSliceMin(i),
         minZ / BLOCK_SIZE,
         1,
-        (i + 1) * SLICE_HEIGHT / (double) BLOCK_SIZE,
+        getSliceMax(i),
         maxZ / BLOCK_SIZE
       );
 
@@ -228,14 +283,14 @@ public class CopycatPyramid_Geometry {
   private static VoxelShape createQuadCollision() {
     VoxelShape shape = Shapes.empty();
 
-    for (int i = 0; i < BLOCK_SIZE / SLICE_HEIGHT; i++) {
-      double t = i / (double) (BLOCK_SIZE / SLICE_HEIGHT);
+    for (int i = 0; i < SUBDIVISIONS; i++) {
+      double t = i / (double) SUBDIVISIONS;
 
       double min = lerp(0, CENTER, t);
       double max = lerp(BLOCK_SIZE, CENTER, t);
 
-      double y1 = i * SLICE_HEIGHT / (double) BLOCK_SIZE;
-      double y2 = (i + 1) * SLICE_HEIGHT / (double) BLOCK_SIZE;
+      double y1 = getSliceMin(i);
+      double y2 = getSliceMax(i);
 
       VoxelShape zShape = Shapes.box(
         0, y1, min / BLOCK_SIZE,
@@ -255,7 +310,6 @@ public class CopycatPyramid_Geometry {
 
   // TRIPLE
 
-
   private static Vec3[] createTriplePoints() {
     return createPyramidPoints();
   }
@@ -263,14 +317,14 @@ public class CopycatPyramid_Geometry {
   private static VoxelShape createTripleCollision() {
     VoxelShape shape = Shapes.empty();
 
-    for (int i = 0; i < BLOCK_SIZE / SLICE_HEIGHT; i++) {
-      double t = i / (double) (BLOCK_SIZE / SLICE_HEIGHT);
+    for (int i = 0; i < SUBDIVISIONS; i++) {
+      double t = i / (double) SUBDIVISIONS;
 
       double min = lerp(0, CENTER, t);
       double max = lerp(BLOCK_SIZE, CENTER, t);
 
-      double y1 = i * SLICE_HEIGHT / (double) BLOCK_SIZE;
-      double y2 = (i + 1) * SLICE_HEIGHT / (double) BLOCK_SIZE;
+      double y1 = getSliceMin(i);
+      double y2 = getSliceMax(i);
 
       VoxelShape main = Shapes.box(
         0, y1, min / BLOCK_SIZE,
@@ -296,8 +350,8 @@ public class CopycatPyramid_Geometry {
   ) {
     VoxelShape shape = Shapes.empty();
 
-    for (int i = 0; i < BLOCK_SIZE / SLICE_HEIGHT; i++) {
-      double t = i / (double) (BLOCK_SIZE / SLICE_HEIGHT);
+    for (int i = 0; i < SUBDIVISIONS; i++) {
+      double t = i / (double) SUBDIVISIONS;
 
       double minX = lerp(0, topX, t);
       double maxX = lerp(BLOCK_SIZE, topX, t);
@@ -307,10 +361,10 @@ public class CopycatPyramid_Geometry {
 
       VoxelShape section = Shapes.box(
         minX / BLOCK_SIZE,
-        i * SLICE_HEIGHT / (double) BLOCK_SIZE,
+        getSliceMin(i),
         minZ / BLOCK_SIZE,
         maxX / BLOCK_SIZE,
-        (i + 1) * SLICE_HEIGHT / (double) BLOCK_SIZE,
+        getSliceMax(i),
         maxZ / BLOCK_SIZE
       );
 
@@ -346,7 +400,7 @@ public class CopycatPyramid_Geometry {
     Direction rotation
   ) {
     int turns = switch (type) {
-      case SIDE, CORNER, TRIPLE -> getRotationTurns_4(rotation);
+      case SIDE, CORNER, SIDE_CORNER, TRIPLE -> getRotationTurns_4(rotation);
       case OPPOSITE -> getRotationTurns_2(rotation);
       case PYRAMID, QUAD -> 0;
       default -> 0;
@@ -369,7 +423,7 @@ public class CopycatPyramid_Geometry {
     Direction rotation
   ) {
     int turns = switch (type) {
-      case SIDE, CORNER, TRIPLE -> getRotationTurns_4(rotation);
+      case SIDE, CORNER, SIDE_CORNER, TRIPLE -> getRotationTurns_4(rotation);
       case OPPOSITE -> getRotationTurns_2(rotation);
       case PYRAMID, QUAD -> 0;
       default -> 0;
@@ -468,6 +522,16 @@ public class CopycatPyramid_Geometry {
       case WEST -> new Vec3(1 - y, z, x);
       case EAST -> new Vec3(y, z, 1 - x);
     };
+  }
+
+  // SUBDIVISION
+
+  private static double getSliceMin(int index) {
+    return index / (double) SUBDIVISIONS;
+  }
+
+  private static double getSliceMax(int index) {
+    return (index + 1) / (double) SUBDIVISIONS;
   }
 
   // UTILITY

@@ -10,6 +10,7 @@ public class ModRegistryNames {
   public static final String COPYCAT_PYRAMID = "copycat_pyramid";
   public static final String COPYCAT_PYRAMID_SIDE = "copycat_pyramid_side";
   public static final String COPYCAT_PYRAMID_CORNER = "copycat_pyramid_corner";
+  public static final String COPYCAT_PYRAMID_SIDE_CORNER = "copycat_pyramid_side_corner";
   public static final String COPYCAT_PYRAMID_OPPOSITE = "copycat_pyramid_opposite";
   public static final String COPYCAT_PYRAMID_QUAD = "copycat_pyramid_quad";
   public static final String COPYCAT_PYRAMID_TRIPLE = "copycat_pyramid_triple";

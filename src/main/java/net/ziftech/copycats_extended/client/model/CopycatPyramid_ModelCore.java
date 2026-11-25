@@ -8,6 +8,7 @@ import net.minecraft.world.level.block.state.BlockState;
 import net.ziftech.copycats_extended.block.Pyramids.BASE_CopycatPyramidBlock;
 import net.ziftech.copycats_extended.block.Pyramids.CopycatPyramidCorner;
 import net.ziftech.copycats_extended.block.Pyramids.CopycatPyramidSide;
+import net.ziftech.copycats_extended.block.Pyramids.CopycatPyramidSideCorner;
 
 import static com.copycatsplus.copycats.foundation.copycat.model.assembly.CopycatRenderContext.*;
 import static net.minecraft.core.Direction.*;
@@ -43,6 +44,7 @@ public class CopycatPyramid_ModelCore extends CopycatModelCore {
       default -> 0;
     };
   }
+
   private static AssemblyTransform getTransform(Direction facing, Direction rotation) {
     AssemblyTransform rotate = t -> t.rotateY(getRotationDegrees(rotation));
 
@@ -52,7 +54,8 @@ public class CopycatPyramid_ModelCore extends CopycatModelCore {
         t.rotateY(180);
       };
       case SOUTH, NORTH -> t -> t.flipX(true);
-      default -> t -> {};
+      default -> t -> {
+      };
     };
 
     return rotate.andThen(flip).andThen(TRANSFORMS[facing.ordinal()]);
@@ -88,7 +91,7 @@ public class CopycatPyramid_ModelCore extends CopycatModelCore {
         cull(0),
         updateUV(
           symmetricSlope(Axis.X, (a, b) -> 16 - a),
-          symmetricSlope(Axis.Z, (a, b) -> b)
+          slope(SOUTH, (a, b) -> 16 - b)
         )
       );
       case CORNER -> context.assemblePiece(
@@ -101,6 +104,19 @@ public class CopycatPyramid_ModelCore extends CopycatModelCore {
         cull(0),
         updateUV(
           slope(EAST, (a, b) -> 16 - a),
+          slope(SOUTH, (a, b) -> 16 - b)
+        )
+      );
+      case SIDE_CORNER -> context.assemblePiece(
+        getTransform(
+          facing,
+          state.getValue(CopycatPyramidSideCorner.ROTATION)
+        ),
+        vec3(0, 0, 0),
+        aabb(16, 16, 16),
+        cull(0),
+        updateUV(
+          symmetricSlope(Axis.X, (a, b) -> 16 - a),
           slope(SOUTH, (a, b) -> 16 - b)
         )
       );

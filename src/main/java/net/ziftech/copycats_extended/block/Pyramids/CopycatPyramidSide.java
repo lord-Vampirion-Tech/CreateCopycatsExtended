@@ -68,7 +68,7 @@
 
       return state.setValue(
         ROTATION,
-        BlockPlacementHelper.getCornerRotationClockwise(context)
+        BlockPlacementHelper.getEdgeRotationClockwise(context)
       );
     }
   }

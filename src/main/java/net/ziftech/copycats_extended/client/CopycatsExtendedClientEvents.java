@@ -54,6 +54,7 @@ public final class CopycatsExtendedClientEvents {
     registerModel(event, ModBlocks.COPYCAT_PYRAMID.get(), pyramidModel, true);
     registerModel(event, ModBlocks.COPYCAT_PYRAMID_SIDE.get(), pyramidModel, true);
     registerModel(event, ModBlocks.COPYCAT_PYRAMID_CORNER.get(), pyramidModel, true);
+    registerModel(event, ModBlocks.COPYCAT_PYRAMID_SIDE_CORNER.get(), pyramidModel, true);
 
     registerModel(event, ModBlocks.DOUBLE_BLOCK.get(), new DoubleBlock_ModelCore());
   }
@@ -110,7 +111,8 @@ public final class CopycatsExtendedClientEvents {
 //      ModBlocks.TEST_COPYCAT_BLOCK.get(),
       ModBlocks.COPYCAT_PYRAMID.get(),
       ModBlocks.COPYCAT_PYRAMID_SIDE.get(),
-      ModBlocks.COPYCAT_PYRAMID_CORNER.get()
+      ModBlocks.COPYCAT_PYRAMID_CORNER.get(),
+      ModBlocks.COPYCAT_PYRAMID_SIDE_CORNER.get()
 //      ModBlocks.COPYCAT_PYRAMID_OPPOSITE.get(),
 //      ModBlocks.COPYCAT_PYRAMID_QUAD.get(),
 //      ModBlocks.COPYCAT_PYRAMID_TRIPLE.get()

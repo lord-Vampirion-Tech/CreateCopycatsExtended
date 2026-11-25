@@ -98,6 +98,14 @@ public final class ModItems {
       CopycatCharacteristics.CT_TOGGLE
     );
 
+  public static final DeferredItem<BlockItem> COPYCAT_PYRAMID_SIDE_CORNER =
+    newItem(
+      ModRegistryNames.COPYCAT_PYRAMID_SIDE_CORNER,
+      ModBlocks.COPYCAT_PYRAMID_SIDE_CORNER,
+      CopycatCharacteristics.COPYCAT,
+      CopycatCharacteristics.CT_TOGGLE
+    );
+
   public static final DeferredItem<BlockItem> DOUBLE_COPYCAT =
     newItem(
       ModRegistryNames.DOUBLE_COPYCAT,
@@ -122,6 +130,7 @@ public final class ModItems {
       COPYCAT_PYRAMID.get(),
       COPYCAT_PYRAMID_SIDE.get(),
       COPYCAT_PYRAMID_CORNER.get(),
+      COPYCAT_PYRAMID_SIDE_CORNER.get(),
 
       DOUBLE_COPYCAT.get()
     );
