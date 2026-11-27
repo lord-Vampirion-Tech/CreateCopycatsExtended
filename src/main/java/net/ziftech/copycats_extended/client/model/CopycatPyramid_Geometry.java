@@ -10,7 +10,7 @@ import net.minecraft.world.phys.Vec3;
 import net.minecraft.world.phys.shapes.Shapes;
 import net.minecraft.world.phys.shapes.VoxelShape;
 import net.ziftech.copycats_extended.block.Pyramids.BASE_CopycatPyramidBlock;
-import net.ziftech.copycats_extended.block.Pyramids.CopycatPyramidLayer;
+import net.minecraft.world.level.block.state.properties.BlockStateProperties;
 
 import java.util.concurrent.ConcurrentHashMap;
 
@@ -45,7 +45,7 @@ public class CopycatPyramid_Geometry {
     BlockState state
   ) {
     int layer = type == BASE_CopycatPyramidBlock.ShapeType.PYRAMID_LAYER
-      ? state.getValue(CopycatPyramidLayer.LAYERS)
+      ? state.getValue(BlockStateProperties.LAYERS)
       : 0;
 
     ShapeKey key = new ShapeKey(type, facing, rotation, layer);
@@ -202,7 +202,7 @@ public class CopycatPyramid_Geometry {
   ) {
     VoxelShape shape = Shapes.empty();
 
-    layer = Mth.clamp(layer, 0, 16);
+    layer = Mth.clamp(layer * 2, 0, 16);
 
     if (layer == 0)
       return Shapes.empty();
