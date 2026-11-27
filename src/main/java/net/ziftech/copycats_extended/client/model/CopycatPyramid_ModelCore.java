@@ -5,6 +5,7 @@ import com.copycatsplus.copycats.foundation.copycat.model.assembly.AssemblyTrans
 import com.copycatsplus.copycats.foundation.copycat.model.assembly.CopycatRenderContext;
 import net.minecraft.core.Direction;
 import net.minecraft.world.level.block.state.BlockState;
+import net.minecraft.world.level.block.state.properties.BlockStateProperties;
 import net.ziftech.copycats_extended.block.Pyramids.*;
 
 import static com.copycatsplus.copycats.foundation.copycat.model.assembly.CopycatRenderContext.*;
@@ -79,10 +80,14 @@ public class CopycatPyramid_ModelCore extends CopycatModelCore {
         )
       );
       case PYRAMID_LAYER -> {
-        int layers = state.getValue(CopycatPyramidLayer.LAYERS);
+        int layers = state.getValue(BlockStateProperties.LAYERS);
+        int geometryLayers = layers * 2;
 
-        int slopeLayers = layers <= 8 ? layers : 16 - layers;
-        double offsetY = Math.max(0, layers - 8) * 2.0;
+        int slopeLayers = geometryLayers <= 8
+          ? geometryLayers
+          : 16 - geometryLayers;
+
+        double offsetY = Math.max(0, geometryLayers - 8) * 2.0;
 
         context.assemblePiece(
           TRANSFORMS[facing.ordinal()],
@@ -92,9 +97,9 @@ public class CopycatPyramid_ModelCore extends CopycatModelCore {
           updateUV(
             symmetricSlope(Axis.X, (a, b) -> 16 - a),
             symmetricSlope(Axis.Z, (a, b) -> 16 - b),
-            slope(Direction.UP, (a, b) -> slopeLayers*2)
+            slope(Direction.UP, (a, b) -> slopeLayers * 2)
           ),
-          translate(0,offsetY,0)
+          translate(0, offsetY, 0)
         );
       }
     }
