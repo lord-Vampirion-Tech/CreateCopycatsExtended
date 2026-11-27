@@ -19,7 +19,7 @@ import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.block.state.StateDefinition;
-import net.minecraft.world.level.block.state.properties.IntegerProperty;
+import net.minecraft.world.level.block.state.properties.BlockStateProperties;
 import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.item.context.UseOnContext;
 
@@ -34,14 +34,11 @@ import java.util.List;
 public class CopycatPyramidLayer extends CopycatPyramidBase
   implements SpecialBlockItemRequirement, IStateType {
 
-  public static final IntegerProperty LAYERS =
-    IntegerProperty.create("layers", 1, 15);
-
   public CopycatPyramidLayer(Properties properties) {
     super(properties);
 
     registerDefaultState(
-      defaultBlockState().setValue(LAYERS, 1)
+      defaultBlockState().setValue(BlockStateProperties.LAYERS, 1)
     );
   }
 
@@ -50,7 +47,7 @@ public class CopycatPyramidLayer extends CopycatPyramidBase
     StateDefinition.@NotNull Builder<Block, BlockState> builder
   ) {
     super.createBlockStateDefinition(builder);
-    builder.add(LAYERS);
+    builder.add(BlockStateProperties.LAYERS);
   }
 
   @Override
@@ -84,8 +81,8 @@ public class CopycatPyramidLayer extends CopycatPyramidBase
       if (context.getPlayer() != null && context.getPlayer().isShiftKeyDown())
         return stateForPlacement;
 
-      if (state.getValue(LAYERS) < 16)
-        return state.setValue(LAYERS, state.getValue(LAYERS) + 1);
+      if (state.getValue(BlockStateProperties.LAYERS) < 8)
+        return state.setValue(BlockStateProperties.LAYERS, state.getValue(BlockStateProperties.LAYERS) + 1);
     }
 
     return stateForPlacement;
@@ -100,7 +97,7 @@ public class CopycatPyramidLayer extends CopycatPyramidBase
       return false;
 
     return context.getItemInHand().is(this.asItem())
-      && state.getValue(LAYERS) < 16;
+      && state.getValue(BlockStateProperties.LAYERS) < 8;
   }
 
 
@@ -109,7 +106,7 @@ public class CopycatPyramidLayer extends CopycatPyramidBase
     BlockState state,
     @NotNull UseOnContext context
   ) {
-    int layers = state.getValue(LAYERS);
+    int layers = state.getValue(BlockStateProperties.LAYERS);
 
     if (layers <= 1)
       return super.onSneakWrenched(state, context);
@@ -122,7 +119,7 @@ public class CopycatPyramidLayer extends CopycatPyramidBase
 
       if (player != null && !player.isCreative()) {
         List<ItemStack> drops = Block.getDrops(
-          state.setValue(LAYERS, 1),
+          state.setValue(BlockStateProperties.LAYERS, 1),
           serverLevel,
           pos,
           world.getBlockEntity(pos),
@@ -139,7 +136,7 @@ public class CopycatPyramidLayer extends CopycatPyramidBase
 
       world.setBlockAndUpdate(
         pos,
-        state.setValue(LAYERS, layers - 1)
+        state.setValue(BlockStateProperties.LAYERS, layers - 1)
           .updateShape(
             Direction.UP,
             world.getBlockState(up),
@@ -160,6 +157,6 @@ public class CopycatPyramidLayer extends CopycatPyramidBase
     BlockState state,
     @Nullable BlockEntity blockEntity
   ) {
-    return ICopycatBlock.getRequiredItemsForLayer(state, LAYERS);
+    return ICopycatBlock.getRequiredItemsForLayer(state, BlockStateProperties.LAYERS);
   }
 }
