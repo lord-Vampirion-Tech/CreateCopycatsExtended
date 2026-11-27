@@ -81,7 +81,7 @@
 //    boolean enhanced = state.getValue(TEST_CopycatBlock.ENHANCED);
 //
 //    double TOP_Z = 16;
-//    double TOP_X = 0;
+////    double TOP_X = 0;
 //
 //    double margin = 3;
 //

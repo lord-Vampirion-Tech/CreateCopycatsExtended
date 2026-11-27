@@ -26,29 +26,6 @@ public final class CopycatsExtendedClientEvents {
 
   @SubscribeEvent
   public static void modifyBakingResult(ModelEvent.ModifyBakingResult event) {
-//    registerModel(
-//      event,
-//      ModBlocks.COPYCAT_ADV_SLOPE.get(),
-//      new CopycatAdvSlopeModelCore()
-//    );
-//
-//    registerModel(
-//      event,
-//      ModBlocks.COPYCAT_ADV_SLOPE_LAYER.get(),
-//      new CopycatAdvSlopeLayerModelCore()
-//    );
-//
-//    registerModel(
-//      event,
-//      ModBlocks.TEST_COPYCAT_BLOCK.get(),
-//      new TEST_CopycatBlock_ModelCore()
-//    );
-
-//    registerModel(event, ModBlocks.COPYCAT_PYRAMID_OPPOSITE.get(), pyramidModel);
-//    registerModel(event, ModBlocks.COPYCAT_PYRAMID_QUAD.get(), pyramidModel);
-//    registerModel(event, ModBlocks.COPYCAT_PYRAMID_TRIPLE.get(), pyramidModel);
-
-
     CopycatModelCore pyramidModel = new CopycatPyramid_ModelCore();
 
     registerModel(event, ModBlocks.COPYCAT_PYRAMID.get(), pyramidModel, true);
@@ -56,6 +33,7 @@ public final class CopycatsExtendedClientEvents {
     registerModel(event, ModBlocks.COPYCAT_PYRAMID_CORNER.get(), pyramidModel, true);
     registerModel(event, ModBlocks.COPYCAT_PYRAMID_SIDE_CORNER.get(), pyramidModel, true);
 
+    registerModel(event, ModBlocks.COPYCAT_PYRAMID_LAYER.get(), pyramidModel, true);
     registerModel(event, ModBlocks.DOUBLE_BLOCK.get(), new DoubleBlock_ModelCore());
   }
 
@@ -112,7 +90,9 @@ public final class CopycatsExtendedClientEvents {
       ModBlocks.COPYCAT_PYRAMID.get(),
       ModBlocks.COPYCAT_PYRAMID_SIDE.get(),
       ModBlocks.COPYCAT_PYRAMID_CORNER.get(),
-      ModBlocks.COPYCAT_PYRAMID_SIDE_CORNER.get()
+      ModBlocks.COPYCAT_PYRAMID_SIDE_CORNER.get(),
+
+      ModBlocks.COPYCAT_PYRAMID_LAYER.get()
 //      ModBlocks.COPYCAT_PYRAMID_OPPOSITE.get(),
 //      ModBlocks.COPYCAT_PYRAMID_QUAD.get(),
 //      ModBlocks.COPYCAT_PYRAMID_TRIPLE.get()

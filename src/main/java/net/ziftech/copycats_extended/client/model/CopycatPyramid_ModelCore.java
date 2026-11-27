@@ -5,10 +5,7 @@ import com.copycatsplus.copycats.foundation.copycat.model.assembly.AssemblyTrans
 import com.copycatsplus.copycats.foundation.copycat.model.assembly.CopycatRenderContext;
 import net.minecraft.core.Direction;
 import net.minecraft.world.level.block.state.BlockState;
-import net.ziftech.copycats_extended.block.Pyramids.BASE_CopycatPyramidBlock;
-import net.ziftech.copycats_extended.block.Pyramids.CopycatPyramidCorner;
-import net.ziftech.copycats_extended.block.Pyramids.CopycatPyramidSide;
-import net.ziftech.copycats_extended.block.Pyramids.CopycatPyramidSideCorner;
+import net.ziftech.copycats_extended.block.Pyramids.*;
 
 import static com.copycatsplus.copycats.foundation.copycat.model.assembly.CopycatRenderContext.*;
 import static net.minecraft.core.Direction.*;
@@ -81,94 +78,25 @@ public class CopycatPyramid_ModelCore extends CopycatModelCore {
           symmetricSlope(Axis.Z, (a, b) -> 16 - b)
         )
       );
-      case SIDE -> context.assemblePiece(
-        getTransform(
-          facing,
-          state.getValue(CopycatPyramidSide.ROTATION)
-        ),
-        vec3(0, 0, 0),
-        aabb(16, 16, 16),
-        cull(0),
-        updateUV(
-          symmetricSlope(Axis.X, (a, b) -> 16 - a),
-          slope(SOUTH, (a, b) -> 16 - b)
-        )
-      );
-      case CORNER -> context.assemblePiece(
-        getTransform(
-          facing,
-          state.getValue(CopycatPyramidCorner.ROTATION)
-        ),
-        vec3(0, 0, 0),
-        aabb(16, 16, 16),
-        cull(0),
-        updateUV(
-          slope(EAST, (a, b) -> 16 - a),
-          slope(SOUTH, (a, b) -> 16 - b)
-        )
-      );
-      case SIDE_CORNER -> context.assemblePiece(
-        getTransform(
-          facing,
-          state.getValue(CopycatPyramidSideCorner.ROTATION)
-        ),
-        vec3(0, 0, 0),
-        aabb(16, 16, 16),
-        cull(0),
-        updateUV(
-          symmetricSlope(Axis.X, (a, b) -> 16 - a),
-          slope(SOUTH, (a, b) -> 16 - b)
-        )
-      );
-//      case OPPOSITE -> {
-//        context.assemblePiece(
-//          getTransform(
-//            facing,
-//            getOppositeRotation(
-//              state.getValue(CopycatPyramidOpposite.ROTATION)
-//            )
-//          ),
-//          vec3(0, 0, 0),
-//          aabb(16, 16, 16),
-//          cull(0),
-//          updateUV(
-//            symmetricSlope(Direction.Axis.X, (a, b) -> 16 - a)
-//          )
-//        );
-//      }
-//      case QUAD -> {
-//        context.assemblePiece(
-//          TRANSFORMS[facing.ordinal()],
-//          vec3(0, 0, 0),
-//          aabb(16, 16, 16),
-//          cull(0),
-//          updateUV(
-//            symmetricSlope(Axis.X, (a, b) -> 16 - a)
-//          )
-//        );
-//        context.assemblePiece(
-//          TRANSFORMS[facing.ordinal()],
-//          vec3(0, 0, 0),
-//          aabb(16, 16, 16),
-//          cull(0),
-//          updateUV(
-//            symmetricSlope(Axis.Z, (a, b) -> 16 - b)
-//          )
-//        );
-//      }
-//      case TRIPLE -> context.assemblePiece(
-//        getTransform(
-//          facing,
-//          state.getValue(CopycatPyramidTriple.ROTATION)
-//        ),
-//        vec3(0, 0, 0),
-//        aabb(16, 16, 16),
-//        cull(0),
-//        updateUV(
-//          slope(WEST, (a, b) -> 16 - a),
-//          slope(NORTH, (a, b) -> 16 - b)
-//        )
-//      );
+      case PYRAMID_LAYER -> {
+        int layers = state.getValue(CopycatPyramidLayer.LAYERS);
+
+        int slopeLayers = layers <= 8 ? layers : 16 - layers;
+        double offsetY = Math.max(0, layers - 8) * 2.0;
+
+        context.assemblePiece(
+          TRANSFORMS[facing.ordinal()],
+          vec3(0, 0, 0),
+          aabb(16, 16, 16),
+          cull(0),
+          updateUV(
+            symmetricSlope(Axis.X, (a, b) -> 16 - a),
+            symmetricSlope(Axis.Z, (a, b) -> 16 - b),
+            slope(Direction.UP, (a, b) -> slopeLayers*2)
+          ),
+          translate(0,offsetY,0)
+        );
+      }
     }
   }
 }

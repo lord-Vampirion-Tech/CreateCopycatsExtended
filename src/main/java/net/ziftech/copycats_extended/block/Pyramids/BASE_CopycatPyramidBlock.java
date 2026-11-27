@@ -17,7 +17,6 @@ import net.minecraft.world.level.block.state.properties.BlockStateProperties;
 import net.minecraft.world.level.block.state.properties.DirectionProperty;
 import net.minecraft.world.phys.shapes.CollisionContext;
 import net.minecraft.world.phys.shapes.VoxelShape;
-import net.ziftech.copycats_extended.block.base.ModBlockPlacement;
 import net.ziftech.copycats_extended.registry.ModBlockEntities;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
@@ -36,6 +35,7 @@ public abstract class BASE_CopycatPyramidBlock extends CCWaterloggedCopycatBlock
 
   public enum ShapeType {
     PYRAMID,
+    PYRAMID_LAYER,
     SIDE,
     CORNER,
     SIDE_CORNER,
@@ -50,12 +50,6 @@ public abstract class BASE_CopycatPyramidBlock extends CCWaterloggedCopycatBlock
   protected void createBlockStateDefinition(StateDefinition.@NotNull Builder<Block, BlockState> builder) {
     super.createBlockStateDefinition(builder);
     builder.add(FACING);
-  }
-
-  @Override
-  public @NotNull BlockState getStateForPlacement(@NotNull BlockPlaceContext context) {
-    BlockState state = super.getStateForPlacement(context);
-    return ModBlockPlacement.placeOnClickedFace(context, state, FACING);
   }
 
   @Override
@@ -79,6 +73,14 @@ public abstract class BASE_CopycatPyramidBlock extends CCWaterloggedCopycatBlock
   @Override
   public @NotNull BlockEntityType<? extends CCCopycatBlockEntity> getBlockEntityType() {
     return ModBlockEntities.COPYCAT_PYRAMID.get();
+  }
+
+  @Override
+  public @NotNull BlockState getStateForPlacement(
+    @NotNull BlockPlaceContext context
+  ) {
+    BlockState state = super.getStateForPlacement(context);
+    return state.setValue(FACING, context.getClickedFace());
   }
 
 //  @Override

@@ -3,11 +3,14 @@ package net.ziftech.copycats_extended.client.model;
 
 import com.copycatsplus.copycats.utility.shape.OutlinedVoxelShape;
 import net.minecraft.core.Direction;
+import net.minecraft.util.Mth;
+import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.phys.AABB;
 import net.minecraft.world.phys.Vec3;
 import net.minecraft.world.phys.shapes.Shapes;
 import net.minecraft.world.phys.shapes.VoxelShape;
 import net.ziftech.copycats_extended.block.Pyramids.BASE_CopycatPyramidBlock;
+import net.ziftech.copycats_extended.block.Pyramids.CopycatPyramidLayer;
 
 import java.util.concurrent.ConcurrentHashMap;
 
@@ -22,7 +25,8 @@ public class CopycatPyramid_Geometry {
   private record ShapeKey(
     BASE_CopycatPyramidBlock.ShapeType type,
     Direction facing,
-    Direction rotation
+    Direction rotation,
+    int layer
   ) {
   }
 
@@ -37,22 +41,33 @@ public class CopycatPyramid_Geometry {
   public static OutlinedVoxelShape createShape(
     BASE_CopycatPyramidBlock.ShapeType type,
     Direction facing,
-    Direction rotation
+    Direction rotation,
+    BlockState state
   ) {
-    ShapeKey key = new ShapeKey(type, facing, rotation);
+    int layer = type == BASE_CopycatPyramidBlock.ShapeType.PYRAMID_LAYER
+      ? state.getValue(CopycatPyramidLayer.LAYERS)
+      : 0;
+
+    ShapeKey key = new ShapeKey(type, facing, rotation, layer);
 
     return CACHE.computeIfAbsent(
       key,
-      k -> createOutlinedShape(k.type(), k.facing(), k.rotation())
+      k -> createOutlinedShape(
+        k.type(),
+        k.facing(),
+        k.rotation(),
+        k.layer()
+      )
     );
   }
 
   private static OutlinedVoxelShape createOutlinedShape(
     BASE_CopycatPyramidBlock.ShapeType type,
     Direction facing,
-    Direction rotation
+    Direction rotation,
+    int layer
   ) {
-    VoxelShape collision = createCollision(type);
+    VoxelShape collision = createCollision(type, layer);
 
     Vec3[] points = createPoints(type);
     int[][] connections = createConnections(type);
@@ -66,64 +81,52 @@ public class CopycatPyramid_Geometry {
     collision = rotateShape(collision, facing);
 
     return ModelUtils.createCollisionOutline(collision);
-
-//    return ModelUtils.createOutlinedShape(
-//      collision,
-//      points,
-//      connections
-//    );
+//  return ModelUtils.createOutlinedShape(
+//    collision,
+//    points,
+//    connections
+//  );
   }
 
-  private static Vec3[] createPoints(BASE_CopycatPyramidBlock.ShapeType type) {
+  // POINTS
+
+  private static Vec3[] createPoints(
+    BASE_CopycatPyramidBlock.ShapeType type
+  ) {
     return switch (type) {
       case PYRAMID -> createPyramidPoints();
-      case SIDE -> createSidePoints();
-      case CORNER -> createCornerPoints();
-      case SIDE_CORNER -> createSideCornerPoints();
-      case OPPOSITE -> createOppositePoints();
-      case QUAD -> createQuadPoints();
-      case TRIPLE -> createTriplePoints();
-      default -> createPyramidPoints();
+      default -> createCubePoints();
     };
   }
 
-  private static int[][] createConnections(BASE_CopycatPyramidBlock.ShapeType type) {
+  private static int[][] createConnections(
+    BASE_CopycatPyramidBlock.ShapeType type
+  ) {
     return switch (type) {
       case PYRAMID -> new int[][]{
         {0, 1}, {1, 2}, {2, 3}, {3, 0},
         {0, 4}, {1, 4}, {2, 4}, {3, 4}
       };
 
-      case CORNER -> new int[][]{
+      default -> new int[][]{
         {0, 1}, {1, 2}, {2, 3}, {3, 0},
-        {0, 4}, {1, 4},
-        {0, 5}, {3, 5},
-        {0, 6}, {4, 6}, {5, 6},
-        {2, 6}, {1, 6}
+        {4, 5}, {5, 6}, {6, 7}, {7, 4},
+        {0, 4}, {1, 5}, {2, 6}, {3, 7}
       };
-
-      case OPPOSITE -> new int[][]{
-        {0, 1}, {1, 2}, {2, 3}, {3, 0},
-        {0, 4}, {3, 4}, {1, 5}, {2, 5},
-        {4, 5}
-      };
-
-      case SIDE, SIDE_CORNER, QUAD, TRIPLE -> new int[][]{};
-
-      default -> new int[][]{};
     };
   }
 
-  private static VoxelShape createCollision(BASE_CopycatPyramidBlock.ShapeType type) {
-    return switch (type) {
-      case PYRAMID -> createPyramidCollision();
-      case SIDE -> createSideCollision();
-      case CORNER -> createCornerCollision();
-      case SIDE_CORNER -> createSideCornerCollision();
-      case OPPOSITE -> createOppositeCollision();
-      case QUAD -> createQuadCollision();
-      case TRIPLE -> createTripleCollision();
-      default -> createPyramidCollision();
+  private static Vec3[] createCubePoints() {
+    return new Vec3[]{
+      new Vec3(0, 0, 0),
+      new Vec3(1, 0, 0),
+      new Vec3(1, 0, 1),
+      new Vec3(0, 0, 1),
+
+      new Vec3(0, 1, 0),
+      new Vec3(1, 1, 0),
+      new Vec3(1, 1, 1),
+      new Vec3(0, 1, 1)
     };
   }
 
@@ -140,211 +143,28 @@ public class CopycatPyramid_Geometry {
   }
 
   private static VoxelShape createPyramidCollision() {
-    return createCenteredCollision(CENTER, CENTER);
+    return createPyramidCollision(CENTER, CENTER);
+  }
+  private static VoxelShape createPyramidLayerCollision(int layer) {
+    return createPyramidCollision(layer, CENTER, CENTER);
   }
 
-  // SIDE
+  // COLLISION
 
-  private static Vec3[] createSidePoints() {
-    return new Vec3[]{
-      new Vec3(0, 0, 0),
-      new Vec3(1, 0, 0),
-      new Vec3(1, 0, 1),
-      new Vec3(0, 0, 1),
-      new Vec3(.5, 1, 1)
+  private static VoxelShape createCollision(
+    BASE_CopycatPyramidBlock.ShapeType type,
+    int layer
+  ) {
+    return switch (type) {
+      case PYRAMID -> createPyramidCollision();
+      case PYRAMID_LAYER -> createPyramidLayerCollision(layer);
+      default -> Shapes.block();
     };
-  }
-
-  private static VoxelShape createSideCollision() {
-    return createCenteredCollision(CENTER, 0);
-  }
-
-  // CORNER
-
-  private static Vec3[] createCornerPoints() {
-    return new Vec3[]{
-      new Vec3(0, 0, 0),   // 0: um0f
-      new Vec3(1, 0, 0),   // 1: dtfE
-      new Vec3(1, 0, 1),   // 2: 7DTy
-      new Vec3(0, 0, 1),   // 3: cInI
-      new Vec3(.5, 1, 0),  // 4: jCxp
-      new Vec3(0, 1, .5),  // 5: 3FOr
-      new Vec3(.5, 1, .5)  // 6: zQ7O
-    };
-  }
-
-    private static VoxelShape createCornerCollision() {
-      VoxelShape shape = Shapes.empty();
-
-      for (int i = 0; i < SUBDIVISIONS; i++) {
-        double t = i / (double) SUBDIVISIONS;
-
-        double minX = lerp(0, 8, t);
-        double maxX = lerp(BLOCK_SIZE, 8, t);
-
-        double minZ = lerp(0, 8, t);
-        double maxZ = lerp(BLOCK_SIZE, 8, t);
-
-        VoxelShape section = Shapes.box(
-          minX / BLOCK_SIZE,
-          getSliceMin(i),
-          minZ / BLOCK_SIZE,
-          maxX / BLOCK_SIZE,
-          getSliceMax(i),
-          maxZ / BLOCK_SIZE
-        );
-
-        shape = Shapes.or(shape, section);
-      }
-
-      return shape.optimize();
-    }
-
-  // SIDE_CORNER
-
-  private static Vec3[] createSideCornerPoints() {
-    return new Vec3[]{
-      new Vec3(0, 0, 0),
-      new Vec3(1, 0, 0),
-      new Vec3(1, 0, 1),
-      new Vec3(0, 0, 1),
-      new Vec3(.5, 1, .5),
-      new Vec3(.5, 1, 1)
-    };
-  }
-
-  private static VoxelShape createSideCornerCollision() {
-    VoxelShape shape = Shapes.empty();
-
-    for (int i = 0; i < SUBDIVISIONS; i++) {
-      double t = i / (double) SUBDIVISIONS;
-
-      double min = lerp(0, BLOCK_SIZE, t);
-      double max = BLOCK_SIZE;
-
-      VoxelShape section = Shapes.box(
-        1 - max / BLOCK_SIZE,
-        getSliceMin(i),
-        1 - max / BLOCK_SIZE,
-        1 - min / BLOCK_SIZE,
-        getSliceMax(i),
-        1 - min / BLOCK_SIZE
-      );
-
-      shape = Shapes.or(shape, section);
-    }
-
-    return shape.optimize();
-  }
-
-  // OPPOSITE
-
-  private static Vec3[] createOppositePoints() {
-    return new Vec3[]{
-      new Vec3(0, 0, 0),
-      new Vec3(1, 0, 0),
-      new Vec3(1, 0, 1),
-      new Vec3(0, 0, 1),
-      new Vec3(0, 1, .5),
-      new Vec3(1, 1, .5)
-    };
-  }
-
-  private static VoxelShape createOppositeCollision() {
-    VoxelShape shape = Shapes.empty();
-
-    for (int i = 0; i < SUBDIVISIONS; i++) {
-      double t = i / (double) SUBDIVISIONS;
-
-      double minZ = lerp(0, CENTER, t);
-      double maxZ = lerp(BLOCK_SIZE, CENTER, t);
-
-      VoxelShape section = Shapes.box(
-        0,
-        getSliceMin(i),
-        minZ / BLOCK_SIZE,
-        1,
-        getSliceMax(i),
-        maxZ / BLOCK_SIZE
-      );
-
-      shape = Shapes.or(shape, section);
-    }
-
-    return shape.optimize();
-  }
-
-  // QUAD
-
-  private static Vec3[] createQuadPoints() {
-    return createPyramidPoints();
-  }
-
-  private static VoxelShape createQuadCollision() {
-    VoxelShape shape = Shapes.empty();
-
-    for (int i = 0; i < SUBDIVISIONS; i++) {
-      double t = i / (double) SUBDIVISIONS;
-
-      double min = lerp(0, CENTER, t);
-      double max = lerp(BLOCK_SIZE, CENTER, t);
-
-      double y1 = getSliceMin(i);
-      double y2 = getSliceMax(i);
-
-      VoxelShape zShape = Shapes.box(
-        0, y1, min / BLOCK_SIZE,
-        1, y2, max / BLOCK_SIZE
-      );
-
-      VoxelShape xShape = Shapes.box(
-        min / BLOCK_SIZE, y1, 0,
-        max / BLOCK_SIZE, y2, 1
-      );
-
-      shape = Shapes.or(shape, zShape, xShape);
-    }
-
-    return shape.optimize();
-  }
-
-  // TRIPLE
-
-  private static Vec3[] createTriplePoints() {
-    return createPyramidPoints();
-  }
-
-  private static VoxelShape createTripleCollision() {
-    VoxelShape shape = Shapes.empty();
-
-    for (int i = 0; i < SUBDIVISIONS; i++) {
-      double t = i / (double) SUBDIVISIONS;
-
-      double min = lerp(0, CENTER, t);
-      double max = lerp(BLOCK_SIZE, CENTER, t);
-
-      double y1 = getSliceMin(i);
-      double y2 = getSliceMax(i);
-
-      VoxelShape main = Shapes.box(
-        0, y1, min / BLOCK_SIZE,
-        1, y2, max / BLOCK_SIZE
-      );
-
-      VoxelShape additional = Shapes.box(
-        min / BLOCK_SIZE, y1, 0,
-        max / BLOCK_SIZE, y2, 0.5
-      );
-
-      shape = Shapes.or(shape, main, additional);
-    }
-
-    return shape.optimize();
   }
 
   // SHARED GEOMETRY
 
-  private static VoxelShape createCenteredCollision(
+  private static VoxelShape createPyramidCollision(
     int topX,
     int topZ
   ) {
@@ -374,6 +194,64 @@ public class CopycatPyramid_Geometry {
     return shape.optimize();
   }
 
+
+  private static VoxelShape createPyramidCollision(
+    int layer,
+    double topX,
+    double topZ
+  ) {
+    VoxelShape shape = Shapes.empty();
+
+    layer = Mth.clamp(layer, 0, 16);
+
+    if (layer == 0)
+      return Shapes.empty();
+
+    int n = layer <= 8 ? layer : 16 - layer;
+
+    if (n == 0)
+      return Shapes.block();
+
+    double blockHeight;
+    double offsetY;
+
+    if (layer <= 8) {
+      blockHeight = layer / (double) n;
+      offsetY = 0;
+    } else {
+      blockHeight = (16 - layer) / (double) n;
+      offsetY = layer - 8;
+    }
+
+    for (int i = 0; i < n; i++) {
+      double minY = (i * blockHeight + offsetY) * 2;
+      double maxY = ((i + 1) * blockHeight + offsetY) * 2;
+
+      if (layer > 8 && i == 0)
+        minY = 0;
+
+      double minX = (i * topX) / n;
+      double maxX = 16 - (i * (16 - topX)) / n;
+
+      double minZ = (i * topZ) / n;
+      double maxZ = 16 - (i * (16 - topZ)) / n;
+
+      VoxelShape section = Shapes.box(
+        minX / 16.0,
+        minY / 16.0,
+        minZ / 16.0,
+        maxX / 16.0,
+        maxY / 16.0,
+        maxZ / 16.0
+      );
+
+      shape = Shapes.or(shape, section);
+    }
+
+    return shape.optimize();
+  }
+
+
   // ROTATION
 
   private static int getRotationTurns_4(Direction rotation) {
@@ -400,9 +278,7 @@ public class CopycatPyramid_Geometry {
     Direction rotation
   ) {
     int turns = switch (type) {
-      case SIDE, CORNER, SIDE_CORNER, TRIPLE -> getRotationTurns_4(rotation);
-      case OPPOSITE -> getRotationTurns_2(rotation);
-      case PYRAMID, QUAD -> 0;
+      case PYRAMID -> 0;
       default -> 0;
     };
 
@@ -423,9 +299,7 @@ public class CopycatPyramid_Geometry {
     Direction rotation
   ) {
     int turns = switch (type) {
-      case SIDE, CORNER, SIDE_CORNER, TRIPLE -> getRotationTurns_4(rotation);
-      case OPPOSITE -> getRotationTurns_2(rotation);
-      case PYRAMID, QUAD -> 0;
+      case PYRAMID -> 0;
       default -> 0;
     };
 
@@ -460,7 +334,10 @@ public class CopycatPyramid_Geometry {
 
   // FACING
 
-  private static VoxelShape rotateShape(VoxelShape shape, Direction facing) {
+  private static VoxelShape rotateShape(
+    VoxelShape shape,
+    Direction facing
+  ) {
     if (facing == Direction.UP)
       return shape;
 
@@ -507,7 +384,10 @@ public class CopycatPyramid_Geometry {
     return result.optimize();
   }
 
-  private static Vec3 rotatePoint(Vec3 point, Direction facing) {
+  private static Vec3 rotatePoint(
+    Vec3 point,
+    Direction facing
+  ) {
     double x = point.x;
     double y = point.y;
     double z = point.z;
@@ -536,7 +416,11 @@ public class CopycatPyramid_Geometry {
 
   // UTILITY
 
-  private static double lerp(double start, double end, double t) {
+  private static double lerp(
+    double start,
+    double end,
+    double t
+  ) {
     return start + (end - start) * t;
   }
 }

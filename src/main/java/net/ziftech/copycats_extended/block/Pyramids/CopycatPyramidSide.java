@@ -53,7 +53,8 @@
       return CopycatPyramid_Geometry.createShape(
         ShapeType.SIDE,
         state.getValue(FACING),
-        state.getValue(ROTATION)
+        state.getValue(ROTATION),
+        state
       );
     }
 

@@ -42,27 +42,6 @@ public final class ModBlockEntities {
     );
   }
 
-//  public static final DeferredHolder<BlockEntityType<?>, BlockEntityType<CopycatAdvSlopeBlockEntity>>
-//    COPYCAT_ADV_SLOPE = registerBlockEntity(
-//    "copycat_adv_slope",
-//    CopycatAdvSlopeBlockEntity::new,
-//    ModBlocks.COPYCAT_ADV_SLOPE
-//  );
-//
-//  public static final DeferredHolder<BlockEntityType<?>, BlockEntityType<CopycatAdvSlopeLayerBlockEntity>>
-//    COPYCAT_ADV_SLOPE_LAYER = registerBlockEntity(
-//    "copycat_adv_slope_layer",
-//    CopycatAdvSlopeLayerBlockEntity::new,
-//    ModBlocks.COPYCAT_ADV_SLOPE_LAYER
-//  );
-//
-//  public static final DeferredHolder<BlockEntityType<?>, BlockEntityType<TEST_CopycatBlock_Entity>>
-//    TEST_COPYCAT_BLOCK = registerBlockEntity(
-//    "test_copycat_block",
-//    TEST_CopycatBlock_Entity::new,
-//    ModBlocks.TEST_COPYCAT_BLOCK
-//  );
-
   public static final DeferredHolder<BlockEntityType<?>, BlockEntityType<CopycatPyramid_Entity>>
     COPYCAT_PYRAMID = registerBlockEntity(
     "copycat_pyramid",
@@ -70,7 +49,9 @@ public final class ModBlockEntities {
     ModBlocks.COPYCAT_PYRAMID,
     ModBlocks.COPYCAT_PYRAMID_SIDE,
     ModBlocks.COPYCAT_PYRAMID_CORNER,
-    ModBlocks.COPYCAT_PYRAMID_SIDE_CORNER
+    ModBlocks.COPYCAT_PYRAMID_SIDE_CORNER,
+
+    ModBlocks.COPYCAT_PYRAMID_LAYER
 //    ModBlocks.COPYCAT_PYRAMID_OPPOSITE,
 //    ModBlocks.COPYCAT_PYRAMID_QUAD,
 //    ModBlocks.COPYCAT_PYRAMID_TRIPLE

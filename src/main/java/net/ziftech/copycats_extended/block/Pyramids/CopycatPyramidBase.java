@@ -36,7 +36,8 @@ public class CopycatPyramidBase extends BASE_CopycatPyramidBlock {
     return CopycatPyramid_Geometry.createShape(
       ShapeType.PYRAMID,
       state.getValue(FACING),
-      Direction.SOUTH
+      Direction.SOUTH,
+      state
     );
   }
 

@@ -52,6 +52,9 @@ public class ModBlocks {
   public static final DeferredBlock<BASE_CopycatPyramidBlock> COPYCAT_PYRAMID_SIDE_CORNER =
     registerCopycatBlock(ModRegistryNames.COPYCAT_PYRAMID_SIDE_CORNER, CopycatPyramidSideCorner::new);
 
+  public static final DeferredBlock<BASE_CopycatPyramidBlock> COPYCAT_PYRAMID_LAYER =
+    registerCopycatBlock(ModRegistryNames.COPYCAT_PYRAMID_LAYER, CopycatPyramidLayer::new);
+
   public static final DeferredBlock<DoubleBlock> DOUBLE_BLOCK =
     registerCopycatBlock(ModRegistryNames.DOUBLE_COPYCAT, DoubleBlock::new);
 
